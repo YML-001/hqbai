@@ -114,6 +114,11 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
   var ROLE = "guest";
   var PORT = "pc";
   var SERVICES = [{"id": "repair", "name": "网上报修", "summary": "宿舍和公共区域的日常零星维修。", "detail": "可报修家具、门锁、空调，以及建筑物公共部分的泥、木、水、电。也可以拨打后勤服务热线 0731-88836000，全天有人值班。报修单在原系统里填写，助手不保存单据。", "pc": "http://zhhq.csu.edu.cn/stu/repairHome.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/repairHome?app_id=5", "pc_review": false, "student_only": false}, {"id": "supervision", "name": "服务监督", "summary": "咨询、建议、意见和投诉。", "detail": "可在线提交监督，也可以拨打后勤服务热线 0731-88836000。饮食服务投诉电话是 88830704、88660418。", "pc": "http://zhhq.csu.edu.cn/stu/serviceSupGuide.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/supervisionPropose?app_id=6", "pc_review": false, "student_only": false}, {"id": "pool", "name": "游泳馆预定", "summary": "潇湘校区游泳馆，周二至周日开放。", "detail": "周一闭馆检修。下午场 12:00—15:00、15:00—17:00，晚场 19:00—21:00。可预约当日和次日，额满即止。学生单次 25 元，教职工及直系亲属单次 40 元，以现场公示为准。预约成功后凭学生证或工作证到前台缴费进场。服务热线 0731-88877959。", "pc": "https://hqbzb.csu.edu.cn/info/1021/13932.htm", "mobile": "https://zhhq.csu.edu.cn/wx/#/siterHome?app_id=36", "pc_review": true, "student_only": false}, {"id": "utility-info", "name": "水电费服务", "summary": "电脑上的水电说明页，不是缴费入口。", "detail": "岳麓山校区售水售电窗口在能源管理中心办公楼一楼服务大厅，电话 88836337。营业时间上午 8:00—12:00，下午 14:30—18:00。参考电价 0.619 元/度，水价 3.56 元/吨，以缴费平台显示为准。", "pc": "https://hqbzb.csu.edu.cn/hqfw/sdffw.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "shuttle", "name": "班车查询", "summary": "工作日校区通勤班车，时刻以系统当日公布为准。", "detail": "覆盖岳麓山、麓南、潇湘、天心、杏林、开福等校区。上车点包括岳麓山校区图书馆前坪、天心校区办公楼前坪、开福校区大门、杏林校区教学楼后栋停车坪。书面清单只给出电脑地址。", "pc": "https://wxxy.csu.edu.cn/site/shuttleBus/index?bus_id=2", "mobile": "", "pc_review": false, "student_only": false}, {"id": "hotel", "name": "校园宾馆服务", "summary": "来访住宿可联系学术交流中心。", "detail": "云麓学术交流中心电话 88876236，鸿业学术交流中心电话 82252226。电脑清单有说明页，手机清单没有单独地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bgff.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "newspaper", "name": "报刊订阅", "summary": "到所在校区收发室办理，或联系校本部收发室。", "detail": "每年 10 月征订下一年度报刊。校本部收发室 QQ 是 2065926071。手机清单没有单独办理地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bkdy.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "lost", "name": "失物招领", "summary": "失物招领平台。书面清单只提供电脑地址。", "detail": "也可以在中南 e 行里查看。食堂入口服务台可以帮你问一句。", "pc": "https://wxxy.csu.edu.cn/site/lostAndFound/index?tab=1", "mobile": "", "pc_review": false, "student_only": false}, {"id": "utility-pay", "name": "水电缴费", "summary": "只在手机上缴纳，支持 24 小时充值。", "detail": "打开「中南大学后勤保障部」公众号，进入服务中心、服务平台、水电缴费。注册并完成统一身份认证后，按校区、楼栋和房间绑定账户，再输入金额。支付成功后即时到账。本人用量和欠费本期不能查询。", "pc": "", "mobile": "https://znu-hip.csu.edu.cn/saas_wap/", "pc_review": false, "student_only": true}, {"id": "announcement", "name": "校园公告", "summary": "清单里没有单独地址。", "detail": "通知以后勤保障部官网的通知公告和微信公众号「中南大学后勤保障部」信息中心为准。官网地址是 https://hqbzb.csu.edu.cn 。", "pc": "", "mobile": "", "pc_review": false, "student_only": false}];
+  var API_ORIGIN = "";
+  function apiUrl(path) {
+    if (location.hostname === "127.0.0.1" || location.hostname === "localhost") return path;
+    return API_ORIGIN ? API_ORIGIN.replace(/\/$/, "") + path : path;
+  }
   var thread = document.querySelector("#thread");
   var form = document.querySelector("#ask-form");
   var input = document.querySelector("#question");
@@ -159,7 +164,7 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
     thread.appendChild(pending);
     thread.scrollTop = thread.scrollHeight;
     send.disabled = true;
-    fetch("/api/chat", {
+    fetch(apiUrl("/api/chat"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question: question, role: ROLE, port: PORT })

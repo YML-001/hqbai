@@ -7,6 +7,9 @@ from pathlib import Path
 
 from prototype_data import HOTLINE, OFFICIAL_SITE, SERVICES
 
+# 线上预览站调用的问答接口。本机打开页面时仍走当前域名。
+PUBLIC_API = ""
+
 ROOT = Path(__file__).resolve().parent
 CAMPUS = "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80"
 POOL = "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1400&q=80"
@@ -334,6 +337,11 @@ CHAT_SCRIPT = """
   var ROLE = "@@ROLE@@";
   var PORT = "@@PORT@@";
   var SERVICES = @@SERVICES@@;
+  var API_ORIGIN = "@@PUBLIC_API@@";
+  function apiUrl(path) {
+    if (location.hostname === "127.0.0.1" || location.hostname === "localhost") return path;
+    return API_ORIGIN ? API_ORIGIN.replace(/\/$/, "") + path : path;
+  }
   var thread = document.querySelector("#thread");
   var form = document.querySelector("#ask-form");
   var input = document.querySelector("#question");
@@ -379,7 +387,7 @@ CHAT_SCRIPT = """
     thread.appendChild(pending);
     thread.scrollTop = thread.scrollHeight;
     send.disabled = true;
-    fetch("/api/chat", {
+    fetch(apiUrl("/api/chat"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question: question, role: ROLE, port: PORT })
@@ -1402,7 +1410,7 @@ def build_front():
     del chat_script
 
     def chat_js(role, port):
-        return render(CHAT_SCRIPT, ROLE=role, PORT=port, SERVICES=services_json)
+        return render(CHAT_SCRIPT, ROLE=role, PORT=port, SERVICES=services_json, PUBLIC_API=PUBLIC_API)
 
     def jump_js(role, port):
         return render(JUMP_SCRIPT, ROLE=role, PORT=port, SERVICES=services_json)
@@ -1631,7 +1639,12 @@ def build_index():
 </main>
 <footer class="mx-auto max-w-6xl px-5 py-8 text-xs leading-5 text-muted">热线 {HOTLINE} 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
 <script>
-fetch("/api/health").then(function (r) {{ return r.json(); }}).then(function (data) {{
+var apiOrigin = "{PUBLIC_API}";
+function apiUrl(path) {{
+  if (location.hostname === "127.0.0.1" || location.hostname === "localhost") return path;
+  return apiOrigin ? apiOrigin.replace(/\\/$/, "") + path : path;
+}}
+fetch(apiUrl("/api/health")).then(function (r) {{ return r.json(); }}).then(function (data) {{
   var el = document.querySelector("#health");
   el.textContent = data.ok ? ("密钥已读取 · 知识库 " + data.knowledgeChars + " 字") : "问答服务还没准备好";
 }}).catch(function () {{

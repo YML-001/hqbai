@@ -3,8 +3,10 @@
 # 页面只访问本机接口。DeepSeek 密钥从 .env 读取，不会写进网页。
 
 import json
+import os
 import re
 import ssl
+import time
 import traceback
 import urllib.error
 import urllib.request
@@ -18,8 +20,16 @@ from prototype_data import HOTLINE, SERVICES
 ROOT = Path(__file__).resolve().parent
 DOC = ROOT / "中南大学后勤服务知识库（公文版）(1).docx"
 ENV_PATH = ROOT / ".env"
-HOST = "127.0.0.1"
-PORT = 8765
+HOST = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
+PORT = int(os.environ.get("PORT", "8765"))
+ALLOWED_ORIGINS = {
+    "https://yml-001.github.io",
+    "http://127.0.0.1:8765",
+    "http://localhost:8765",
+}
+RATE_LIMIT = {}
+RATE_MAX = 30
+RATE_WINDOW = 3600
 BLOCKED = {".env", "server.py", "build_pages.py", "prototype_data.py"}
 
 SERVICE_IDS = {item["id"] for item in SERVICES} | {"none"}
@@ -136,11 +146,43 @@ def normalize(payload, raw_text):
     return {"ok": True, "answer": answer, "covered": covered, "serviceId": service_id, "hotline": HOTLINE}
 
 
+def setting(name, default=""):
+    return os.environ.get(name) or ENV.get(name) or default
+
+
 def llm_settings():
-    key = ENV.get("LLM_API_KEY") or ENV.get("DEEPSEEK_API_KEY") or ""
-    base = (ENV.get("LLM_API_BASE") or ENV.get("DEEPSEEK_API_BASE") or "https://ark.cn-beijing.volces.com/api/v3").rstrip("/")
-    model = ENV.get("LLM_MODEL") or ENV.get("DEEPSEEK_MODEL") or "doubao-seed-2-0-lite-260428"
+    key = setting("LLM_API_KEY") or setting("DEEPSEEK_API_KEY")
+    base = (setting("LLM_API_BASE") or setting("DEEPSEEK_API_BASE") or "https://ark.cn-beijing.volces.com/api/v3").rstrip("/")
+    model = setting("LLM_MODEL") or setting("DEEPSEEK_MODEL") or "doubao-seed-2-1-lite-260915"
     return key, base, model
+
+
+def origin_allowed(origin):
+    if not origin:
+        return ""
+    if origin in ALLOWED_ORIGINS:
+        return origin
+    if origin.startswith("https://") and origin.endswith(".github.io"):
+        return origin
+    return ""
+
+
+def client_ip(headers):
+    forwarded = headers.get("X-Forwarded-For", "")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return headers.get("X-Real-Ip", "") or "local"
+
+
+def too_many(ip):
+    now = time.time()
+    recent = [stamp for stamp in RATE_LIMIT.get(ip, []) if now - stamp < RATE_WINDOW]
+    if len(recent) >= RATE_MAX:
+        RATE_LIMIT[ip] = recent
+        return True
+    recent.append(now)
+    RATE_LIMIT[ip] = recent
+    return False
 
 
 def post_chat(body, key, base):
@@ -198,11 +240,27 @@ class Handler(BaseHTTPRequestHandler):
     def send_json(self, data, status=200):
         raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
+        origin = origin_allowed(self.headers.get("Origin", ""))
+        if origin:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(raw)))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(raw)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        origin = origin_allowed(self.headers.get("Origin", ""))
+        if origin:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
@@ -256,6 +314,9 @@ class Handler(BaseHTTPRequestHandler):
         port = incoming.get("port") if incoming.get("port") in {"pc", "mobile"} else "pc"
         if not question:
             self.send_json({"ok": False, "answer": "请先写下你的问题。", "covered": False, "serviceId": "none", "hotline": HOTLINE}, 400)
+            return
+        if too_many(client_ip(self.headers)):
+            self.send_json({"ok": False, "answer": f"提问有点频繁，请稍后再试。你也可以拨打后勤服务热线 {HOTLINE}。", "covered": False, "serviceId": "none", "hotline": HOTLINE}, 429)
             return
         question = question[:400]
         try:

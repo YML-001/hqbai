@@ -1,0 +1,4 @@
+.env
+.git
+.playwright-cli
+__pycache__

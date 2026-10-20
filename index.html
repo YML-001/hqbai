@@ -419,7 +419,12 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
 </main>
 <footer class="mx-auto max-w-6xl px-5 py-8 text-xs leading-5 text-muted">热线 0731-88836000 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
 <script>
-fetch("/api/health").then(function (r) { return r.json(); }).then(function (data) {
+var apiOrigin = "";
+function apiUrl(path) {
+  if (location.hostname === "127.0.0.1" || location.hostname === "localhost") return path;
+  return apiOrigin ? apiOrigin.replace(/\/$/, "") + path : path;
+}
+fetch(apiUrl("/api/health")).then(function (r) { return r.json(); }).then(function (data) {
   var el = document.querySelector("#health");
   el.textContent = data.ok ? ("密钥已读取 · 知识库 " + data.knowledgeChars + " 字") : "问答服务还没准备好";
 }).catch(function () {
