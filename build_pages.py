@@ -42,18 +42,133 @@ def render(template, **kwargs):
 
 STYLE = """
 :focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
-body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
-thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+body { background: #F3F7FB; color: #1E323F; font-family: "OPPOSans", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif; }
+thead.bg-mist, thead { background: #E3F1F9; color: #006DAD; }
+.bg-brand { background-image: linear-gradient(90deg, #2A8DC7, #006DAD); }
+.hq-nav-on { background: linear-gradient(90deg, #2A8DC7, #006DAD); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,109,173,.25); border-radius: 20px; }
+article.rounded-2xl, .rounded-2xl.bg-white, .rounded-2xl.border { box-shadow: 0 1px 5px rgba(45,47,51,.06); }
+.hq-stage { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 28px 0; background: radial-gradient(1200px 600px at 20% 0%, #DCE9FF 0%, transparent 60%), linear-gradient(180deg, #EAF1FB, #DCE6F2); }
+.hq-phone { width: 390px; height: min(844px, calc(100vh - 56px)); border-radius: 40px; background: #F0F6FF; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 0 11px #11151D, 0 0 0 12px #3A4150, 0 40px 90px rgba(16,37,104,.35); }
+.hq-phone .sky { position: absolute; left: 0; right: 0; top: 0; height: 180px; z-index: 0; background: linear-gradient(180deg, #2F6CFF 0%, #5E9CFF 70px, #B9D5FF 140px, rgba(240,246,255,0) 180px); pointer-events: none; }
+.hq-tabbar { flex-shrink: 0; height: 78px; background: #fff; border-radius: 26px 26px 0 0; display: grid; padding: 8px 6px 18px; position: relative; z-index: 5; box-shadow: 0 -6px 24px rgba(4,81,239,.08); }
+.hq-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; color: #627079; }
+.hq-tab.on { color: #0451EF; font-weight: 600; }
+.hq-tab .ti { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; }
+.hq-tab.on .ti { background: linear-gradient(135deg, #5BAEFF, #0451EF); color: #fff; box-shadow: 0 4px 10px rgba(4,81,239,.35); }
+@media (max-width: 767px) {
+  .hq-stage { padding: 0; background: #F0F6FF; }
+  .hq-phone { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
 .num { font-variant-numeric: tabular-nums; }
 .listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
 .is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
 @keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.hq-composer { position: relative; z-index: 6; overflow: visible; }
+.hq-tools { position: relative; z-index: 4; }
+.hq-entry-bar { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.hq-entry-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #C8E4F4;
+  background: #fff; color: #006DAD; font-size: 14px; font-weight: 600; line-height: 1;
+  cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 109, 173, .12);
+}
+.hq-entry-btn:hover { border-color: #2A8DC7; background: #E3F1F9; }
+.hq-entry-btn.is-on {
+  border-color: transparent; color: #fff;
+  background: linear-gradient(90deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .25);
+}
+.hq-entry-badge {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+  background: #E8801A; color: #fff; font-size: 11px; font-weight: 700;
+  line-height: 18px; text-align: center;
+}
+.hq-entry-btn.is-on .hq-entry-badge { background: #fff; color: #006DAD; }
+.hq-panel {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 5;
+  max-height: min(260px, 38vh); overflow: auto;
+  border: 1px solid #C8E4F4; border-radius: 16px; background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 109, 173, .12);
+}
+.hq-phone .hq-panel { max-height: 220px; }
+.hq-panel[hidden] { display: none !important; }
+.hq-panel-hd {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; padding: 12px 14px;
+  background: #fff; border-bottom: 1px solid #E3F1F9;
+}
+.hq-panel-title { margin: 0; font-size: 15px; font-weight: 700; color: #1E323F; }
+.hq-panel-sub { margin: 4px 0 0; font-size: 12px; line-height: 1.5; color: #627079; }
+.hq-panel-x {
+  flex: 0 0 auto; width: 32px; height: 32px; border: 0; border-radius: 999px;
+  background: #E3F1F9; color: #006DAD; cursor: pointer;
+}
+.hq-note, .hq-hist {
+  display: block; width: 100%; margin: 0; text-align: left; border: 0;
+  border-bottom: 1px solid #E3F1F9; background: #fff; padding: 12px 14px; cursor: pointer;
+}
+.hq-note:last-child, .hq-hist:last-child { border-bottom: 0; }
+.hq-note.is-unread { background: #F4FAFD; }
+.hq-note:hover, .hq-hist:hover { background: #F4FAFD; }
+.hq-note-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.hq-note-title, .hq-hist-q { font-size: 14px; font-weight: 600; color: #1E323F; line-height: 1.45; }
+.hq-note.is-unread .hq-note-title { color: #006DAD; }
+.hq-note.is-unread .hq-note-title::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px;
+  border-radius: 99px; background: #E8801A; box-shadow: 0 0 0 3px rgba(232, 128, 26, .18);
+}
+.hq-note-pills { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.hq-pill {
+  display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px;
+  border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 1;
+}
+.hq-pill.amber { background: #FFF8F0; color: #E8801A; }
+.hq-pill.teal, .hq-pill.brand { background: #E3F1F9; color: #006DAD; }
+.hq-pill.muted { background: #F3F7FB; color: #627079; }
+.hq-note-meta, .hq-hist-a, .hq-note-body { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; }
+.hq-note-meta, .hq-hist-a { color: #627079; }
+.hq-note-body { color: #1E323F; }
+.hq-phone .hq-entry-bar { display: grid; grid-template-columns: 1fr 1fr; }
+.hq-phone .hq-entry-btn { width: 100%; }
+.hq-ask-row { display: flex; align-items: flex-end; gap: 8px; }
+.hq-ask-row textarea { flex: 1 1 auto; min-width: 0; }
+.hq-mic {
+  position: relative; isolation: isolate; z-index: 1; align-self: center;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: 0 0 auto; border: 0; border-radius: 999px; color: #fff;
+  background: linear-gradient(145deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .28); cursor: pointer;
+  animation: hq-breathe 2.6s ease-in-out infinite;
+}
+.hq-mic i { position: relative; z-index: 1; font-size: 16px; }
+.hq-mic-ring {
+  position: absolute; inset: -2px; border-radius: 999px; pointer-events: none;
+  border: 2px solid rgba(42, 141, 199, .55); animation: hq-ripple 2.6s ease-out infinite;
+}
+.hq-mic-ring.d2 { animation-delay: 1.3s; }
+.hq-mic.is-on { animation-duration: 1.05s; box-shadow: 0 6px 16px rgba(0, 109, 173, .45); }
+.hq-mic.is-on .hq-mic-ring { animation-duration: 1.15s; border-color: rgba(0, 109, 173, .8); }
+.hq-voice-panel {
+  margin: 0 0 8px; padding: 8px 12px;
+  border: 1px solid #C8E4F4; border-radius: 12px; background: #F4FAFD;
+}
+.hq-voice-status { margin: 0; flex: 1; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #006DAD; }
+.hq-voice-row { display: flex; align-items: center; gap: 8px; }
+.hq-voice-hint { margin: 4px 0 0; font-size: 12px; line-height: 1.4; color: #627079; }
+.hq-voice-stop {
+  margin: 0; min-height: 32px; padding: 0 12px; flex: 0 0 auto; border-radius: 999px;
+  border: 1px solid #2A8DC7; background: #E3F1F9; color: #006DAD; font-size: 13px; cursor: pointer;
+}
+@keyframes hq-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes hq-ripple { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
 .bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
 .bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
-main:has(#thread) { overflow: hidden; }
-main:has(#thread) > div { min-height: 0; flex: 1; }
+main:has(#thread):not(:has(.hq-home)) { overflow: hidden; }
+main:has(#thread):not(:has(.hq-home)) > div { min-height: 0; flex: 1; }
 @media (min-width: 1024px) {
-  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+  main:has(#thread):not(:has(.hq-home)) { display: flex; flex-direction: column; height: 100%; }
+  body.hq-pc main:has(.hq-home) { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+  body.hq-pc main:has(.hq-home) > .hq-home { min-height: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -73,20 +188,20 @@ HEAD = """<!DOCTYPE html>
 tailwind.config = {
   theme: { extend: {
     colors: {
-      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
-      ink: "#3C444F",
-      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
-      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
-      mist: "#E3F1F9",
+      brand: { DEFAULT: "#006DAD", dark: "#0451EF", light: "#E3F1F9" },
+      ink: "#1E323F",
+      teal: { DEFAULT: "#2A8DC7", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#E8801A", 50: "#FFF8F0" },
+      mist: "#F3F7FB",
       card: "#FFFFFF",
-      inktext: "#3C444F",
-      muted: "#696F7D"
+      inktext: "#1E323F",
+      muted: "#627079"
     },
     fontFamily: {
       sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
       serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
     },
-    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+    borderRadius: { lg: "8px", xl: "12px", "2xl": "16px" }
   } }
 }
 </script>
@@ -132,23 +247,17 @@ PEOPLE = {
 NAV = {
     ("pc", "guest"): [
         ("home.html", "问答首页", "fa-house"),
-        ("chat.html", "对话", "fa-comments"),
         ("category.html", "办事说明", "fa-map"),
-        ("listening.html", "聆听", "fa-microphone"),
         ("login.html", "登录", "fa-right-to-bracket"),
     ],
     ("pc", "student"): [
         ("home.html", "问答首页", "fa-house"),
-        ("chat.html", "对话", "fa-comments"),
-        ("listening.html", "聆听", "fa-microphone"),
         ("services.html", "办事", "fa-table-cells-large"),
         ("utility.html", "水电", "fa-bolt"),
         ("profile.html", "我的", "fa-user"),
     ],
     ("pc", "staff"): [
         ("home.html", "问答首页", "fa-house"),
-        ("chat.html", "对话", "fa-comments"),
-        ("listening.html", "聆听", "fa-microphone"),
         ("services.html", "办事", "fa-table-cells-large"),
         ("profile.html", "我的", "fa-user"),
     ],
@@ -173,7 +282,7 @@ NAV = {
 ACTIVE = {
     "chat.html": "home.html",
     "listening.html": "home.html",
-    "not-found.html": "chat.html",
+    "not-found.html": "home.html",
     "jump.html": "services.html",
     "qrcode.html": "utility.html",
     "guide.html": "services.html",
@@ -189,16 +298,15 @@ def nav_links(port, role, current):
     for href, label, icon in items:
         on = href == current_key
         if port == "pc":
-            cls = "bg-teal-50 font-medium text-teal" if on else "text-inktext hover:bg-mist"
+            cls = "hq-nav-on" if on else "text-inktext hover:bg-white/70"
             links.append(
-                f'<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm {cls}" href="{href}">'
+                f'<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 text-sm {cls}" href="{href}">'
                 f'<i class="fa-solid {icon} w-4"></i>{label}</a>'
             )
         else:
-            cls = "text-teal" if on else "text-muted"
+            cls = "hq-tab on" if on else "hq-tab"
             links.append(
-                f'<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs {cls}" href="{href}">'
-                f'<i class="fa-solid {icon}"></i><span>{label}</span></a>'
+                f'<a class="{cls}" href="{href}"><span class="ti"><i class="fa-solid {icon}"></i></span><span>{label}</span></a>'
             )
     return "\n".join(links)
 
@@ -304,33 +412,6 @@ def suggestion_buttons():
     )
 
 
-HOME_SCRIPT = """
-<script>
-document.querySelectorAll("[data-ask]").forEach(function (el) {
-  el.addEventListener("click", function () {
-    sessionStorage.setItem("hq-question", el.getAttribute("data-ask"));
-    location.href = "chat.html";
-  });
-});
-var form = document.querySelector("#ask-form");
-if (form) {
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    var input = document.querySelector("#question");
-    var error = document.querySelector("#question-error");
-    var question = input.value.trim();
-    if (!question) {
-      error.textContent = "请先写下你的问题。";
-      input.focus();
-      return;
-    }
-    sessionStorage.setItem("hq-question", question);
-    location.href = "chat.html";
-  });
-}
-</script>
-"""
-
 CHAT_SCRIPT = """
 <script>
 (function () {
@@ -347,6 +428,7 @@ CHAT_SCRIPT = """
   var input = document.querySelector("#question");
   var error = document.querySelector("#question-error");
   var send = document.querySelector("#send");
+  var currentQuestion = "";
 
   function findService(id) {
     for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === id) return SERVICES[i];
@@ -374,7 +456,16 @@ CHAT_SCRIPT = """
     }
     return null;
   }
+  function reveal() {
+    var anchor = thread.lastElementChild || thread;
+    var rows = thread.children;
+    for (var i = rows.length - 1; i >= 0; i--) {
+      if (rows[i].querySelector && rows[i].querySelector(".bubble-user")) { anchor = rows[i]; break; }
+    }
+    if (anchor && anchor.scrollIntoView) anchor.scrollIntoView({ block: "start", inline: "nearest" });
+  }
   function ask(question) {
+    currentQuestion = question;
     var empty = document.querySelector("#empty-thread");
     if (empty) empty.remove();
     var user = document.createElement("div");
@@ -385,7 +476,7 @@ CHAT_SCRIPT = """
     pending.className = "flex justify-start";
     pending.innerHTML = '<div class="bubble-bot max-w-[86%] px-4 py-3 text-sm text-muted">正在查阅后勤服务知识库…</div>';
     thread.appendChild(pending);
-    thread.scrollTop = thread.scrollHeight;
+    reveal();
     send.disabled = true;
     fetch(apiUrl("/api/chat"), {
       method: "POST",
@@ -419,6 +510,9 @@ CHAT_SCRIPT = """
       '<div class="mt-3"><button type="button" class="speak min-h-11 text-sm text-teal"><i class="fa-solid fa-volume-high mr-1" aria-hidden="true"></i>朗读这段回答</button></div></div>';
     node.querySelector(".speak").addEventListener("click", function () { speak(data.answer || ""); });
     thread.appendChild(node);
+    if (data.ok !== false && typeof window.hqPushHistory === "function") {
+      window.hqPushHistory(currentQuestion, data.answer || "");
+    }
     var rail = document.querySelector("#action-rail");
     var item = findService(data.serviceId);
     if (rail) {
@@ -428,7 +522,7 @@ CHAT_SCRIPT = """
         rail.innerHTML = '<p class="text-xs text-muted">这一答对应的入口</p><h2 class="mt-1 text-lg font-medium">' + escapeHtml(item.name) + "</h2><p class=\\"mt-2 text-sm leading-6 text-muted\\">" + escapeHtml(item.summary) + "</p>" + extra;
       }
     }
-    thread.scrollTop = thread.scrollHeight;
+    reveal();
   }
   function speak(text) {
     if (!window.speechSynthesis) {
@@ -451,6 +545,15 @@ CHAT_SCRIPT = """
   input.addEventListener("keydown", function (event) {
     if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); form.requestSubmit(); }
   });
+  document.querySelectorAll("[data-ask]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var question = (el.getAttribute("data-ask") || "").trim();
+      if (!question) return;
+      error.textContent = "";
+      input.value = "";
+      ask(question);
+    });
+  });
   var preset = sessionStorage.getItem("hq-question");
   if (preset) { sessionStorage.removeItem("hq-question"); ask(preset); }
 })();
@@ -458,18 +561,129 @@ CHAT_SCRIPT = """
 """
 
 
-def composer(listening_href="listening.html"):
-    return f"""
-<form id="ask-form" class="border-t border-slate-200 bg-white p-3">
+def composer():
+    return """
+<form id="ask-form" class="hq-composer shrink-0 border-t border-slate-200 bg-white p-3">
   <label for="question" class="mb-2 block text-xs text-muted">你的问题</label>
-  <div class="flex items-end gap-2">
-    <a href="{listening_href}" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-teal" aria-label="改用语音"><i class="fa-solid fa-microphone"></i></a>
+  <div class="hq-voice-panel" id="hq-voice-panel" role="status" aria-live="polite" hidden>
+    <div class="hq-voice-row">
+      <p class="hq-voice-status" id="hq-voice-status">正在听，请说出你的问题</p>
+      <button type="button" class="hq-voice-stop" id="hq-mic-stop">说完了</button>
+    </div>
+    <p class="hq-voice-hint">文字会填进输入框，也可以手写。</p>
+  </div>
+  <div class="hq-ask-row" id="hq-voice">
+    <button type="button" class="hq-mic" id="hq-mic" aria-pressed="false" aria-expanded="false" aria-controls="hq-voice-panel" aria-label="语音提问" title="语音提问">
+      <span class="hq-mic-ring" aria-hidden="true"></span>
+      <span class="hq-mic-ring d2" aria-hidden="true"></span>
+      <i class="fa-solid fa-microphone" aria-hidden="true"></i>
+    </button>
     <textarea id="question" rows="2" class="min-h-11 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-base focus:border-teal" placeholder="例如：宿舍空调不制冷怎么办"></textarea>
     <button id="send" class="h-11 shrink-0 rounded-xl bg-brand px-4 text-sm font-medium text-white" type="submit">发送</button>
   </div>
   <p id="question-error" class="mt-1 min-h-5 text-sm text-red-800" role="alert"></p>
   <p class="text-xs text-muted">回答只依据已审核的后勤服务知识库。</p>
-</form>"""
+</form>
+<script>
+(function () {
+  var form = document.querySelector("#ask-form");
+  var input = document.querySelector("#question");
+  var root = document.querySelector("#hq-voice");
+  var btn = document.querySelector("#hq-mic");
+  var panel = document.querySelector("#hq-voice-panel");
+  var status = document.querySelector("#hq-voice-status");
+  var stopBtn = document.querySelector("#hq-mic-stop");
+  var icon = btn ? btn.querySelector("i") : null;
+  if (!form || !input || !root || !btn || !panel || !status || !stopBtn) return;
+  var Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var hear = null;
+  var want = false;
+
+  function show(recording, message) {
+    if (message) status.textContent = message;
+    root.classList.add("is-open");
+    btn.classList.toggle("is-on", !!recording);
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-pressed", recording ? "true" : "false");
+    btn.setAttribute("aria-label", recording ? "停止聆听" : "语音提问");
+    if (icon) icon.className = recording ? "fa-solid fa-microphone-lines" : "fa-solid fa-microphone";
+    panel.hidden = false;
+    stopBtn.textContent = recording ? "说完了" : "知道了";
+  }
+  function close() {
+    want = false;
+    if (hear) { try { hear.stop(); } catch (error) {} }
+    root.classList.remove("is-open");
+    btn.classList.remove("is-on");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-pressed", "false");
+    btn.setAttribute("aria-label", "语音提问");
+    if (icon) icon.className = "fa-solid fa-microphone";
+    panel.hidden = true;
+  }
+  function ensure() {
+    if (hear || !Speech) return;
+    hear = new Speech();
+    hear.lang = "zh-CN";
+    hear.continuous = true;
+    hear.interimResults = true;
+    hear.onresult = function (event) {
+      if (!want) return;
+      var text = "";
+      for (var i = 0; i < event.results.length; i++) text += event.results[i][0].transcript;
+      if (text) input.value = text;
+    };
+    hear.onerror = function (event) {
+      var code = event.error || "";
+      if (code === "aborted" || code === "no-speech") {
+        if (code === "no-speech") status.textContent = "没有听到声音，请再说一次或手写。";
+        return;
+      }
+      want = false;
+      if (hear) { try { hear.stop(); } catch (error) {} }
+        if (code === "not-allowed" || code === "service-not-allowed") {
+        show(false, "没有麦克风权限，请在输入框里手写。");
+      } else {
+        show(false, "麦克风暂时不可用，请在输入框里手写。");
+      }
+      input.focus();
+    };
+    hear.onend = function () {
+      if (!want) return;
+      try { hear.start(); } catch (error) {}
+    };
+  }
+  function start() {
+    if (!Speech) {
+      want = false;
+      show(false, "当前浏览器不能使用麦克风，请手写。");
+      input.focus();
+      return;
+    }
+    want = true;
+    ensure();
+    show(true, "正在听，请说出你的问题");
+    try { hear.start(); }
+    catch (error) {
+      want = false;
+      show(false, "麦克风暂时不可用，请在输入框里手写。");
+      input.focus();
+    }
+  }
+  btn.addEventListener("click", function () {
+    if (!panel.hidden) close();
+    else start();
+  });
+  stopBtn.addEventListener("click", close);
+  form.addEventListener("submit", close);
+  document.querySelectorAll("[data-ask]").forEach(function (el) {
+    el.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !panel.hidden) close();
+  });
+})();
+</script>"""
 
 
 def pc_frame(role, current, title, main, right="", listening=False):
@@ -478,24 +692,24 @@ def pc_frame(role, current, title, main, right="", listening=False):
     right_html = f'<aside class="hidden h-full flex-col overflow-y-auto border-slate-200 bg-white p-5 lg:flex lg:border-l">{right}</aside>' if right else ""
     cols = "lg:grid-cols-[240px_minmax(0,1fr)_300px]" if right else "lg:grid-cols-[240px_minmax(0,1fr)]"
     body = f"""
-<body class="min-h-screen bg-mist text-inktext">
+<body class="hq-pc min-h-screen bg-mist text-inktext">
 <a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
-<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5 text-inktext">
+<header class="sticky top-0 z-20 flex h-14 items-center justify-between px-5 text-white" style="background:linear-gradient(90deg,#1A7DBE 0%,#2A8DC7 100%)">
   <a href="{home}" class="flex items-center gap-3">
-    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
-    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-xs text-muted">智慧后勤AI助手</span></span>
+    <img src="../../assets/logo.png" alt="" class="h-9 w-9">
+    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-[10px] tracking-wide text-white/80">智慧后勤 AI 助手</span></span>
   </a>
   <div class="flex items-center gap-3 text-sm">
-    <span class="hidden text-muted sm:inline">{name} · {sub}</span>
-    <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-brand hover:bg-teal-50" href="{home}">返回导航</a>
+    <span class="hidden rounded-full border border-white/30 bg-white/15 px-3 py-1 sm:inline">{name} · {sub}</span>
+    <a class="rounded-full border border-white/40 px-3 py-1.5 hover:bg-white/15" href="{home}">返回导航</a>
   </div>
 </header>
 <div class="lg:grid {cols} lg:h-[calc(100dvh-4rem)]">
-  <aside class="border-b border-slate-200 bg-white lg:overflow-y-auto lg:border-b-0 lg:border-r">
+  <aside class="border-b border-[#E3F1F9] lg:overflow-y-auto lg:border-b-0" style="background:linear-gradient(180deg,#CFEAFA 0%,#EEF8FE 38%,#FFFFFF 100%)">
     <div class="p-5">{avatar(listening)}</div>
     <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能">{nav_links("pc", role, current)}</nav>
   </aside>
-  <main id="main" class="min-h-0 lg:overflow-y-auto">{main}</main>
+  <main id="main" class="flex min-h-0 flex-col lg:h-full lg:overflow-y-auto">{main}</main>
   {right_html}
 </div>
 </body>"""
@@ -507,15 +721,16 @@ def mobile_frame(role, current, title, main, footer=""):
     home = "../../index.html"
     cols = len(NAV[("mobile", role)])
     body = f"""
-<body class="bg-mist text-inktext">
-<div class="mx-auto flex h-dvh w-full flex-col bg-mist md:my-6 md:h-[min(844px,calc(100dvh-3rem))] md:w-[420px] md:overflow-hidden md:rounded-2xl md:border md:border-[#C8CAD1] md:bg-white md:shadow-[0_8px_24px_rgba(48,135,204,.12)]">
-  <header class="flex h-14 shrink-0 items-center justify-between border-b border-[#C8CAD1] bg-white px-4">
-    <div><p class="text-sm font-semibold leading-none text-ink">中南大学</p><p class="mt-1 text-xs text-muted">{name} · {sub}</p></div>
-    <a class="rounded-lg bg-teal-50 px-3 py-2 text-xs text-brand" href="{home}">导航</a>
+<body class="hq-stage text-inktext">
+<div class="hq-phone">
+  <div class="sky"></div>
+  <header class="relative z-10 flex h-14 shrink-0 items-center justify-between px-4 text-white">
+    <div><p class="text-sm font-semibold leading-none">中南大学</p><p class="mt-1 text-xs text-white/80">{name} · {sub}</p></div>
+    <a class="rounded-full border border-white/40 bg-white/15 px-3 py-1.5 text-xs" href="{home}">导航</a>
   </header>
-  <main id="main" class="flex min-h-0 flex-1 flex-col overflow-y-auto">{main}</main>
+  <main id="main" class="relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto">{main}</main>
   {footer}
-  <nav class="grid shrink-0 border-t border-slate-200 bg-white" style="grid-template-columns:repeat({cols},minmax(0,1fr))" aria-label="主导航">{nav_links("mobile", role, current)}</nav>
+  <nav class="hq-tabbar" style="grid-template-columns:repeat({cols},minmax(0,1fr))" aria-label="主导航">{nav_links("mobile", role, current)}</nav>
 </div>
 </body>"""
     return document(title, body)
@@ -548,6 +763,273 @@ def rail_shortcuts(role, port="pc"):
 """
 
 
+# 问答首页的消息和历史只在本页展开，不进入侧栏或底栏。
+NOTICES = {
+    "staff": [
+        {
+            "id": "weekly",
+            "title": "后勤周例会",
+            "meta": "2026-10-22 09:00 · 本部后勤楼 3楼",
+            "body": "提醒接收人周宁（工号 T20190086）。这场会议目前待提醒。",
+            "tag": "待提醒",
+            "tone": "amber",
+            "unread": True,
+        },
+        {
+            "id": "portal",
+            "title": "门户挂载确认会",
+            "meta": "2026-10-18 15:00",
+            "body": "已按设定时点送出提醒。",
+            "tag": "已提醒",
+            "tone": "teal",
+            "unread": False,
+        },
+    ],
+    "student": [
+        {
+            "id": "pool",
+            "title": "潇湘校区游泳馆开放时间",
+            "meta": "公开服务",
+            "body": "潇湘校区游泳馆周二至周日开放，周一闭馆。",
+            "tag": "服务提示",
+            "tone": "brand",
+            "unread": True,
+        },
+        {
+            "id": "utility",
+            "title": "水电用量暂不能查询",
+            "meta": "待接口",
+            "body": "水电用量和欠费待接口，暂不提供个人账单。",
+            "tag": "待接口",
+            "tone": "muted",
+            "unread": True,
+        },
+    ],
+    "guest": [
+        {
+            "id": "public",
+            "title": "潇湘校区游泳馆开放时间",
+            "meta": "公开服务",
+            "body": "潇湘校区游泳馆周二至周日开放，周一闭馆。咨询可拨打后勤服务热线 0731-88836000。",
+            "tag": "服务提示",
+            "tone": "brand",
+            "unread": True,
+        },
+    ],
+}
+NOTICE_COPY = {
+    "guest": "未登录只看公开服务提示。",
+    "student": "公开服务提示。用量和欠费要等水电接口，这里不给出账单。",
+    "staff": "周宁的会议提醒。已取消的会议不会出现。",
+}
+HISTORY_PRESETS = [
+    {
+        "q": "宿舍水龙头坏了怎么报修？",
+        "a": "宿舍水龙头可以报修，也可以拨打后勤服务热线 0731-88836000，全天有人值班。",
+    },
+    {
+        "q": "潇湘校区游泳馆什么时候开放？",
+        "a": "潇湘校区游泳馆周二至周日开放，周一闭馆。",
+    },
+]
+
+HOME_TOOLS_HTML = """
+<div class="hq-tools" data-role="home">
+  <div class="hq-entry-bar" role="toolbar" aria-label="消息和历史">
+    <button type="button" class="hq-entry-btn" id="hq-open-notice" aria-expanded="false" aria-controls="hq-notice-panel" aria-label="消息通知，未读 @@UNREAD@@ 条">
+      <i class="fa-solid fa-bell" aria-hidden="true"></i><span>消息通知</span>
+      <span class="hq-entry-badge" id="hq-notice-count">@@UNREAD@@</span>
+    </button>
+    <button type="button" class="hq-entry-btn" id="hq-open-history" aria-expanded="false" aria-controls="hq-history-panel">
+      <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>历史对话</span>
+    </button>
+  </div>
+  <span id="hq-notice-live" class="sr-only" aria-live="polite"></span>
+  <section id="hq-notice-panel" class="hq-panel" hidden aria-labelledby="hq-notice-title">
+    <div class="hq-panel-hd">
+      <div>
+        <p class="hq-panel-title" id="hq-notice-title">消息通知</p>
+        <p class="hq-panel-sub">@@NOTICE_SUB@@</p>
+      </div>
+      <button type="button" class="hq-panel-x" data-hq-close="notice" aria-label="关闭消息通知"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div id="hq-notice-list"></div>
+  </section>
+  <section id="hq-history-panel" class="hq-panel" hidden aria-labelledby="hq-history-title">
+    <div class="hq-panel-hd">
+      <div>
+        <p class="hq-panel-title" id="hq-history-title">历史对话</p>
+        <p class="hq-panel-sub">点一条，问题和回答会回到本页对话区。</p>
+      </div>
+      <button type="button" class="hq-panel-x" data-hq-close="history" aria-label="关闭历史对话"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div id="hq-history-list"></div>
+  </section>
+</div>
+"""
+
+HOME_TOOLS_SCRIPT = r"""
+<script>
+(function () {
+  var role = "@@ROLE@@";
+  var notices = @@NOTICES@@;
+  var presets = @@HISTORY@@;
+  var thread = document.querySelector("#thread");
+  var noticeBtn = document.querySelector("#hq-open-notice");
+  var historyBtn = document.querySelector("#hq-open-history");
+  var noticePanel = document.querySelector("#hq-notice-panel");
+  var historyPanel = document.querySelector("#hq-history-panel");
+  var noticeList = document.querySelector("#hq-notice-list");
+  var historyList = document.querySelector("#hq-history-list");
+  var badge = document.querySelector("#hq-notice-count");
+  var live = document.querySelector("#hq-notice-live");
+  if (!thread || !noticeBtn || !historyBtn || !noticePanel || !historyPanel || !noticeList || !historyList || !badge) return;
+  var readKey = "hq-notice-read-" + role;
+  var histKey = "hq-history-live-" + role;
+  var readIds = loadJson(readKey, []);
+  var saved = loadJson(histKey, []);
+  var liveRows = saved.filter(function (item) {
+    return item && typeof item.q === "string" && typeof item.a === "string" && item.q && item.a;
+  }).map(function (item) { return { q: item.q, a: item.a, live: true }; });
+
+  function loadJson(key, fallback) {
+    try {
+      var parsed = JSON.parse(sessionStorage.getItem(key) || "");
+      return Array.isArray(parsed) ? parsed : fallback;
+    } catch (error) { return fallback; }
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+  function isUnread(item) {
+    return !!item.unread && readIds.indexOf(item.id) === -1;
+  }
+  function unreadCount() {
+    var count = 0;
+    notices.forEach(function (item) { if (isUnread(item)) count += 1; });
+    return count;
+  }
+  function paintBadge(announce) {
+    var count = unreadCount();
+    badge.hidden = count < 1;
+    badge.textContent = String(count);
+    noticeBtn.setAttribute("aria-label", count > 0 ? "消息通知，未读 " + count + " 条" : "消息通知，没有未读");
+    if (announce && live) live.textContent = count > 0 ? "未读 " + count + " 条" : "没有未读通知";
+  }
+  function renderNotices(focusId) {
+    noticeList.innerHTML = notices.map(function (item) {
+      var unread = isUnread(item);
+      return '<button type="button" class="hq-note' + (unread ? " is-unread" : "") + '" data-id="' + escapeHtml(item.id) + '">' +
+        '<span class="hq-note-top"><span class="hq-note-title">' + escapeHtml(item.title) + "</span>" +
+        '<span class="hq-note-pills"><span class="hq-pill ' + escapeHtml(item.tone || "muted") + '">' + escapeHtml(item.tag) + "</span>" +
+        '<span class="hq-pill ' + (unread ? "amber" : "muted") + '">' + (unread ? "未读" : "已读") + "</span></span></span>" +
+        '<span class="hq-note-meta">' + escapeHtml(item.meta) + "</span>" +
+        '<span class="hq-note-body">' + escapeHtml(item.body) + "</span></button>";
+    }).join("");
+    noticeList.querySelectorAll(".hq-note").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        if (id && readIds.indexOf(id) === -1) {
+          readIds.push(id);
+          try { sessionStorage.setItem(readKey, JSON.stringify(readIds)); } catch (error) {}
+        }
+        renderNotices(id);
+        paintBadge(true);
+      });
+    });
+    if (focusId) {
+      var again = noticeList.querySelector('[data-id="' + focusId + '"]');
+      if (again) again.focus();
+    }
+  }
+  function preview(text) {
+    var line = String(text).replace(/\s+/g, " ").trim();
+    return line.length > 46 ? line.slice(0, 46) + "…" : line;
+  }
+  function allHistory() {
+    return liveRows.concat(presets);
+  }
+  function renderHistory() {
+    historyList.innerHTML = allHistory().map(function (item, index) {
+      return '<button type="button" class="hq-hist" data-index="' + index + '">' +
+        '<span class="hq-note-top"><span class="hq-hist-q">' + escapeHtml(item.q) + "</span>" +
+        '<span class="hq-pill ' + (item.live ? "teal" : "muted") + '">' + (item.live ? "本次会话" : "演示") + "</span></span>" +
+        '<span class="hq-hist-a">' + escapeHtml(preview(item.a)) + "</span></button>";
+    }).join("");
+    historyList.querySelectorAll(".hq-hist").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var item = allHistory()[Number(btn.getAttribute("data-index"))];
+        if (item) fillThread(item.q, item.a);
+      });
+    });
+  }
+  function fillThread(question, answer) {
+    thread.innerHTML = "";
+    var user = document.createElement("div");
+    user.className = "flex justify-end";
+    user.innerHTML = '<div class="bubble-user max-w-[86%] px-4 py-3 text-sm leading-6">' + escapeHtml(question) + "</div>";
+    var bot = document.createElement("div");
+    bot.className = "flex justify-start";
+    bot.innerHTML = '<div class="bubble-bot max-w-[92%] px-4 py-3 text-sm leading-6">' +
+      '<p class="mb-2 text-xs font-medium text-teal"><i class="fa-solid fa-clock-rotate-left mr-1" aria-hidden="true"></i>历史对话</p>' +
+      '<div class="whitespace-pre-wrap">' + escapeHtml(answer) + "</div></div>";
+    thread.appendChild(user);
+    thread.appendChild(bot);
+    setOpen("");
+    if (user.scrollIntoView) user.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }
+  function setOpen(which) {
+    noticePanel.hidden = which !== "notice";
+    historyPanel.hidden = which !== "history";
+    noticeBtn.classList.toggle("is-on", which === "notice");
+    historyBtn.classList.toggle("is-on", which === "history");
+    noticeBtn.setAttribute("aria-expanded", which === "notice" ? "true" : "false");
+    historyBtn.setAttribute("aria-expanded", which === "history" ? "true" : "false");
+  }
+  noticeBtn.addEventListener("click", function () {
+    setOpen(noticePanel.hidden ? "notice" : "");
+  });
+  historyBtn.addEventListener("click", function () {
+    setOpen(historyPanel.hidden ? "history" : "");
+  });
+  document.querySelectorAll("[data-hq-close]").forEach(function (el) {
+    el.addEventListener("click", function () { setOpen(""); });
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") setOpen("");
+  });
+  window.hqPushHistory = function (question, answer) {
+    question = String(question || "").trim();
+    answer = String(answer || "").trim();
+    if (!question || !answer) return;
+    liveRows.unshift({ q: question, a: answer, live: true });
+    if (liveRows.length > 20) liveRows.length = 20;
+    try { sessionStorage.setItem(histKey, JSON.stringify(liveRows)); } catch (error) {}
+    renderHistory();
+  };
+  renderNotices();
+  renderHistory();
+  paintBadge(false);
+})();
+</script>
+"""
+
+
+def home_tools(role):
+    notices = NOTICES[role]
+    unread = sum(1 for item in notices if item["unread"])
+    html = render(HOME_TOOLS_HTML, UNREAD=str(unread), NOTICE_SUB=escape(NOTICE_COPY[role]))
+    script = render(
+        HOME_TOOLS_SCRIPT,
+        ROLE=role,
+        NOTICES=json.dumps(notices, ensure_ascii=False),
+        HISTORY=json.dumps(HISTORY_PRESETS, ensure_ascii=False),
+    )
+    return html, script
+
+
 def rail_home(role):
     return f"""
 <div>
@@ -563,18 +1045,54 @@ def rail_home(role):
 
 def home_main(role, port):
     _, _, welcome = PEOPLE[role]
-    photo = f'<img class="mb-4 h-36 w-full rounded-2xl object-cover" src="{DORM if role == "student" else CAMPUS}" width="800" height="280" alt="校园建筑与宿舍楼">' if port == "mobile" else ""
-    mobile_entries = rail_shortcuts(role, "mobile").replace("mt-auto", "mx-4 mb-5", 1) if port == "mobile" else ""
-    return f"""
-<div class="p-5 lg:p-8">
-  {photo}
-  <p class="text-xs tracking-widest text-teal">后勤值班台</p>
-  <h1 class="mt-2 font-serif text-3xl text-ink lg:text-4xl">{welcome}</h1>
-  <p class="mt-3 max-w-xl text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。回答来自 2026 年 9 月 17 日截止的后勤服务知识库。</p>
-  <div class="mt-5 flex flex-wrap gap-2">{suggestion_buttons()}</div>
+    tools, tools_script = home_tools(role)
+    if port == "mobile":
+        icons = []
+        for item in SERVICES:
+            if item["id"] == "announcement":
+                continue
+            if item["student_only"] and role != "student":
+                continue
+            href = "login.html" if role == "guest" else (action_href(item, role, "mobile")[0] or "services.html")
+            icons.append(
+                f'<a class="flex flex-col items-center gap-2 text-xs text-ink" href="{href}">'
+                f'<span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-50 text-lg text-brand"><i class="fa-solid {item["icon"]}"></i></span>{item["name"]}</a>'
+            )
+        return f"""
+<div class="hq-home">
+  <div class="hq-tools-slot shrink-0 px-4 pt-3">{tools}</div>
+  <div class="px-4 pb-2">
+    <div class="rounded-2xl bg-white/95 p-4 shadow-[0_8px_24px_rgba(4,81,239,.08)]">
+      <p class="text-xs font-medium text-brand">后勤值班台</p>
+      <h1 class="mt-1 text-2xl font-semibold leading-snug text-ink">{welcome}</h1>
+      <p class="mt-2 text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。</p>
+      <div class="mt-3 flex flex-wrap gap-2">{suggestion_buttons()}</div>
+    </div>
+  </div>
+  <div id="thread" class="space-y-3 px-4 py-2" aria-live="polite"></div>
+  {composer()}
+  <div class="mx-4 mb-3 mt-2 rounded-2xl bg-white p-4 shadow-[0_4px_16px_rgba(4,81,239,.05)]">
+    <p class="mb-3 text-base font-semibold">办事入口</p>
+    <div class="grid grid-cols-4 gap-y-4">{''.join(icons)}</div>
+  </div>
 </div>
-{composer()}
-{mobile_entries}
+{tools_script}
+"""
+    return f"""
+<div class="hq-home flex min-h-full flex-1 flex-col">
+  <div class="hq-tools-slot shrink-0 px-5 pt-4 lg:px-6 lg:pt-5">{tools}</div>
+  <div class="shrink-0 px-5 pb-4 pt-3 lg:px-6 lg:pb-5">
+    <div class="rounded-2xl bg-white p-5 shadow-[0_1px_5px_rgba(45,47,51,.06)]">
+      <p class="text-xs font-medium text-brand">后勤值班台</p>
+      <h1 class="mt-2 text-3xl font-semibold text-ink">{welcome}</h1>
+      <p class="mt-3 max-w-xl text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。回答来自 2026 年 9 月 17 日截止的后勤服务知识库。</p>
+      <div class="mt-4 flex flex-wrap gap-2">{suggestion_buttons()}</div>
+    </div>
+  </div>
+  <div id="thread" class="space-y-3 px-5 pb-4 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-6" aria-live="polite"></div>
+  <div class="mt-auto shrink-0">{composer()}</div>
+</div>
+{tools_script}
 """
 
 
@@ -616,7 +1134,7 @@ LISTEN_SCRIPT = """
     var error = document.querySelector("#listen-error");
     if (!question) { error.textContent = "还没有听到问题，请输入后再发送。"; box.focus(); return; }
     sessionStorage.setItem("hq-question", question);
-    location.href = "chat.html";
+    location.href = "home.html";
   });
 })();
 </script>
@@ -626,8 +1144,9 @@ LISTEN_SCRIPT = """
 def listening_main():
     return """
 <div class="mx-auto max-w-lg p-6">
-  <h1 class="font-serif text-3xl text-ink">正在听</h1>
-  <p class="mt-2 text-sm leading-6 text-muted">浏览器若允许麦克风，会把识别出的话填进下面。你也可以直接改字。</p>
+  <p class="rounded-xl border border-[#C8E4F4] bg-[#E3F1F9] px-4 py-3 text-sm leading-6 text-[#006DAD]">语音提问在问答首页输入框的左侧。点麦克风说话，识别结果会填进输入框；没有麦克风时仍可手写。</p>
+  <h1 class="mt-5 font-serif text-3xl text-ink">正在听</h1>
+  <p class="mt-2 text-sm leading-6 text-muted">浏览器若允许麦克风，会把识别出的话填进下面。你也可以直接改字。日常使用请回到问答首页，麦克风在输入框左边。</p>
   <label for="heard" class="mt-5 block text-sm">听到的问题</label>
   <textarea id="heard" rows="3" class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base">宿舍水龙头坏了怎么报修？</textarea>
   <p id="listen-error" class="mt-2 min-h-5 text-sm text-red-800" role="alert"></p>
@@ -662,7 +1181,7 @@ def category_main():
 document.querySelectorAll("[data-ask]").forEach(function (el) {{
   el.addEventListener("click", function () {{
     sessionStorage.setItem("hq-question", el.getAttribute("data-ask"));
-    location.href = "chat.html";
+    location.href = "home.html";
   }});
 }});
 </script>
@@ -695,7 +1214,7 @@ def not_found_main():
     <p class="mb-2 text-xs font-medium text-[#8A5A12]"><i class="fa-solid fa-circle-info mr-1"></i>暂未收录</p>
     <p>暂未收录。座位预约不属于后勤服务知识库。如需人工确认是不是后勤的事，请拨打后勤服务热线 {HOTLINE}，全天有人值班。</p>
   </div>
-  <a class="mt-4 inline-flex min-h-11 items-center text-sm text-teal" href="chat.html">返回对话，试一个后勤问题</a>
+  <a class="mt-4 inline-flex min-h-11 items-center text-sm text-teal" href="home.html">返回问答首页，试一个后勤问题</a>
 </div>
 """
 
@@ -887,7 +1406,7 @@ def guide_main():
 """
 
 
-def profile_main(role):
+def profile_main(role, port="pc"):
     if role == "student":
         rows = [
             ("姓名", "林夏"),
@@ -909,14 +1428,37 @@ def profile_main(role):
         ]
         note = "部门、工号和在岗情况来自人事共享数据，只能查看。会议提醒按工号投递，不使用手机号作为默认通道。"
         extra = '<a class="mt-4 inline-flex min-h-11 items-center rounded-xl border border-slate-300 bg-white px-4 text-sm" href="../recipient/inbox.html">查看我的会议提醒</a>'
-    body = "".join(f'<div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">{k}</dt><dd class="text-right text-sm font-medium">{v}</dd></div>' for k, v in rows)
+    body = "".join(f'<div class="flex items-center justify-between gap-4 border-b border-[#E6EEF4] py-3 last:border-0"><dt class="text-sm text-muted">{k}</dt><dd class="text-right text-sm">{v}</dd></div>' for k, v in rows)
+    if port == "mobile":
+        name = "林夏" if role == "student" else "周宁"
+        meta = "计算机学院 · 学号 820240118" if role == "student" else "后勤保障部 · 工号 T20190086"
+        chips = "学生 · 2024 级" if role == "student" else "教职工 · 在岗"
+        return f"""
+<div class="px-4 pb-6">
+  <div class="mt-2 flex items-center gap-3 text-white">
+    <span class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-lg font-semibold text-brand">{name[:1]}</span>
+    <div><p class="text-xl font-semibold">{name}</p><p class="text-sm text-white/85">{meta}</p><p class="mt-1 inline-flex rounded-full bg-white/20 px-2 py-0.5 text-xs">{chips}</p></div>
+  </div>
+  <div class="relative z-10 mt-4 rounded-2xl bg-white p-4 shadow-[0_8px_24px_rgba(4,81,239,.08)]">
+    <dl>{body}</dl>
+    <p class="mt-3 text-xs leading-5 text-muted">{note}</p>
+  </div>
+  <div class="mt-4">{extra}</div>
+  <a class="mt-4 block text-center text-sm text-muted" href="../guest/home.html">退出演示身份</a>
+</div>
+"""
     return f"""
-<div class="mx-auto max-w-xl p-5 lg:p-8">
-  <h1 class="font-serif text-3xl text-ink">我的身份</h1>
-  <p class="mt-2 text-sm leading-6 text-muted">{note}</p>
-  <dl class="mt-4 rounded-2xl bg-white px-4">{body}</dl>
-  {extra}
-  <a class="mt-4 block text-sm text-muted" href="../guest/home.html">退出演示身份</a>
+<div class="p-5 lg:p-8">
+  <div class="rounded-2xl bg-white p-5 shadow-[0_1px_5px_rgba(45,47,51,.06)]">
+    <div class="mb-4 flex items-center justify-between border-b border-[#E3F1F9] pb-3">
+      <h1 class="text-lg font-bold">我的身份</h1>
+      <span class="rounded-full bg-teal-50 px-3 py-1 text-xs text-brand">{'学生' if role == 'student' else '教职工'}</span>
+    </div>
+    <p class="text-sm leading-6 text-muted">{note}</p>
+    <dl class="mt-2">{body}</dl>
+    {extra}
+    <a class="mt-4 inline-flex text-sm text-brand" href="../guest/home.html">退出演示身份</a>
+  </div>
 </div>
 """
 
@@ -990,23 +1532,23 @@ def admin_frame(current, title, main, script=""):
     links = []
     for href, label, icon in ADMIN_NAV:
         on = href == parent
-        cls = "bg-teal-50 font-medium text-brand" if on else "text-muted hover:bg-mist"
-        links.append(f'<a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm {cls}" href="{href}"><i class="fa-solid {icon} w-4"></i>{label}</a>')
+        cls = "hq-nav-on" if on else "text-inktext hover:bg-white/70"
+        links.append(f'<a class="flex min-h-11 items-center gap-3 rounded-full px-3 text-sm {cls}" href="{href}"><i class="fa-solid {icon} w-4"></i>{label}</a>')
     body = f"""
 <body class="min-h-screen bg-mist text-inktext">
 <div class="min-h-screen md:grid md:grid-cols-[220px_minmax(0,1fr)]">
-  <aside class="border-r border-[#C8CAD1] bg-white text-inktext md:min-h-screen">
+  <aside class="text-inktext md:min-h-screen" style="background:linear-gradient(180deg,#CFEAFA 0%,#EEF8FE 38%,#FFFFFF 100%)">
     <a href="../index.html" class="block px-5 py-5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+      <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand"><img src="../assets/logo.png" alt="" class="h-8 w-8"></span>
       <span class="mt-3 block font-semibold">中南大学</span>
-      <span class="mt-1 block text-xs text-muted">后勤业务管理</span>
+      <span class="mt-1 block text-xs text-muted">智慧后勤 AI 助手</span>
     </a>
     <nav class="flex gap-2 overflow-x-auto px-3 pb-4 md:block md:space-y-1" aria-label="后台">{''.join(links)}</nav>
   </aside>
   <div class="min-w-0">
-    <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-5">
-      <h1 class="text-lg font-medium">{escape(title)}</h1>
-      <div class="flex items-center gap-3 text-sm text-muted"><span>审核人 周宁</span><a class="text-teal" href="../index.html">返回导航</a></div>
+    <header class="flex h-14 items-center justify-between px-5 text-white" style="background:linear-gradient(90deg,#1A7DBE,#2A8DC7)">
+      <h1 class="text-lg font-semibold">{escape(title)}</h1>
+      <div class="flex items-center gap-3 text-sm"><span class="rounded-full border border-white/30 bg-white/15 px-3 py-1">审核人 周宁</span><a class="rounded-full border border-white/40 px-3 py-1" href="../index.html">返回导航</a></div>
     </header>
     <main id="main" class="p-5">{main}</main>
   </div>
@@ -1043,24 +1585,27 @@ def dashboard_main():
         ("待审核", "1", "宿舍报修范围补充"),
         ("即将提醒", "1", "后勤周例会"),
     ]
+    icons = ["fa-comments", "fa-book", "fa-clipboard-check", "fa-bell"]
     stats = "".join(
-        f'<article class="rounded-2xl border border-slate-200 bg-white p-5"><p class="text-sm text-muted">{k}</p><p class="num mt-2 text-3xl font-semibold">{v}</p><p class="mt-1 text-xs text-muted">{s}</p></article>'
-        for k, v, s in cards
+        f'<article class="relative overflow-hidden rounded-xl bg-white p-4 shadow-[0_1px_5px_rgba(45,47,51,.06)]"><p class="text-sm text-muted">{k}</p><p class="num mt-2 text-3xl font-extrabold text-ink">{v}</p><p class="mt-1 text-xs text-muted">{s}</p><span class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-brand"><i class="fa-solid {ic}"></i></span></article>'
+        for (k, v, s), ic in zip(cards, icons)
     )
     return f"""
-<p class="text-sm text-muted">周宁，今天有 1 条知识待审核，1 场会议还没到提醒时间。</p>
-<section class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{stats}</section>
-<section class="mt-4 grid gap-4 lg:grid-cols-5">
-  <article class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-3">
-    <h2 class="font-medium">近七日公开问答</h2>
-    <p class="text-xs text-muted">演示数据，正式环境来自操作日志。</p>
-    <div class="mt-4 flex items-end gap-3" role="img" aria-label="近七日问答量依次升高后略有回落">{chart}</div>
+<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+  <div><h2 class="text-base font-bold">后勤运行总览</h2><p class="text-xs text-muted">数据为演示口径 · 周宁今天有 1 条知识待审核</p></div>
+  <div class="flex gap-2 text-sm"><span class="rounded bg-teal-50 px-3 py-1 font-semibold text-brand">本周</span><span class="rounded px-3 py-1 text-muted">本月</span><span class="rounded px-3 py-1 text-muted">本年</span></div>
+</div>
+<section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{stats}</section>
+<section class="mt-3 grid gap-3 lg:grid-cols-5">
+  <article class="rounded-xl bg-white p-5 shadow-[0_1px_5px_rgba(45,47,51,.06)] lg:col-span-3">
+    <div class="mb-3 flex items-center justify-between border-b border-[#E3F1F9] pb-2"><h2 class="font-bold">近七日公开问答</h2><span class="text-xs text-muted">演示数据</span></div>
+    <div class="flex items-end gap-3" role="img" aria-label="近七日问答量依次升高后略有回落">{chart}</div>
   </article>
-  <article class="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2">
-    <h2 class="font-medium">下一场提醒</h2>
-    <p class="mt-3 font-serif text-2xl text-ink">后勤周例会</p>
+  <article class="rounded-xl bg-white p-5 shadow-[0_1px_5px_rgba(45,47,51,.06)] lg:col-span-2">
+    <h2 class="border-b border-[#E3F1F9] pb-2 font-bold">下一场提醒</h2>
+    <p class="mt-4 text-2xl font-semibold text-ink">后勤周例会</p>
     <p class="num mt-2 text-sm text-muted">10 月 22 日 09:00 · 会前 1 小时</p>
-    <a class="mt-4 inline-flex min-h-11 items-center text-sm text-teal" href="meeting-detail.html">查看会议</a>
+    <a class="mt-4 inline-flex text-sm font-medium text-brand" href="meeting-detail.html">查看会议</a>
   </article>
 </section>
 """
@@ -1082,17 +1627,22 @@ def knowledge_list():
           <td class="num px-4 py-3 text-right">{date}</td>
         </tr>""")
     return f"""
-<div id="banner" hidden class="mb-4 rounded-xl bg-teal-50 px-4 py-3 text-sm text-teal-700"></div>
-<div class="mb-4 flex flex-wrap gap-3">
-  <a class="inline-flex min-h-11 items-center rounded-xl bg-brand px-4 text-sm text-white" href="knowledge-edit.html">起草知识</a>
-  <a class="inline-flex min-h-11 items-center rounded-xl border border-slate-300 bg-white px-4 text-sm" href="knowledge-review.html">处理待审核</a>
+<div id="banner" hidden class="mb-3 rounded-lg bg-teal-50 px-4 py-2 text-sm text-teal-700"></div>
+<div class="mb-3 flex flex-wrap items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-[0_1px_5px_rgba(45,47,51,.06)]">
+  <span class="text-sm text-muted">状态</span>
+  <span class="rounded bg-teal-50 px-3 py-1 text-sm text-brand">全部</span>
+  <span class="rounded px-3 py-1 text-sm text-muted">已发布</span>
+  <span class="rounded px-3 py-1 text-sm text-muted">待审核</span>
+  <span class="rounded px-3 py-1 text-sm text-muted">草稿</span>
+  <span class="ml-auto flex gap-2"><a class="inline-flex h-8 items-center rounded bg-brand px-3 text-sm text-white" href="knowledge-edit.html">起草知识</a><a class="inline-flex h-8 items-center rounded border border-[#D8DBE4] bg-white px-3 text-sm text-brand" href="knowledge-review.html">处理待审核</a></span>
 </div>
-<div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+<div class="overflow-x-auto rounded-xl bg-white shadow-[0_1px_5px_rgba(45,47,51,.06)]">
   <table class="w-full min-w-[640px] text-left text-sm">
     <thead class="bg-mist text-muted"><tr><th class="px-4 py-3 font-medium">标题</th><th class="px-4 py-3 font-medium">状态</th><th class="px-4 py-3 font-medium">可见性</th><th class="px-4 py-3 text-right font-medium">日期</th></tr></thead>
-    <tbody class="divide-y divide-slate-100">{''.join(body)}</tbody>
+    <tbody class="divide-y divide-slate-100">{''.join(body)}    </tbody>
   </table>
 </div>
+<div class="mt-3 flex items-center justify-between text-sm text-muted"><span>共 4 条知识</span><span class="flex items-center gap-1"><span class="grid h-8 min-w-8 place-items-center rounded bg-brand px-2 text-white">1</span><span class="grid h-8 min-w-8 place-items-center rounded bg-[#F2F5F8] px-2">10 条/页</span></span></div>
 <script>
 var done = new URLSearchParams(location.search).get("done");
 var banner = document.querySelector("#banner");
@@ -1419,59 +1969,67 @@ def build_front():
 
     specs = []
 
-    def add_pc(group, role, filename, card_title, desc, icon, main, right="", listening=False, script=""):
+    def add_pc(group, role, filename, card_title, desc, icon, main, right="", listening=False, script="", catalog=True):
         html = pc_frame(role, filename, card_title, main + script, right, listening)
-        emit(group, f"pc/{role}/{filename}", card_title, desc, icon, html)
+        rel = f"pc/{role}/{filename}"
+        if catalog:
+            emit(group, rel, card_title, desc, icon, html)
+        else:
+            write_file(rel, html)
 
-    def add_mobile(group, role, filename, card_title, desc, icon, main, script=""):
+    def add_mobile(group, role, filename, card_title, desc, icon, main, script="", catalog=True):
         html = mobile_frame(role, filename, card_title, main + script)
-        emit(group, f"mobile/{role}/{filename}", card_title, desc, icon, html)
+        rel = f"mobile/{role}/{filename}"
+        if catalog:
+            emit(group, rel, card_title, desc, icon, html)
+        else:
+            write_file(rel, html)
 
     for port, adder, group_prefix in (("pc", add_pc, "电脑端"), ("mobile", add_mobile, "移动端")):
         g = f"{group_prefix} · 游客"
         home = home_main("guest", port)
         if port == "pc":
-            adder(g, "guest", "home.html", "问答首页", "迎宾、热门问题和输入", "fa-house", home + HOME_SCRIPT, rail_home("guest"))
-            adder(g, "guest", "chat.html", "对话", "发送问题并得到知识库回答", "fa-comments", chat_main() + chat_js("guest", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">回答之后，这里出现对应的办事入口。游客会先去登录。</p></div>')
+            adder(g, "guest", "home.html", "问答首页", "迎宾、热门问题，回答留在本页", "fa-house", home + chat_js("guest", "pc"), rail_home("guest"))
+            adder(g, "guest", "chat.html", "对话", "发送问题并得到知识库回答", "fa-comments", chat_main() + chat_js("guest", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">回答之后，这里出现对应的办事入口。游客会先去登录。</p></div>', catalog=False)
         else:
-            adder(g, "guest", "home.html", "问答首页", "手机上的迎宾和快捷问题", "fa-house", home + HOME_SCRIPT)
-            adder(g, "guest", "chat.html", "对话", "手机上的真实问答", "fa-comments", mobile_chat_main() + chat_js("guest", "mobile"))
+            adder(g, "guest", "home.html", "问答首页", "手机上提问，回答留在本页", "fa-house", home + chat_js("guest", "mobile"))
+            adder(g, "guest", "chat.html", "对话", "手机上的真实问答", "fa-comments", mobile_chat_main() + chat_js("guest", "mobile"), catalog=False)
         adder(g, "guest", "not-found.html", "暂未收录", "知识库没有写到时的版式", "fa-circle-info", not_found_main())
         adder(g, "guest", "category.html", "办事说明", "四类公开说明，办理前要登录", "fa-map", category_main())
         adder(g, "guest", "login.html", "统一认证", "演示学生或教职工身份", "fa-right-to-bracket", login_main(port))
-        adder(g, "guest", "listening.html", "聆听", "麦克风或手写问题后发送", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True) if port == "pc" else adder(g, "guest", "listening.html", "聆听", "手机上的聆听状态", "fa-microphone", listening_main() + LISTEN_SCRIPT)
+        adder(g, "guest", "listening.html", "聆听说明", "麦克风在输入框左侧", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True) if port == "pc" else adder(g, "guest", "listening.html", "聆听说明", "麦克风在输入框左侧", "fa-microphone", listening_main() + LISTEN_SCRIPT)
 
-    add_pc("电脑端 · 学生", "student", "home.html", "学生首页", "登录后的欢迎和住宿身份", "fa-house", home_main("student", "pc") + HOME_SCRIPT, rail_home("student"))
-    add_pc("电脑端 · 学生", "student", "chat.html", "学生对话", "回答后按电脑规则给入口", "fa-comments", chat_main() + chat_js("student", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">水电缴费会引导到二维码。其余电脑地址可以直接去办理。</p></div>')
+    add_pc("电脑端 · 学生", "student", "home.html", "学生首页", "登录后的欢迎，回答留在本页", "fa-house", home_main("student", "pc") + chat_js("student", "pc"), rail_home("student"))
+    add_pc("电脑端 · 学生", "student", "chat.html", "学生对话", "回答后按电脑规则给入口", "fa-comments", chat_main() + chat_js("student", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">水电缴费会引导到二维码。其余电脑地址可以直接去办理。</p></div>', catalog=False)
     add_pc("电脑端 · 学生", "student", "services.html", "学生办事", "八个电脑地址，外加缴费二维码", "fa-table-cells-large", services_main("student", "pc"))
     add_pc("电脑端 · 学生", "student", "jump.html", "离开确认", "确认后打开这一端的正式地址", "fa-arrow-up-right-from-square", jump_main() + jump_js("student", "pc"))
     add_pc("电脑端 · 学生", "student", "qrcode.html", "缴费二维码", "电脑上看见手机缴费码", "fa-qrcode", qrcode_main() + QR_SCRIPT)
     add_pc("电脑端 · 学生", "student", "utility.html", "水电指引", "怎么缴、到哪里缴，用量待接口", "fa-bolt", utility_main("pc", "student"))
     add_pc("电脑端 · 学生", "student", "profile.html", "学生身份", "只读的院系和住宿", "fa-user", profile_main("student"))
-    add_pc("电脑端 · 学生", "student", "listening.html", "学生聆听", "听完送入学生对话", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True)
+    add_pc("电脑端 · 学生", "student", "listening.html", "聆听说明", "麦克风在输入框左侧", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True)
 
-    add_pc("电脑端 · 教职工", "staff", "home.html", "教职工首页", "周宁的值班欢迎", "fa-house", home_main("staff", "pc") + HOME_SCRIPT, rail_home("staff"))
-    add_pc("电脑端 · 教职工", "staff", "chat.html", "教职工对话", "不出现学生缴费入口", "fa-comments", chat_main() + chat_js("staff", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">教职工可以办报修、监督、场馆和仅电脑事项，不能缴学生水电。</p></div>')
+    add_pc("电脑端 · 教职工", "staff", "home.html", "教职工首页", "周宁的值班欢迎，回答留在本页", "fa-house", home_main("staff", "pc") + chat_js("staff", "pc"), rail_home("staff"))
+    add_pc("电脑端 · 教职工", "staff", "chat.html", "教职工对话", "不出现学生缴费入口", "fa-comments", chat_main() + chat_js("staff", "pc"), '<div id="action-rail"><p class="text-sm leading-6 text-muted">教职工可以办报修、监督、场馆和仅电脑事项，不能缴学生水电。</p></div>', catalog=False)
     add_pc("电脑端 · 教职工", "staff", "services.html", "教职工办事", "没有水电缴费二维码", "fa-table-cells-large", services_main("staff", "pc"))
     add_pc("电脑端 · 教职工", "staff", "jump.html", "离开确认", "打开教职工可用的电脑地址", "fa-arrow-up-right-from-square", jump_main() + jump_js("staff", "pc"))
     add_pc("电脑端 · 教职工", "staff", "profile.html", "教职工身份", "部门、工号和在岗情况", "fa-user", profile_main("staff"))
-    add_pc("电脑端 · 教职工", "staff", "listening.html", "教职工聆听", "听完送入教职工对话", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True)
+    add_pc("电脑端 · 教职工", "staff", "listening.html", "聆听说明", "麦克风在输入框左侧", "fa-microphone", listening_main() + LISTEN_SCRIPT, listening=True)
 
-    add_mobile("移动端 · 学生", "student", "home.html", "学生首页", "手机欢迎和快捷问题", "fa-house", home_main("student", "mobile") + HOME_SCRIPT)
-    add_mobile("移动端 · 学生", "student", "chat.html", "学生对话", "手机上直接去缴纳或改用电脑", "fa-comments", mobile_chat_main() + chat_js("student", "mobile"))
-    add_mobile("移动端 · 学生", "student", "listening.html", "学生聆听", "手机聆听后发送", "fa-microphone", listening_main() + LISTEN_SCRIPT)
+    add_mobile("移动端 · 学生", "student", "home.html", "学生首页", "手机欢迎，回答留在本页", "fa-house", home_main("student", "mobile") + chat_js("student", "mobile"))
+    add_mobile("移动端 · 学生", "student", "chat.html", "学生对话", "手机上直接去缴纳或改用电脑", "fa-comments", mobile_chat_main() + chat_js("student", "mobile"), catalog=False)
+    add_mobile("移动端 · 学生", "student", "listening.html", "聆听说明", "麦克风在输入框左侧", "fa-microphone", listening_main() + LISTEN_SCRIPT)
     add_mobile("移动端 · 学生", "student", "services.html", "学生办事", "四个手机地址可办，五项改用电脑", "fa-table-cells-large", services_main("student", "mobile"))
     add_mobile("移动端 · 学生", "student", "utility.html", "去缴纳", "手机上的缴费步骤和入口", "fa-bolt", utility_main("mobile", "student"))
     add_mobile("移动端 · 学生", "student", "jump.html", "离开确认", "打开手机端正式地址", "fa-arrow-up-right-from-square", jump_main() + jump_js("student", "mobile"))
     add_mobile("移动端 · 学生", "student", "guide.html", "电脑办理说明", "班车、宾馆、报刊、失物和公告", "fa-desktop", guide_main() + guide_js)
-    add_mobile("移动端 · 学生", "student", "profile.html", "学生身份", "手机上的只读资料", "fa-user", profile_main("student"))
+    add_mobile("移动端 · 学生", "student", "profile.html", "学生身份", "手机上的只读资料", "fa-user", profile_main("student", "mobile"))
 
-    add_mobile("移动端 · 教职工", "staff", "home.html", "教职工首页", "手机上的教职工欢迎", "fa-house", home_main("staff", "mobile") + HOME_SCRIPT)
-    add_mobile("移动端 · 教职工", "staff", "chat.html", "教职工对话", "手机上也不出现缴费", "fa-comments", mobile_chat_main() + chat_js("staff", "mobile"))
+    add_mobile("移动端 · 教职工", "staff", "home.html", "教职工首页", "手机上提问，回答留在本页", "fa-house", home_main("staff", "mobile") + chat_js("staff", "mobile"))
+    add_mobile("移动端 · 教职工", "staff", "chat.html", "教职工对话", "手机上也不出现缴费", "fa-comments", mobile_chat_main() + chat_js("staff", "mobile"), catalog=False)
     add_mobile("移动端 · 教职工", "staff", "services.html", "教职工办事", "只能办报修、监督和游泳馆", "fa-table-cells-large", services_main("staff", "mobile"))
     add_mobile("移动端 · 教职工", "staff", "jump.html", "离开确认", "打开教职工的手机地址", "fa-arrow-up-right-from-square", jump_main() + jump_js("staff", "mobile"))
     add_mobile("移动端 · 教职工", "staff", "guide.html", "电脑办理说明", "仅电脑事项的地址说明", "fa-desktop", guide_main() + guide_js)
-    add_mobile("移动端 · 教职工", "staff", "profile.html", "教职工身份", "工号与会议提醒入口", "fa-user", profile_main("staff"))
+    add_mobile("移动端 · 教职工", "staff", "profile.html", "教职工身份", "工号与会议提醒入口", "fa-user", profile_main("staff", "mobile"))
 
     # The guest listening call above used a ternary that still passes listening= to mobile.
     # add_mobile does not accept listening. I need to fix the guest loop. See below.
@@ -1522,6 +2080,72 @@ def mobile_simple(title, main):
     return document(title, body)
 
 
+INDEX_CSS = """
+:root { --p:#006DAD; --p2:#2A8DC7; --pl:#E3F1F9; --m:#0451EF; --t1:#1E323F; --t2:#627079; --t3:#979FA6; --line:#E6EEF4; --bg:#F3F7FB; --red:#F43F51; --green:#0E9F63; --orange:#E8801A; }
+body.hq { font-family:"OPPOSans",-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif; color:var(--t1); background:var(--bg); font-size:14px; line-height:1.6; }
+.hq a { color:inherit; text-decoration:none; }
+.hq-nav { position:sticky; top:0; z-index:20; height:60px; display:flex; align-items:center; gap:28px; padding:0 40px; background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+.hq-nav .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:16px; }
+.hq-nav .mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--p2),var(--p)); color:#fff; display:grid; place-items:center; font-weight:800; }
+.hq-nav .links { display:flex; gap:22px; margin-left:auto; color:var(--t2); flex-wrap:wrap; }
+.hq-nav .links a:hover { color:var(--p); }
+.hq-hero { position:relative; color:#fff; padding:64px 40px 120px; overflow:hidden; background:linear-gradient(115deg,rgba(0,70,130,.95) 0%,rgba(4,81,239,.82) 55%,rgba(42,141,199,.65) 100%),url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1800&h=700&q=70) center/cover; }
+.hq-hero .wrap { max-width:1240px; margin:0 auto; }
+.hq-hero .tagline { display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); border-radius:16px; padding:4px 14px; font-size:13px; }
+.hq-hero h1 { font-size:44px; letter-spacing:3px; margin:18px 0 10px; line-height:1.25; }
+.hq-hero p { font-size:16px; opacity:.9; max-width:760px; }
+.hq-hero .loop { display:flex; gap:10px; margin-top:26px; flex-wrap:wrap; }
+.hq-hero .loop span { background:rgba(255,255,255,.14); border-radius:20px; padding:6px 16px; }
+.hq-kpis { max-width:1240px; margin:-72px auto 0; position:relative; z-index:2; display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:0 40px; }
+.hq-kpi { background:#fff; border-radius:16px; padding:18px 20px; box-shadow:0 12px 30px rgba(0,60,110,.08); }
+.hq-kpi b { display:block; font-size:30px; font-weight:800; color:var(--p); font-variant-numeric:tabular-nums; }
+.hq-kpi span { color:var(--t2); font-size:13px; }
+.hq-sec { max-width:1240px; margin:0 auto; padding:56px 40px 0; }
+.hq-st { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:20px; gap:16px; }
+.hq-st h2 { font-size:26px; display:flex; align-items:center; gap:10px; }
+.hq-st h2 i { font-style:normal; font-size:13px; color:#fff; background:linear-gradient(135deg,var(--p2),var(--p)); border-radius:8px; padding:2px 8px; }
+.hq-st p { color:var(--t2); margin-top:4px; }
+.hq-roles { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.hq-role { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 6px 20px rgba(0,60,110,.06); display:flex; flex-direction:column; }
+.hq-role .top { padding:22px; color:#fff; }
+.hq-role .top h3 { font-size:20px; margin-top:12px; }
+.hq-role .top small { opacity:.85; }
+.hq-role .bd { padding:18px 22px 22px; }
+.hq-role ul { list-style:none; display:grid; gap:8px; color:var(--t2); margin-bottom:16px; }
+.hq-go { display:flex; flex-wrap:wrap; gap:10px; }
+.hq-btn { height:38px; padding:0 16px; border-radius:19px; display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:13px; background:linear-gradient(90deg,var(--p2),var(--p)); color:#fff; }
+.hq-btn.ghost { background:#fff; color:var(--p); border:1px solid #CFE3F1; }
+.hq-mods { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.hq-mod { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 6px 20px rgba(0,60,110,.06); }
+.hq-mod .hd { display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line); }
+.hq-mod .hd .ic { width:38px; height:38px; border-radius:11px; display:grid; place-items:center; background:var(--pl); color:var(--p); }
+.hq-mod .hd b { font-size:17px; } .hq-mod .hd small { display:block; color:var(--t2); font-size:12px; }
+.hq-mod .hd .cnt { margin-left:auto; font-size:12px; color:var(--t2); background:var(--bg); padding:3px 10px; border-radius:10px; }
+.hq-plist { display:grid; grid-template-columns:1fr 1fr; gap:2px 16px; padding:8px 12px 16px; }
+.hq-pl { display:flex; align-items:center; gap:8px; padding:8px; border-radius:8px; font-size:13px; }
+.hq-pl:hover { background:var(--bg); }
+.hq-pl .nm { flex:1; min-width:0; } .hq-pl .r { font-size:11px; color:var(--t3); }
+.hq-card { background:#fff; border-radius:18px; padding:20px 22px; box-shadow:0 6px 20px rgba(0,60,110,.06); }
+.hq-matrix { max-height:640px; overflow:auto; border-radius:12px; border:1px solid var(--line); }
+.hq-matrix table { width:100%; border-collapse:collapse; }
+.hq-matrix th { position:sticky; top:0; background:var(--pl); text-align:left; padding:10px 12px; font-weight:600; white-space:nowrap; }
+.hq-matrix td { padding:9px 12px; border-bottom:1px solid var(--line); color:var(--t2); }
+.hq-feats { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+.hq-feat { background:#fff; border-radius:14px; padding:16px 18px; box-shadow:0 4px 14px rgba(0,60,110,.05); }
+.hq-flows { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.hq-flow { background:#fff; border-radius:16px; padding:18px 20px; box-shadow:0 4px 14px rgba(0,60,110,.05); }
+.hq-flow h3 { font-size:16px; margin-bottom:10px; }
+.hq-flow li { color:var(--t2); margin-left:18px; }
+.hq-foot { text-align:center; color:var(--t3); font-size:12px; padding:48px 0 40px; }
+@media (max-width:900px) {
+  .hq-nav { padding:0 16px; height:auto; min-height:60px; flex-wrap:wrap; }
+  .hq-kpis, .hq-roles, .hq-mods, .hq-feats, .hq-flows, .hq-plist { grid-template-columns:1fr 1fr; }
+  .hq-hero { padding:40px 16px 90px; } .hq-hero h1 { font-size:32px; }
+  .hq-sec, .hq-kpis { padding-left:16px; padding-right:16px; }
+}
+"""
+
+
 def build_index():
     order = [
         "电脑端 · 游客", "电脑端 · 学生", "电脑端 · 教职工", "电脑端 · 提醒接收人",
@@ -1534,6 +2158,8 @@ def build_index():
     current = None
     bucket = []
     for group, rel, title, desc, icon in ordered:
+        if rel.endswith("/chat.html"):
+            continue
         if group != current:
             if bucket:
                 groups.append((current, bucket))
@@ -1542,20 +2168,17 @@ def build_index():
         bucket.append((rel, title, desc, icon))
     if bucket:
         groups.append((current, bucket))
-    sections = []
+    mods = []
     for name, items in groups:
-        if len(items) % 2:
-            raise SystemExit("入口不是成对的：" + name)
-        cards = []
-        for rel, title, desc, icon in items:
-            cards.append(f"""
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="{rel}">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid {icon}"></i></span>
-  <span class="font-medium leading-snug">{title}</span>
-  <span class="text-sm leading-5 text-muted">{desc}</span>
-</a>""")
-        sections.append(f'<section class="mt-10"><h3 class="font-serif text-2xl text-ink">{name}</h3><div class="mt-4 grid grid-cols-2 gap-3">{"".join(cards)}</div></section>')
-
+        links = "".join(
+            f'<a class="hq-pl" href="{rel}"><i class="fa-solid {icon}"></i><span class="nm">{title}</span><span class="r">{desc}</span></a>'
+            for rel, title, desc, icon in items
+        )
+        mods.append(
+            f'<article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid {items[0][3]}"></i></span>'
+            f'<div><b>{name}</b><small>点击页面名称进入</small></div><span class="cnt">{len(items)} 页</span></div>'
+            f'<div class="hq-plist">{links}</div></article>'
+        )
     matrix = """
 <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
 <table class="w-full min-w-[880px] text-left text-sm">
@@ -1584,60 +2207,45 @@ def build_index():
 </div>
 """
     body = f"""
-<body class="bg-[#F5F7FA] text-inktext">
-<a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
-<main id="main" class="mx-auto max-w-6xl px-5 pb-10">
-  <section class="px-4 py-14 text-center">
-    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-2xl font-semibold text-white shadow-[0_10px_24px_rgba(48,135,204,.28)]">后</div>
-    <h1 class="mt-5 text-3xl font-semibold tracking-wide text-ink">智慧后勤AI助手 · 原型页面导航</h1>
-    <p class="mx-auto mt-4 max-w-3xl text-sm leading-7 text-muted">后勤保障部的办事原型。公开问题用知识库回答，能办理的事项按电脑或手机跳回原系统，会议由管理员录入后按工号提醒。</p>
-    <p class="mt-2 text-sm font-medium text-ink">电脑端、移动端、管理后台，按角色分开。</p>
-    <div class="mt-5 flex flex-wrap justify-center gap-2">
-      <span class="inline-flex h-9 items-center rounded-full bg-teal-50 px-4 text-sm text-brand">中南蓝 · 学工视觉</span>
-      <span id="health" class="inline-flex h-9 items-center rounded-full border border-[#C8CAD1] bg-white px-4 text-sm text-muted">正在检查问答服务</span>
-    </div>
-    <div class="mt-8 flex justify-center gap-12">
-      <p><b class="block text-4xl font-semibold text-brand num">59</b><span class="text-sm text-muted">HTML 页面</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">2</b><span class="text-sm text-muted">终端形态</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">5</b><span class="text-sm text-muted">使用角色</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">4</b><span class="text-sm text-muted">核心流程</span></p>
-    </div>
-  </section>
-  <p class="rounded-lg border border-[#95C6E3] bg-teal-50 px-4 py-3 text-sm leading-6 text-[#006DAD]">这些页面可点击跳转。真实问答需要本机运行 python3 server.py。密钥放在 .env，不写进页面。</p>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">01 角色和权限</h2>
-    <p class="mt-2 max-w-3xl text-sm leading-6 text-muted">演示时可以按这张表讲。知识维护人用李衡，审核人用周宁，避免自己审自己。周宁同时在会议提醒名单里。</p>
-    {matrix}
-    <div class="mt-4 grid grid-cols-2 gap-3">
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">林夏 · 学生</h3><p class="mt-2 text-sm leading-6 text-muted">计算机学院 2024 级。住宿演示数据为麓南校区升华学生公寓 7 栋 314，与知识库里的公寓位置一致。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">周宁 · 教职工</h3><p class="mt-2 text-sm leading-6 text-muted">后勤保障部，工号 T20190086，在岗。可以收会议提醒，也可以审核知识。</p></article>
-    </div>
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">02 功能清单和端口</h2>
-    <p class="mt-2 text-sm leading-6 text-muted">地址以《服务链接》的电脑段、手机段为准。游泳馆、水电费服务、宾馆、报刊这四个电脑地址打开时可能是 404，页面上会标成待复核。</p>
-    <div class="mt-4 grid grid-cols-2 gap-3">
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">两端都有地址</h3><ul class="mt-3 space-y-2 text-sm leading-6"><li>网上报修</li><li>服务监督</li><li>游泳馆预定</li></ul><p class="mt-3 text-xs text-muted">电脑和手机各用各的链接。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">只有手机地址</h3><p class="mt-3 text-sm leading-6">水电缴费，只对学生开放。电脑访问时说明原因并出示二维码。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">只有电脑地址</h3><ul class="mt-3 space-y-2 text-sm leading-6"><li>水电费服务（说明，不是缴费）</li><li>班车查询</li><li>校园宾馆、报刊订阅、失物招领</li></ul></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">没有单独地址</h3><p class="mt-3 text-sm leading-6">校园公告。两端都只说明，请看后勤保障部官网 <span class="break-all">{OFFICIAL_SITE}</span> 和公众号信息中心。</p></article>
-    </div>
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">03 四条流程</h2>
-    {flows}
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">04 进入页面</h2>
-    <p class="mt-2 text-sm leading-6 text-muted">每行两个入口。真实问答请用 <span class="num">python3 server.py</span> 打开本页，再从对话页提问。密钥放在本机 .env，不写在页面里。</p>
-    {''.join(sections)}
-  </section>
-</main>
-<footer class="mx-auto max-w-6xl px-5 py-8 text-xs leading-5 text-muted">热线 {HOTLINE} 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
+<style>{INDEX_CSS}</style>
+<body class="hq">
+<nav class="hq-nav"><a class="brand" href="index.html"><span class="mark">后</span>中南大学智慧后勤AI助手 · 原型导航</a>
+  <div class="links"><a href="#roles">角色与端口</a><a href="#pages">页面导航</a><a href="#matrix">权限矩阵</a><a href="#features">功能清单</a><a href="#flows">业务流程</a></div></nav>
+<header class="hq-hero"><div class="wrap">
+  <span class="tagline" id="health">正在检查问答服务</span>
+  <h1>智慧后勤AI助手</h1>
+  <p>公开问题用知识库回答，能办理的事项按电脑或手机跳回原系统，会议由管理员录入后按工号提醒。个人水电账单本期不查。</p>
+  <div class="loop"><span>智能问答</span><span>办事跳转</span><span>会议提醒</span><span>知识审核</span></div>
+</div></header>
+<div class="hq-kpis">
+  <div class="hq-kpi"><b>59</b><span>原型页面</span></div>
+  <div class="hq-kpi"><b>2</b><span>终端：电脑 + 手机</span></div>
+  <div class="hq-kpi"><b>5</b><span>使用角色</span></div>
+  <div class="hq-kpi"><b>4</b><span>核心流程</span></div>
+  <div class="hq-kpi"><b>8</b><span>电脑端正式地址</span></div>
+</div>
+<section class="hq-sec" id="roles"><div class="hq-st"><div><h2><i>01</i>角色与端口</h2><p>演示时按这张卡片讲。知识维护人李衡，审核人周宁。</p></div></div>
+<div class="hq-roles">
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#7AA7BE,#627079)"><h3>游客</h3><small>不登录 · 只看公开说明</small></div><div class="bd"><ul><li>查阅已公开的办事问答</li><li>办理前进入统一身份认证</li><li>不开放个人账单和会议提醒</li></ul><div class="hq-go"><a class="hq-btn" href="pc/guest/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/guest/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#3E8BFF,#0451EF)"><h3>学生 · 林夏</h3><small>计算机学院 · 麓南校区升华公寓</small></div><div class="bd"><ul><li>公开问答，并按学生身份办事</li><li>水电缴费只在手机办理</li><li>电脑上对缴费出示二维码</li></ul><div class="hq-go"><a class="hq-btn" href="pc/student/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/student/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#2A8DC7,#006DAD)"><h3>教职工 · 周宁</h3><small>后勤保障部 · 工号 T20190086</small></div><div class="bd"><ul><li>公开问答和已开放的办事入口</li><li>不出现学生水电缴费</li><li>在提醒名单内可回看会议</li></ul><div class="hq-go"><a class="hq-btn" href="pc/staff/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/staff/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#F7A64A,#E8801A)"><h3>提醒接收人</h3><small>按工号接收，正式通道是学校 ITS</small></div><div class="bd"><ul><li>回看已推送的会议提醒</li><li>默认会前 1 小时，只提醒一次</li><li>取消的会议不再推送</li></ul><div class="hq-go"><a class="hq-btn" href="pc/recipient/inbox.html">电脑端</a><a class="hq-btn ghost" href="mobile/recipient/inbox.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#1A7DBE,#006DAD)"><h3>业务管理员</h3><small>后勤领导指定 · 维护与审核分开</small></div><div class="bd"><ul><li>维护知识、分类、功能清单</li><li>知识须审核后前台才能引用</li><li>会议保存即生效，不做审批</li></ul><div class="hq-go"><a class="hq-btn" href="admin/dashboard.html">进入后台</a><a class="hq-btn ghost" href="admin/login.html">登录页</a></div></div></article>
+</div></section>
+<section class="hq-sec" id="pages"><div class="hq-st"><div><h2><i>02</i>页面导航</h2><p>每行两个功能模块，点击页面名称进入对应界面</p></div></div>
+<div class="hq-mods">{''.join(mods)}</div></section>
+<section class="hq-sec" id="matrix"><div class="hq-st"><div><h2><i>03</i>角色权限矩阵</h2><p>格子里写的是能做的事，不单靠颜色区分。</p></div></div>
+<div class="hq-card"><div class="hq-matrix">{matrix}</div></div></section>
+<section class="hq-sec" id="features"><div class="hq-st"><div><h2><i>04</i>功能清单</h2><p>地址以《服务链接》的电脑段、手机段为准。部分电脑地址打开时可能是 404，页面会标成待复核。</p></div></div>
+<div class="hq-feats">
+  <article class="hq-feat"><h3>两端都有地址</h3><p>网上报修、服务监督、游泳馆预定。电脑和手机各用各的链接。</p></article>
+  <article class="hq-feat"><h3>只有手机地址</h3><p>水电缴费，只对学生开放。电脑访问时说明原因并出示二维码。</p></article>
+  <article class="hq-feat"><h3>只有电脑地址</h3><p>水电费服务说明、班车查询、校园宾馆、报刊订阅、失物招领。</p></article>
+  <article class="hq-feat"><h3>没有单独地址</h3><p>校园公告。两端都只说明，请看后勤保障部官网 {OFFICIAL_SITE}。</p></article>
+</div></section>
+<section class="hq-sec" id="flows"><div class="hq-st"><div><h2><i>05</i>业务流程</h2><p>问答、跳转、会议提醒和知识审核</p></div></div>
+<div class="hq-flows">{flows}</div></section>
+<footer class="hq-foot">热线 {HOTLINE} 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
 <script>
 var apiOrigin = "{PUBLIC_API}";
 function apiUrl(path) {{

@@ -11,37 +11,152 @@
 tailwind.config = {
   theme: { extend: {
     colors: {
-      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
-      ink: "#3C444F",
-      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
-      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
-      mist: "#E3F1F9",
+      brand: { DEFAULT: "#006DAD", dark: "#0451EF", light: "#E3F1F9" },
+      ink: "#1E323F",
+      teal: { DEFAULT: "#2A8DC7", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#E8801A", 50: "#FFF8F0" },
+      mist: "#F3F7FB",
       card: "#FFFFFF",
-      inktext: "#3C444F",
-      muted: "#696F7D"
+      inktext: "#1E323F",
+      muted: "#627079"
     },
     fontFamily: {
       sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
       serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
     },
-    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+    borderRadius: { lg: "8px", xl: "12px", "2xl": "16px" }
   } }
 }
 </script>
 <style>
 :focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
-body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
-thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+body { background: #F3F7FB; color: #1E323F; font-family: "OPPOSans", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif; }
+thead.bg-mist, thead { background: #E3F1F9; color: #006DAD; }
+.bg-brand { background-image: linear-gradient(90deg, #2A8DC7, #006DAD); }
+.hq-nav-on { background: linear-gradient(90deg, #2A8DC7, #006DAD); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,109,173,.25); border-radius: 20px; }
+article.rounded-2xl, .rounded-2xl.bg-white, .rounded-2xl.border { box-shadow: 0 1px 5px rgba(45,47,51,.06); }
+.hq-stage { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 28px 0; background: radial-gradient(1200px 600px at 20% 0%, #DCE9FF 0%, transparent 60%), linear-gradient(180deg, #EAF1FB, #DCE6F2); }
+.hq-phone { width: 390px; height: min(844px, calc(100vh - 56px)); border-radius: 40px; background: #F0F6FF; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 0 11px #11151D, 0 0 0 12px #3A4150, 0 40px 90px rgba(16,37,104,.35); }
+.hq-phone .sky { position: absolute; left: 0; right: 0; top: 0; height: 180px; z-index: 0; background: linear-gradient(180deg, #2F6CFF 0%, #5E9CFF 70px, #B9D5FF 140px, rgba(240,246,255,0) 180px); pointer-events: none; }
+.hq-tabbar { flex-shrink: 0; height: 78px; background: #fff; border-radius: 26px 26px 0 0; display: grid; padding: 8px 6px 18px; position: relative; z-index: 5; box-shadow: 0 -6px 24px rgba(4,81,239,.08); }
+.hq-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; color: #627079; }
+.hq-tab.on { color: #0451EF; font-weight: 600; }
+.hq-tab .ti { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; }
+.hq-tab.on .ti { background: linear-gradient(135deg, #5BAEFF, #0451EF); color: #fff; box-shadow: 0 4px 10px rgba(4,81,239,.35); }
+@media (max-width: 767px) {
+  .hq-stage { padding: 0; background: #F0F6FF; }
+  .hq-phone { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
 .num { font-variant-numeric: tabular-nums; }
 .listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
 .is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
 @keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.hq-composer { position: relative; z-index: 6; overflow: visible; }
+.hq-tools { position: relative; z-index: 4; }
+.hq-entry-bar { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.hq-entry-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #C8E4F4;
+  background: #fff; color: #006DAD; font-size: 14px; font-weight: 600; line-height: 1;
+  cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 109, 173, .12);
+}
+.hq-entry-btn:hover { border-color: #2A8DC7; background: #E3F1F9; }
+.hq-entry-btn.is-on {
+  border-color: transparent; color: #fff;
+  background: linear-gradient(90deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .25);
+}
+.hq-entry-badge {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+  background: #E8801A; color: #fff; font-size: 11px; font-weight: 700;
+  line-height: 18px; text-align: center;
+}
+.hq-entry-btn.is-on .hq-entry-badge { background: #fff; color: #006DAD; }
+.hq-panel {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 5;
+  max-height: min(260px, 38vh); overflow: auto;
+  border: 1px solid #C8E4F4; border-radius: 16px; background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 109, 173, .12);
+}
+.hq-phone .hq-panel { max-height: 220px; }
+.hq-panel[hidden] { display: none !important; }
+.hq-panel-hd {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; padding: 12px 14px;
+  background: #fff; border-bottom: 1px solid #E3F1F9;
+}
+.hq-panel-title { margin: 0; font-size: 15px; font-weight: 700; color: #1E323F; }
+.hq-panel-sub { margin: 4px 0 0; font-size: 12px; line-height: 1.5; color: #627079; }
+.hq-panel-x {
+  flex: 0 0 auto; width: 32px; height: 32px; border: 0; border-radius: 999px;
+  background: #E3F1F9; color: #006DAD; cursor: pointer;
+}
+.hq-note, .hq-hist {
+  display: block; width: 100%; margin: 0; text-align: left; border: 0;
+  border-bottom: 1px solid #E3F1F9; background: #fff; padding: 12px 14px; cursor: pointer;
+}
+.hq-note:last-child, .hq-hist:last-child { border-bottom: 0; }
+.hq-note.is-unread { background: #F4FAFD; }
+.hq-note:hover, .hq-hist:hover { background: #F4FAFD; }
+.hq-note-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.hq-note-title, .hq-hist-q { font-size: 14px; font-weight: 600; color: #1E323F; line-height: 1.45; }
+.hq-note.is-unread .hq-note-title { color: #006DAD; }
+.hq-note.is-unread .hq-note-title::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px;
+  border-radius: 99px; background: #E8801A; box-shadow: 0 0 0 3px rgba(232, 128, 26, .18);
+}
+.hq-note-pills { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.hq-pill {
+  display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px;
+  border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 1;
+}
+.hq-pill.amber { background: #FFF8F0; color: #E8801A; }
+.hq-pill.teal, .hq-pill.brand { background: #E3F1F9; color: #006DAD; }
+.hq-pill.muted { background: #F3F7FB; color: #627079; }
+.hq-note-meta, .hq-hist-a, .hq-note-body { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; }
+.hq-note-meta, .hq-hist-a { color: #627079; }
+.hq-note-body { color: #1E323F; }
+.hq-phone .hq-entry-bar { display: grid; grid-template-columns: 1fr 1fr; }
+.hq-phone .hq-entry-btn { width: 100%; }
+.hq-ask-row { display: flex; align-items: flex-end; gap: 8px; }
+.hq-ask-row textarea { flex: 1 1 auto; min-width: 0; }
+.hq-mic {
+  position: relative; isolation: isolate; z-index: 1; align-self: center;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: 0 0 auto; border: 0; border-radius: 999px; color: #fff;
+  background: linear-gradient(145deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .28); cursor: pointer;
+  animation: hq-breathe 2.6s ease-in-out infinite;
+}
+.hq-mic i { position: relative; z-index: 1; font-size: 16px; }
+.hq-mic-ring {
+  position: absolute; inset: -2px; border-radius: 999px; pointer-events: none;
+  border: 2px solid rgba(42, 141, 199, .55); animation: hq-ripple 2.6s ease-out infinite;
+}
+.hq-mic-ring.d2 { animation-delay: 1.3s; }
+.hq-mic.is-on { animation-duration: 1.05s; box-shadow: 0 6px 16px rgba(0, 109, 173, .45); }
+.hq-mic.is-on .hq-mic-ring { animation-duration: 1.15s; border-color: rgba(0, 109, 173, .8); }
+.hq-voice-panel {
+  margin: 0 0 8px; padding: 8px 12px;
+  border: 1px solid #C8E4F4; border-radius: 12px; background: #F4FAFD;
+}
+.hq-voice-status { margin: 0; flex: 1; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #006DAD; }
+.hq-voice-row { display: flex; align-items: center; gap: 8px; }
+.hq-voice-hint { margin: 4px 0 0; font-size: 12px; line-height: 1.4; color: #627079; }
+.hq-voice-stop {
+  margin: 0; min-height: 32px; padding: 0 12px; flex: 0 0 auto; border-radius: 999px;
+  border: 1px solid #2A8DC7; background: #E3F1F9; color: #006DAD; font-size: 13px; cursor: pointer;
+}
+@keyframes hq-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes hq-ripple { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
 .bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
 .bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
-main:has(#thread) { overflow: hidden; }
-main:has(#thread) > div { min-height: 0; flex: 1; }
+main:has(#thread):not(:has(.hq-home)) { overflow: hidden; }
+main:has(#thread):not(:has(.hq-home)) > div { min-height: 0; flex: 1; }
 @media (min-width: 1024px) {
-  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+  main:has(#thread):not(:has(.hq-home)) { display: flex; flex-direction: column; height: 100%; }
+  body.hq-pc main:has(.hq-home) { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+  body.hq-pc main:has(.hq-home) > .hq-home { min-height: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -49,31 +164,98 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
 </style>
 </head>
 
-<body class="bg-[#F5F7FA] text-inktext">
-<a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
-<main id="main" class="mx-auto max-w-6xl px-5 pb-10">
-  <section class="px-4 py-14 text-center">
-    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-2xl font-semibold text-white shadow-[0_10px_24px_rgba(48,135,204,.28)]">后</div>
-    <h1 class="mt-5 text-3xl font-semibold tracking-wide text-ink">智慧后勤AI助手 · 原型页面导航</h1>
-    <p class="mx-auto mt-4 max-w-3xl text-sm leading-7 text-muted">后勤保障部的办事原型。公开问题用知识库回答，能办理的事项按电脑或手机跳回原系统，会议由管理员录入后按工号提醒。</p>
-    <p class="mt-2 text-sm font-medium text-ink">电脑端、移动端、管理后台，按角色分开。</p>
-    <div class="mt-5 flex flex-wrap justify-center gap-2">
-      <span class="inline-flex h-9 items-center rounded-full bg-teal-50 px-4 text-sm text-brand">中南蓝 · 学工视觉</span>
-      <span id="health" class="inline-flex h-9 items-center rounded-full border border-[#C8CAD1] bg-white px-4 text-sm text-muted">正在检查问答服务</span>
-    </div>
-    <div class="mt-8 flex justify-center gap-12">
-      <p><b class="block text-4xl font-semibold text-brand num">59</b><span class="text-sm text-muted">HTML 页面</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">2</b><span class="text-sm text-muted">终端形态</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">5</b><span class="text-sm text-muted">使用角色</span></p>
-      <p><b class="block text-4xl font-semibold text-brand num">4</b><span class="text-sm text-muted">核心流程</span></p>
-    </div>
-  </section>
-  <p class="rounded-lg border border-[#95C6E3] bg-teal-50 px-4 py-3 text-sm leading-6 text-[#006DAD]">这些页面可点击跳转。真实问答需要本机运行 python3 server.py。密钥放在 .env，不写进页面。</p>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">01 角色和权限</h2>
-    <p class="mt-2 max-w-3xl text-sm leading-6 text-muted">演示时可以按这张表讲。知识维护人用李衡，审核人用周宁，避免自己审自己。周宁同时在会议提醒名单里。</p>
-    
+<style>
+:root { --p:#006DAD; --p2:#2A8DC7; --pl:#E3F1F9; --m:#0451EF; --t1:#1E323F; --t2:#627079; --t3:#979FA6; --line:#E6EEF4; --bg:#F3F7FB; --red:#F43F51; --green:#0E9F63; --orange:#E8801A; }
+body.hq { font-family:"OPPOSans",-apple-system,"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",sans-serif; color:var(--t1); background:var(--bg); font-size:14px; line-height:1.6; }
+.hq a { color:inherit; text-decoration:none; }
+.hq-nav { position:sticky; top:0; z-index:20; height:60px; display:flex; align-items:center; gap:28px; padding:0 40px; background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+.hq-nav .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:16px; }
+.hq-nav .mark { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--p2),var(--p)); color:#fff; display:grid; place-items:center; font-weight:800; }
+.hq-nav .links { display:flex; gap:22px; margin-left:auto; color:var(--t2); flex-wrap:wrap; }
+.hq-nav .links a:hover { color:var(--p); }
+.hq-hero { position:relative; color:#fff; padding:64px 40px 120px; overflow:hidden; background:linear-gradient(115deg,rgba(0,70,130,.95) 0%,rgba(4,81,239,.82) 55%,rgba(42,141,199,.65) 100%),url(https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1800&h=700&q=70) center/cover; }
+.hq-hero .wrap { max-width:1240px; margin:0 auto; }
+.hq-hero .tagline { display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); border-radius:16px; padding:4px 14px; font-size:13px; }
+.hq-hero h1 { font-size:44px; letter-spacing:3px; margin:18px 0 10px; line-height:1.25; }
+.hq-hero p { font-size:16px; opacity:.9; max-width:760px; }
+.hq-hero .loop { display:flex; gap:10px; margin-top:26px; flex-wrap:wrap; }
+.hq-hero .loop span { background:rgba(255,255,255,.14); border-radius:20px; padding:6px 16px; }
+.hq-kpis { max-width:1240px; margin:-72px auto 0; position:relative; z-index:2; display:grid; grid-template-columns:repeat(5,1fr); gap:14px; padding:0 40px; }
+.hq-kpi { background:#fff; border-radius:16px; padding:18px 20px; box-shadow:0 12px 30px rgba(0,60,110,.08); }
+.hq-kpi b { display:block; font-size:30px; font-weight:800; color:var(--p); font-variant-numeric:tabular-nums; }
+.hq-kpi span { color:var(--t2); font-size:13px; }
+.hq-sec { max-width:1240px; margin:0 auto; padding:56px 40px 0; }
+.hq-st { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:20px; gap:16px; }
+.hq-st h2 { font-size:26px; display:flex; align-items:center; gap:10px; }
+.hq-st h2 i { font-style:normal; font-size:13px; color:#fff; background:linear-gradient(135deg,var(--p2),var(--p)); border-radius:8px; padding:2px 8px; }
+.hq-st p { color:var(--t2); margin-top:4px; }
+.hq-roles { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.hq-role { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 6px 20px rgba(0,60,110,.06); display:flex; flex-direction:column; }
+.hq-role .top { padding:22px; color:#fff; }
+.hq-role .top h3 { font-size:20px; margin-top:12px; }
+.hq-role .top small { opacity:.85; }
+.hq-role .bd { padding:18px 22px 22px; }
+.hq-role ul { list-style:none; display:grid; gap:8px; color:var(--t2); margin-bottom:16px; }
+.hq-go { display:flex; flex-wrap:wrap; gap:10px; }
+.hq-btn { height:38px; padding:0 16px; border-radius:19px; display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:13px; background:linear-gradient(90deg,var(--p2),var(--p)); color:#fff; }
+.hq-btn.ghost { background:#fff; color:var(--p); border:1px solid #CFE3F1; }
+.hq-mods { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.hq-mod { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 6px 20px rgba(0,60,110,.06); }
+.hq-mod .hd { display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line); }
+.hq-mod .hd .ic { width:38px; height:38px; border-radius:11px; display:grid; place-items:center; background:var(--pl); color:var(--p); }
+.hq-mod .hd b { font-size:17px; } .hq-mod .hd small { display:block; color:var(--t2); font-size:12px; }
+.hq-mod .hd .cnt { margin-left:auto; font-size:12px; color:var(--t2); background:var(--bg); padding:3px 10px; border-radius:10px; }
+.hq-plist { display:grid; grid-template-columns:1fr 1fr; gap:2px 16px; padding:8px 12px 16px; }
+.hq-pl { display:flex; align-items:center; gap:8px; padding:8px; border-radius:8px; font-size:13px; }
+.hq-pl:hover { background:var(--bg); }
+.hq-pl .nm { flex:1; min-width:0; } .hq-pl .r { font-size:11px; color:var(--t3); }
+.hq-card { background:#fff; border-radius:18px; padding:20px 22px; box-shadow:0 6px 20px rgba(0,60,110,.06); }
+.hq-matrix { max-height:640px; overflow:auto; border-radius:12px; border:1px solid var(--line); }
+.hq-matrix table { width:100%; border-collapse:collapse; }
+.hq-matrix th { position:sticky; top:0; background:var(--pl); text-align:left; padding:10px 12px; font-weight:600; white-space:nowrap; }
+.hq-matrix td { padding:9px 12px; border-bottom:1px solid var(--line); color:var(--t2); }
+.hq-feats { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+.hq-feat { background:#fff; border-radius:14px; padding:16px 18px; box-shadow:0 4px 14px rgba(0,60,110,.05); }
+.hq-flows { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.hq-flow { background:#fff; border-radius:16px; padding:18px 20px; box-shadow:0 4px 14px rgba(0,60,110,.05); }
+.hq-flow h3 { font-size:16px; margin-bottom:10px; }
+.hq-flow li { color:var(--t2); margin-left:18px; }
+.hq-foot { text-align:center; color:var(--t3); font-size:12px; padding:48px 0 40px; }
+@media (max-width:900px) {
+  .hq-nav { padding:0 16px; height:auto; min-height:60px; flex-wrap:wrap; }
+  .hq-kpis, .hq-roles, .hq-mods, .hq-feats, .hq-flows, .hq-plist { grid-template-columns:1fr 1fr; }
+  .hq-hero { padding:40px 16px 90px; } .hq-hero h1 { font-size:32px; }
+  .hq-sec, .hq-kpis { padding-left:16px; padding-right:16px; }
+}
+</style>
+<body class="hq">
+<nav class="hq-nav"><a class="brand" href="index.html"><span class="mark">后</span>中南大学智慧后勤AI助手 · 原型导航</a>
+  <div class="links"><a href="#roles">角色与端口</a><a href="#pages">页面导航</a><a href="#matrix">权限矩阵</a><a href="#features">功能清单</a><a href="#flows">业务流程</a></div></nav>
+<header class="hq-hero"><div class="wrap">
+  <span class="tagline" id="health">正在检查问答服务</span>
+  <h1>智慧后勤AI助手</h1>
+  <p>公开问题用知识库回答，能办理的事项按电脑或手机跳回原系统，会议由管理员录入后按工号提醒。个人水电账单本期不查。</p>
+  <div class="loop"><span>智能问答</span><span>办事跳转</span><span>会议提醒</span><span>知识审核</span></div>
+</div></header>
+<div class="hq-kpis">
+  <div class="hq-kpi"><b>59</b><span>原型页面</span></div>
+  <div class="hq-kpi"><b>2</b><span>终端：电脑 + 手机</span></div>
+  <div class="hq-kpi"><b>5</b><span>使用角色</span></div>
+  <div class="hq-kpi"><b>4</b><span>核心流程</span></div>
+  <div class="hq-kpi"><b>8</b><span>电脑端正式地址</span></div>
+</div>
+<section class="hq-sec" id="roles"><div class="hq-st"><div><h2><i>01</i>角色与端口</h2><p>演示时按这张卡片讲。知识维护人李衡，审核人周宁。</p></div></div>
+<div class="hq-roles">
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#7AA7BE,#627079)"><h3>游客</h3><small>不登录 · 只看公开说明</small></div><div class="bd"><ul><li>查阅已公开的办事问答</li><li>办理前进入统一身份认证</li><li>不开放个人账单和会议提醒</li></ul><div class="hq-go"><a class="hq-btn" href="pc/guest/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/guest/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#3E8BFF,#0451EF)"><h3>学生 · 林夏</h3><small>计算机学院 · 麓南校区升华公寓</small></div><div class="bd"><ul><li>公开问答，并按学生身份办事</li><li>水电缴费只在手机办理</li><li>电脑上对缴费出示二维码</li></ul><div class="hq-go"><a class="hq-btn" href="pc/student/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/student/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#2A8DC7,#006DAD)"><h3>教职工 · 周宁</h3><small>后勤保障部 · 工号 T20190086</small></div><div class="bd"><ul><li>公开问答和已开放的办事入口</li><li>不出现学生水电缴费</li><li>在提醒名单内可回看会议</li></ul><div class="hq-go"><a class="hq-btn" href="pc/staff/home.html">电脑端</a><a class="hq-btn ghost" href="mobile/staff/home.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#F7A64A,#E8801A)"><h3>提醒接收人</h3><small>按工号接收，正式通道是学校 ITS</small></div><div class="bd"><ul><li>回看已推送的会议提醒</li><li>默认会前 1 小时，只提醒一次</li><li>取消的会议不再推送</li></ul><div class="hq-go"><a class="hq-btn" href="pc/recipient/inbox.html">电脑端</a><a class="hq-btn ghost" href="mobile/recipient/inbox.html">手机端</a></div></div></article>
+  <article class="hq-role"><div class="top" style="background:linear-gradient(135deg,#1A7DBE,#006DAD)"><h3>业务管理员</h3><small>后勤领导指定 · 维护与审核分开</small></div><div class="bd"><ul><li>维护知识、分类、功能清单</li><li>知识须审核后前台才能引用</li><li>会议保存即生效，不做审批</li></ul><div class="hq-go"><a class="hq-btn" href="admin/dashboard.html">进入后台</a><a class="hq-btn ghost" href="admin/login.html">登录页</a></div></div></article>
+</div></section>
+<section class="hq-sec" id="pages"><div class="hq-st"><div><h2><i>02</i>页面导航</h2><p>每行两个功能模块，点击页面名称进入对应界面</p></div></div>
+<div class="hq-mods"><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>电脑端 · 游客</b><small>点击页面名称进入</small></div><span class="cnt">5 页</span></div><div class="hq-plist"><a class="hq-pl" href="pc/guest/home.html"><i class="fa-solid fa-house"></i><span class="nm">问答首页</span><span class="r">迎宾、热门问题，回答留在本页</span></a><a class="hq-pl" href="pc/guest/not-found.html"><i class="fa-solid fa-circle-info"></i><span class="nm">暂未收录</span><span class="r">知识库没有写到时的版式</span></a><a class="hq-pl" href="pc/guest/category.html"><i class="fa-solid fa-map"></i><span class="nm">办事说明</span><span class="r">四类公开说明，办理前要登录</span></a><a class="hq-pl" href="pc/guest/login.html"><i class="fa-solid fa-right-to-bracket"></i><span class="nm">统一认证</span><span class="r">演示学生或教职工身份</span></a><a class="hq-pl" href="pc/guest/listening.html"><i class="fa-solid fa-microphone"></i><span class="nm">聆听说明</span><span class="r">麦克风在输入框左侧</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>电脑端 · 学生</b><small>点击页面名称进入</small></div><span class="cnt">7 页</span></div><div class="hq-plist"><a class="hq-pl" href="pc/student/home.html"><i class="fa-solid fa-house"></i><span class="nm">学生首页</span><span class="r">登录后的欢迎，回答留在本页</span></a><a class="hq-pl" href="pc/student/services.html"><i class="fa-solid fa-table-cells-large"></i><span class="nm">学生办事</span><span class="r">八个电脑地址，外加缴费二维码</span></a><a class="hq-pl" href="pc/student/jump.html"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="nm">离开确认</span><span class="r">确认后打开这一端的正式地址</span></a><a class="hq-pl" href="pc/student/qrcode.html"><i class="fa-solid fa-qrcode"></i><span class="nm">缴费二维码</span><span class="r">电脑上看见手机缴费码</span></a><a class="hq-pl" href="pc/student/utility.html"><i class="fa-solid fa-bolt"></i><span class="nm">水电指引</span><span class="r">怎么缴、到哪里缴，用量待接口</span></a><a class="hq-pl" href="pc/student/profile.html"><i class="fa-solid fa-user"></i><span class="nm">学生身份</span><span class="r">只读的院系和住宿</span></a><a class="hq-pl" href="pc/student/listening.html"><i class="fa-solid fa-microphone"></i><span class="nm">聆听说明</span><span class="r">麦克风在输入框左侧</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>电脑端 · 教职工</b><small>点击页面名称进入</small></div><span class="cnt">5 页</span></div><div class="hq-plist"><a class="hq-pl" href="pc/staff/home.html"><i class="fa-solid fa-house"></i><span class="nm">教职工首页</span><span class="r">周宁的值班欢迎，回答留在本页</span></a><a class="hq-pl" href="pc/staff/services.html"><i class="fa-solid fa-table-cells-large"></i><span class="nm">教职工办事</span><span class="r">没有水电缴费二维码</span></a><a class="hq-pl" href="pc/staff/jump.html"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="nm">离开确认</span><span class="r">打开教职工可用的电脑地址</span></a><a class="hq-pl" href="pc/staff/profile.html"><i class="fa-solid fa-user"></i><span class="nm">教职工身份</span><span class="r">部门、工号和在岗情况</span></a><a class="hq-pl" href="pc/staff/listening.html"><i class="fa-solid fa-microphone"></i><span class="nm">聆听说明</span><span class="r">麦克风在输入框左侧</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-bell"></i></span><div><b>电脑端 · 提醒接收人</b><small>点击页面名称进入</small></div><span class="cnt">2 页</span></div><div class="hq-plist"><a class="hq-pl" href="pc/recipient/inbox.html"><i class="fa-solid fa-bell"></i><span class="nm">提醒列表</span><span class="r">ITS 推送之后可以回看</span></a><a class="hq-pl" href="pc/recipient/detail.html"><i class="fa-solid fa-calendar-day"></i><span class="nm">提醒详情</span><span class="r">一场会议的时间、地点和接收人</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>移动端 · 游客</b><small>点击页面名称进入</small></div><span class="cnt">5 页</span></div><div class="hq-plist"><a class="hq-pl" href="mobile/guest/home.html"><i class="fa-solid fa-house"></i><span class="nm">问答首页</span><span class="r">手机上提问，回答留在本页</span></a><a class="hq-pl" href="mobile/guest/not-found.html"><i class="fa-solid fa-circle-info"></i><span class="nm">暂未收录</span><span class="r">知识库没有写到时的版式</span></a><a class="hq-pl" href="mobile/guest/category.html"><i class="fa-solid fa-map"></i><span class="nm">办事说明</span><span class="r">四类公开说明，办理前要登录</span></a><a class="hq-pl" href="mobile/guest/login.html"><i class="fa-solid fa-right-to-bracket"></i><span class="nm">统一认证</span><span class="r">演示学生或教职工身份</span></a><a class="hq-pl" href="mobile/guest/listening.html"><i class="fa-solid fa-microphone"></i><span class="nm">聆听说明</span><span class="r">麦克风在输入框左侧</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>移动端 · 学生</b><small>点击页面名称进入</small></div><span class="cnt">7 页</span></div><div class="hq-plist"><a class="hq-pl" href="mobile/student/home.html"><i class="fa-solid fa-house"></i><span class="nm">学生首页</span><span class="r">手机欢迎，回答留在本页</span></a><a class="hq-pl" href="mobile/student/listening.html"><i class="fa-solid fa-microphone"></i><span class="nm">聆听说明</span><span class="r">麦克风在输入框左侧</span></a><a class="hq-pl" href="mobile/student/services.html"><i class="fa-solid fa-table-cells-large"></i><span class="nm">学生办事</span><span class="r">四个手机地址可办，五项改用电脑</span></a><a class="hq-pl" href="mobile/student/utility.html"><i class="fa-solid fa-bolt"></i><span class="nm">去缴纳</span><span class="r">手机上的缴费步骤和入口</span></a><a class="hq-pl" href="mobile/student/jump.html"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="nm">离开确认</span><span class="r">打开手机端正式地址</span></a><a class="hq-pl" href="mobile/student/guide.html"><i class="fa-solid fa-desktop"></i><span class="nm">电脑办理说明</span><span class="r">班车、宾馆、报刊、失物和公告</span></a><a class="hq-pl" href="mobile/student/profile.html"><i class="fa-solid fa-user"></i><span class="nm">学生身份</span><span class="r">手机上的只读资料</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-house"></i></span><div><b>移动端 · 教职工</b><small>点击页面名称进入</small></div><span class="cnt">5 页</span></div><div class="hq-plist"><a class="hq-pl" href="mobile/staff/home.html"><i class="fa-solid fa-house"></i><span class="nm">教职工首页</span><span class="r">手机上提问，回答留在本页</span></a><a class="hq-pl" href="mobile/staff/services.html"><i class="fa-solid fa-table-cells-large"></i><span class="nm">教职工办事</span><span class="r">只能办报修、监督和游泳馆</span></a><a class="hq-pl" href="mobile/staff/jump.html"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="nm">离开确认</span><span class="r">打开教职工的手机地址</span></a><a class="hq-pl" href="mobile/staff/guide.html"><i class="fa-solid fa-desktop"></i><span class="nm">电脑办理说明</span><span class="r">仅电脑事项的地址说明</span></a><a class="hq-pl" href="mobile/staff/profile.html"><i class="fa-solid fa-user"></i><span class="nm">教职工身份</span><span class="r">工号与会议提醒入口</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-bell"></i></span><div><b>移动端 · 提醒接收人</b><small>点击页面名称进入</small></div><span class="cnt">2 页</span></div><div class="hq-plist"><a class="hq-pl" href="mobile/recipient/inbox.html"><i class="fa-solid fa-bell"></i><span class="nm">提醒列表</span><span class="r">手机上的会议提醒</span></a><a class="hq-pl" href="mobile/recipient/detail.html"><i class="fa-solid fa-calendar-day"></i><span class="nm">提醒详情</span><span class="r">手机上的单场会议</span></a></div></article><article class="hq-mod"><div class="hd"><span class="ic"><i class="fa-solid fa-right-to-bracket"></i></span><div><b>管理后台</b><small>点击页面名称进入</small></div><span class="cnt">14 页</span></div><div class="hq-plist"><a class="hq-pl" href="admin/login.html"><i class="fa-solid fa-right-to-bracket"></i><span class="nm">管理员登录</span><span class="r">进入知识、清单和会议维护</span></a><a class="hq-pl" href="admin/dashboard.html"><i class="fa-solid fa-gauge"></i><span class="nm">运行总览</span><span class="r">待审知识、即将召开的会议</span></a><a class="hq-pl" href="admin/knowledge-list.html"><i class="fa-solid fa-book"></i><span class="nm">知识列表</span><span class="r">已发布的知识库和审核状态</span></a><a class="hq-pl" href="admin/knowledge-edit.html"><i class="fa-solid fa-pen"></i><span class="nm">编辑知识</span><span class="r">保存草稿，公开与内部分开</span></a><a class="hq-pl" href="admin/knowledge-review.html"><i class="fa-solid fa-clipboard-check"></i><span class="nm">审核知识</span><span class="r">通过后发布，或退回修改</span></a><a class="hq-pl" href="admin/categories.html"><i class="fa-solid fa-grip"></i><span class="nm">快捷分类</span><span class="r">报修、水电、班车、其他办事</span></a><a class="hq-pl" href="admin/catalog-list.html"><i class="fa-solid fa-list"></i><span class="nm">功能清单</span><span class="r">按终端列出正式地址</span></a><a class="hq-pl" href="admin/catalog-edit.html"><i class="fa-solid fa-pen-to-square"></i><span class="nm">编辑入口</span><span class="r">名称、对象、地址、终端和触发说法</span></a><a class="hq-pl" href="admin/meeting-list.html"><i class="fa-solid fa-calendar"></i><span class="nm">会议列表</span><span class="r">保存即生效，取消后不再提醒</span></a><a class="hq-pl" href="admin/meeting-edit.html"><i class="fa-solid fa-calendar-plus"></i><span class="nm">录入会议</span><span class="r">选择有工号的参会人</span></a><a class="hq-pl" href="admin/meeting-detail.html"><i class="fa-solid fa-calendar-day"></i><span class="nm">会议详情</span><span class="r">提醒时点和接收工号</span></a><a class="hq-pl" href="admin/recipients.html"><i class="fa-solid fa-users"></i><span class="nm">提醒名单</span><span class="r">工号、姓名和部门</span></a><a class="hq-pl" href="admin/avatar.html"><i class="fa-solid fa-user"></i><span class="nm">形象与语音</span><span class="r">迎宾、聆听和欢迎语试听</span></a><a class="hq-pl" href="admin/logs.html"><i class="fa-solid fa-clock-rotate-left"></i><span class="nm">操作日志</span><span class="r">发布、审核、下线和会议保存</span></a></div></article></div></section>
+<section class="hq-sec" id="matrix"><div class="hq-st"><div><h2><i>03</i>角色权限矩阵</h2><p>格子里写的是能做的事，不单靠颜色区分。</p></div></div>
+<div class="hq-card"><div class="hq-matrix">
 <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
 <table class="w-full min-w-[880px] text-left text-sm">
 <caption class="px-4 py-3 text-left text-xs text-muted">横向滑动可以看完所有列。格子里写的是能做的事，不单靠颜色区分。</caption>
@@ -91,333 +273,24 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
 <tr><th class="sticky left-0 bg-white px-3 py-3 font-medium">本人用量和欠费</th><td class="px-3 py-3">不开放</td><td class="px-3 py-3">待接口</td><td class="px-3 py-3">不开放</td><td class="px-3 py-3">不开放</td><td class="px-3 py-3">不涉及</td><td class="px-3 py-3">不涉及</td><td class="px-3 py-3">不涉及</td></tr>
 <tr><th class="sticky left-0 bg-white px-3 py-3 font-medium">会议提醒</th><td class="px-3 py-3">不开放</td><td class="px-3 py-3">不开放</td><td class="px-3 py-3">仅被点名的工号</td><td class="px-3 py-3">可回看</td><td class="px-3 py-3">不涉及</td><td class="px-3 py-3">不涉及</td><td class="px-3 py-3">录入即生效</td></tr>
 </tbody></table></div>
-
-    <div class="mt-4 grid grid-cols-2 gap-3">
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">林夏 · 学生</h3><p class="mt-2 text-sm leading-6 text-muted">计算机学院 2024 级。住宿演示数据为麓南校区升华学生公寓 7 栋 314，与知识库里的公寓位置一致。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">周宁 · 教职工</h3><p class="mt-2 text-sm leading-6 text-muted">后勤保障部，工号 T20190086，在岗。可以收会议提醒，也可以审核知识。</p></article>
-    </div>
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">02 功能清单和端口</h2>
-    <p class="mt-2 text-sm leading-6 text-muted">地址以《服务链接》的电脑段、手机段为准。游泳馆、水电费服务、宾馆、报刊这四个电脑地址打开时可能是 404，页面上会标成待复核。</p>
-    <div class="mt-4 grid grid-cols-2 gap-3">
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">两端都有地址</h3><ul class="mt-3 space-y-2 text-sm leading-6"><li>网上报修</li><li>服务监督</li><li>游泳馆预定</li></ul><p class="mt-3 text-xs text-muted">电脑和手机各用各的链接。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">只有手机地址</h3><p class="mt-3 text-sm leading-6">水电缴费，只对学生开放。电脑访问时说明原因并出示二维码。</p></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">只有电脑地址</h3><ul class="mt-3 space-y-2 text-sm leading-6"><li>水电费服务（说明，不是缴费）</li><li>班车查询</li><li>校园宾馆、报刊订阅、失物招领</li></ul></article>
-      <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">没有单独地址</h3><p class="mt-3 text-sm leading-6">校园公告。两端都只说明，请看后勤保障部官网 <span class="break-all">https://hqbzb.csu.edu.cn</span> 和公众号信息中心。</p></article>
-    </div>
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">03 四条流程</h2>
-    
+</div></div></section>
+<section class="hq-sec" id="features"><div class="hq-st"><div><h2><i>04</i>功能清单</h2><p>地址以《服务链接》的电脑段、手机段为准。部分电脑地址打开时可能是 404，页面会标成待复核。</p></div></div>
+<div class="hq-feats">
+  <article class="hq-feat"><h3>两端都有地址</h3><p>网上报修、服务监督、游泳馆预定。电脑和手机各用各的链接。</p></article>
+  <article class="hq-feat"><h3>只有手机地址</h3><p>水电缴费，只对学生开放。电脑访问时说明原因并出示二维码。</p></article>
+  <article class="hq-feat"><h3>只有电脑地址</h3><p>水电费服务说明、班车查询、校园宾馆、报刊订阅、失物招领。</p></article>
+  <article class="hq-feat"><h3>没有单独地址</h3><p>校园公告。两端都只说明，请看后勤保障部官网 https://hqbzb.csu.edu.cn。</p></article>
+</div></section>
+<section class="hq-sec" id="flows"><div class="hq-st"><div><h2><i>05</i>业务流程</h2><p>问答、跳转、会议提醒和知识审核</p></div></div>
+<div class="hq-flows">
 <div class="mt-4 grid grid-cols-2 gap-3">
   <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">问答</h3><ol class="mt-3 space-y-2 text-sm leading-6 text-muted"><li>1. 打开页面，可以不登录。</li><li>2. 提问后只查已审核知识库。</li><li>3. 查到了就回答，并给出这一端的入口。</li><li>4. 没查到就说暂未收录，并给出热线。</li></ol></article>
   <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">办事跳转</h3><ol class="mt-3 space-y-2 text-sm leading-6 text-muted"><li>1. 先看清单里有没有当前端口的地址。</li><li>2. 有地址就确认后离开助手。</li><li>3. 水电缴费在电脑上只出二维码。</li><li>4. 仅电脑事项在手机上展示地址。没有地址就只说明。</li></ol></article>
   <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">会议提醒</h3><ol class="mt-3 space-y-2 text-sm leading-6 text-muted"><li>1. 录入主题、时间、地点和有工号的人。</li><li>2. 保存即生效，本期不审批。</li><li>3. 默认会前 1 小时，可按单场改短。</li><li>4. 经 ITS 按工号推送一次。取消后不再推送。</li></ol></article>
   <article class="rounded-2xl bg-white p-4"><h3 class="font-medium">知识审核</h3><ol class="mt-3 space-y-2 text-sm leading-6 text-muted"><li>1. 维护人起草，公开和内部分开标记。</li><li>2. 提交后由另一人审核。</li><li>3. 通过才发布，前台才能引用。</li><li>4. 退回就修改。已发布的可以下线。</li></ol></article>
 </div>
-
-  </section>
-
-  <section class="mt-12">
-    <h2 class="font-serif text-3xl text-ink">04 进入页面</h2>
-    <p class="mt-2 text-sm leading-6 text-muted">每行两个入口。真实问答请用 <span class="num">python3 server.py</span> 打开本页，再从对话页提问。密钥放在本机 .env，不写在页面里。</p>
-    <section class="mt-10"><h3 class="font-serif text-2xl text-ink">电脑端 · 游客</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">问答首页</span>
-  <span class="text-sm leading-5 text-muted">迎宾、热门问题和输入</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">对话</span>
-  <span class="text-sm leading-5 text-muted">发送问题并得到知识库回答</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/not-found.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-circle-info"></i></span>
-  <span class="font-medium leading-snug">暂未收录</span>
-  <span class="text-sm leading-5 text-muted">知识库没有写到时的版式</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/category.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-map"></i></span>
-  <span class="font-medium leading-snug">办事说明</span>
-  <span class="text-sm leading-5 text-muted">四类公开说明，办理前要登录</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/login.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-right-to-bracket"></i></span>
-  <span class="font-medium leading-snug">统一认证</span>
-  <span class="text-sm leading-5 text-muted">演示学生或教职工身份</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/guest/listening.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-microphone"></i></span>
-  <span class="font-medium leading-snug">聆听</span>
-  <span class="text-sm leading-5 text-muted">麦克风或手写问题后发送</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">电脑端 · 学生</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">学生首页</span>
-  <span class="text-sm leading-5 text-muted">登录后的欢迎和住宿身份</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">学生对话</span>
-  <span class="text-sm leading-5 text-muted">回答后按电脑规则给入口</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/services.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-table-cells-large"></i></span>
-  <span class="font-medium leading-snug">学生办事</span>
-  <span class="text-sm leading-5 text-muted">八个电脑地址，外加缴费二维码</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/jump.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-  <span class="font-medium leading-snug">离开确认</span>
-  <span class="text-sm leading-5 text-muted">确认后打开这一端的正式地址</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/qrcode.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-qrcode"></i></span>
-  <span class="font-medium leading-snug">缴费二维码</span>
-  <span class="text-sm leading-5 text-muted">电脑上看见手机缴费码</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/utility.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bolt"></i></span>
-  <span class="font-medium leading-snug">水电指引</span>
-  <span class="text-sm leading-5 text-muted">怎么缴、到哪里缴，用量待接口</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/profile.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-user"></i></span>
-  <span class="font-medium leading-snug">学生身份</span>
-  <span class="text-sm leading-5 text-muted">只读的院系和住宿</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/student/listening.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-microphone"></i></span>
-  <span class="font-medium leading-snug">学生聆听</span>
-  <span class="text-sm leading-5 text-muted">听完送入学生对话</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">电脑端 · 教职工</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">教职工首页</span>
-  <span class="text-sm leading-5 text-muted">周宁的值班欢迎</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">教职工对话</span>
-  <span class="text-sm leading-5 text-muted">不出现学生缴费入口</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/services.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-table-cells-large"></i></span>
-  <span class="font-medium leading-snug">教职工办事</span>
-  <span class="text-sm leading-5 text-muted">没有水电缴费二维码</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/jump.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-  <span class="font-medium leading-snug">离开确认</span>
-  <span class="text-sm leading-5 text-muted">打开教职工可用的电脑地址</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/profile.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-user"></i></span>
-  <span class="font-medium leading-snug">教职工身份</span>
-  <span class="text-sm leading-5 text-muted">部门、工号和在岗情况</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/staff/listening.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-microphone"></i></span>
-  <span class="font-medium leading-snug">教职工聆听</span>
-  <span class="text-sm leading-5 text-muted">听完送入教职工对话</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">电脑端 · 提醒接收人</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/recipient/inbox.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bell"></i></span>
-  <span class="font-medium leading-snug">提醒列表</span>
-  <span class="text-sm leading-5 text-muted">ITS 推送之后可以回看</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="pc/recipient/detail.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-calendar-day"></i></span>
-  <span class="font-medium leading-snug">提醒详情</span>
-  <span class="text-sm leading-5 text-muted">一场会议的时间、地点和接收人</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">移动端 · 游客</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">问答首页</span>
-  <span class="text-sm leading-5 text-muted">手机上的迎宾和快捷问题</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">对话</span>
-  <span class="text-sm leading-5 text-muted">手机上的真实问答</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/not-found.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-circle-info"></i></span>
-  <span class="font-medium leading-snug">暂未收录</span>
-  <span class="text-sm leading-5 text-muted">知识库没有写到时的版式</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/category.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-map"></i></span>
-  <span class="font-medium leading-snug">办事说明</span>
-  <span class="text-sm leading-5 text-muted">四类公开说明，办理前要登录</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/login.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-right-to-bracket"></i></span>
-  <span class="font-medium leading-snug">统一认证</span>
-  <span class="text-sm leading-5 text-muted">演示学生或教职工身份</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/guest/listening.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-microphone"></i></span>
-  <span class="font-medium leading-snug">聆听</span>
-  <span class="text-sm leading-5 text-muted">手机上的聆听状态</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">移动端 · 学生</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">学生首页</span>
-  <span class="text-sm leading-5 text-muted">手机欢迎和快捷问题</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">学生对话</span>
-  <span class="text-sm leading-5 text-muted">手机上直接去缴纳或改用电脑</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/listening.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-microphone"></i></span>
-  <span class="font-medium leading-snug">学生聆听</span>
-  <span class="text-sm leading-5 text-muted">手机聆听后发送</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/services.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-table-cells-large"></i></span>
-  <span class="font-medium leading-snug">学生办事</span>
-  <span class="text-sm leading-5 text-muted">四个手机地址可办，五项改用电脑</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/utility.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bolt"></i></span>
-  <span class="font-medium leading-snug">去缴纳</span>
-  <span class="text-sm leading-5 text-muted">手机上的缴费步骤和入口</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/jump.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-  <span class="font-medium leading-snug">离开确认</span>
-  <span class="text-sm leading-5 text-muted">打开手机端正式地址</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/guide.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-desktop"></i></span>
-  <span class="font-medium leading-snug">电脑办理说明</span>
-  <span class="text-sm leading-5 text-muted">班车、宾馆、报刊、失物和公告</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/student/profile.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-user"></i></span>
-  <span class="font-medium leading-snug">学生身份</span>
-  <span class="text-sm leading-5 text-muted">手机上的只读资料</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">移动端 · 教职工</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/home.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-house"></i></span>
-  <span class="font-medium leading-snug">教职工首页</span>
-  <span class="text-sm leading-5 text-muted">手机上的教职工欢迎</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/chat.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
-  <span class="font-medium leading-snug">教职工对话</span>
-  <span class="text-sm leading-5 text-muted">手机上也不出现缴费</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/services.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-table-cells-large"></i></span>
-  <span class="font-medium leading-snug">教职工办事</span>
-  <span class="text-sm leading-5 text-muted">只能办报修、监督和游泳馆</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/jump.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-  <span class="font-medium leading-snug">离开确认</span>
-  <span class="text-sm leading-5 text-muted">打开教职工的手机地址</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/guide.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-desktop"></i></span>
-  <span class="font-medium leading-snug">电脑办理说明</span>
-  <span class="text-sm leading-5 text-muted">仅电脑事项的地址说明</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/staff/profile.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-user"></i></span>
-  <span class="font-medium leading-snug">教职工身份</span>
-  <span class="text-sm leading-5 text-muted">工号与会议提醒入口</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">移动端 · 提醒接收人</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/recipient/inbox.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bell"></i></span>
-  <span class="font-medium leading-snug">提醒列表</span>
-  <span class="text-sm leading-5 text-muted">手机上的会议提醒</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="mobile/recipient/detail.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-calendar-day"></i></span>
-  <span class="font-medium leading-snug">提醒详情</span>
-  <span class="text-sm leading-5 text-muted">手机上的单场会议</span>
-</a></div></section><section class="mt-10"><h3 class="font-serif text-2xl text-ink">管理后台</h3><div class="mt-4 grid grid-cols-2 gap-3">
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/login.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-right-to-bracket"></i></span>
-  <span class="font-medium leading-snug">管理员登录</span>
-  <span class="text-sm leading-5 text-muted">进入知识、清单和会议维护</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/dashboard.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-gauge"></i></span>
-  <span class="font-medium leading-snug">运行总览</span>
-  <span class="text-sm leading-5 text-muted">待审知识、即将召开的会议</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/knowledge-list.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-book"></i></span>
-  <span class="font-medium leading-snug">知识列表</span>
-  <span class="text-sm leading-5 text-muted">已发布的知识库和审核状态</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/knowledge-edit.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-pen"></i></span>
-  <span class="font-medium leading-snug">编辑知识</span>
-  <span class="text-sm leading-5 text-muted">保存草稿，公开与内部分开</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/knowledge-review.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-clipboard-check"></i></span>
-  <span class="font-medium leading-snug">审核知识</span>
-  <span class="text-sm leading-5 text-muted">通过后发布，或退回修改</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/categories.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-grip"></i></span>
-  <span class="font-medium leading-snug">快捷分类</span>
-  <span class="text-sm leading-5 text-muted">报修、水电、班车、其他办事</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/catalog-list.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-list"></i></span>
-  <span class="font-medium leading-snug">功能清单</span>
-  <span class="text-sm leading-5 text-muted">按终端列出正式地址</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/catalog-edit.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-pen-to-square"></i></span>
-  <span class="font-medium leading-snug">编辑入口</span>
-  <span class="text-sm leading-5 text-muted">名称、对象、地址、终端和触发说法</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/meeting-list.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-calendar"></i></span>
-  <span class="font-medium leading-snug">会议列表</span>
-  <span class="text-sm leading-5 text-muted">保存即生效，取消后不再提醒</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/meeting-edit.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-calendar-plus"></i></span>
-  <span class="font-medium leading-snug">录入会议</span>
-  <span class="text-sm leading-5 text-muted">选择有工号的参会人</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/meeting-detail.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-calendar-day"></i></span>
-  <span class="font-medium leading-snug">会议详情</span>
-  <span class="text-sm leading-5 text-muted">提醒时点和接收工号</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/recipients.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-users"></i></span>
-  <span class="font-medium leading-snug">提醒名单</span>
-  <span class="text-sm leading-5 text-muted">工号、姓名和部门</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/avatar.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-user"></i></span>
-  <span class="font-medium leading-snug">形象与语音</span>
-  <span class="text-sm leading-5 text-muted">迎宾、聆听和欢迎语试听</span>
-</a>
-<a class="flex min-h-28 flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-teal" href="admin/logs.html">
-  <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-clock-rotate-left"></i></span>
-  <span class="font-medium leading-snug">操作日志</span>
-  <span class="text-sm leading-5 text-muted">发布、审核、下线和会议保存</span>
-</a></div></section>
-  </section>
-</main>
-<footer class="mx-auto max-w-6xl px-5 py-8 text-xs leading-5 text-muted">热线 0731-88836000 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
+</div></section>
+<footer class="hq-foot">热线 0731-88836000 来自后勤服务知识库。收费和开放时间以现场公示为准。知识采集截止 2026 年 9 月 17 日。</footer>
 <script>
 var apiOrigin = "";
 function apiUrl(path) {

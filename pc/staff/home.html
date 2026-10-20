@@ -11,37 +11,152 @@
 tailwind.config = {
   theme: { extend: {
     colors: {
-      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
-      ink: "#3C444F",
-      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
-      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
-      mist: "#E3F1F9",
+      brand: { DEFAULT: "#006DAD", dark: "#0451EF", light: "#E3F1F9" },
+      ink: "#1E323F",
+      teal: { DEFAULT: "#2A8DC7", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#E8801A", 50: "#FFF8F0" },
+      mist: "#F3F7FB",
       card: "#FFFFFF",
-      inktext: "#3C444F",
-      muted: "#696F7D"
+      inktext: "#1E323F",
+      muted: "#627079"
     },
     fontFamily: {
       sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
       serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
     },
-    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+    borderRadius: { lg: "8px", xl: "12px", "2xl": "16px" }
   } }
 }
 </script>
 <style>
 :focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
-body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
-thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+body { background: #F3F7FB; color: #1E323F; font-family: "OPPOSans", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif; }
+thead.bg-mist, thead { background: #E3F1F9; color: #006DAD; }
+.bg-brand { background-image: linear-gradient(90deg, #2A8DC7, #006DAD); }
+.hq-nav-on { background: linear-gradient(90deg, #2A8DC7, #006DAD); color: #fff; font-weight: 600; box-shadow: 0 4px 12px rgba(0,109,173,.25); border-radius: 20px; }
+article.rounded-2xl, .rounded-2xl.bg-white, .rounded-2xl.border { box-shadow: 0 1px 5px rgba(45,47,51,.06); }
+.hq-stage { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 28px 0; background: radial-gradient(1200px 600px at 20% 0%, #DCE9FF 0%, transparent 60%), linear-gradient(180deg, #EAF1FB, #DCE6F2); }
+.hq-phone { width: 390px; height: min(844px, calc(100vh - 56px)); border-radius: 40px; background: #F0F6FF; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 0 11px #11151D, 0 0 0 12px #3A4150, 0 40px 90px rgba(16,37,104,.35); }
+.hq-phone .sky { position: absolute; left: 0; right: 0; top: 0; height: 180px; z-index: 0; background: linear-gradient(180deg, #2F6CFF 0%, #5E9CFF 70px, #B9D5FF 140px, rgba(240,246,255,0) 180px); pointer-events: none; }
+.hq-tabbar { flex-shrink: 0; height: 78px; background: #fff; border-radius: 26px 26px 0 0; display: grid; padding: 8px 6px 18px; position: relative; z-index: 5; box-shadow: 0 -6px 24px rgba(4,81,239,.08); }
+.hq-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; color: #627079; }
+.hq-tab.on { color: #0451EF; font-weight: 600; }
+.hq-tab .ti { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; }
+.hq-tab.on .ti { background: linear-gradient(135deg, #5BAEFF, #0451EF); color: #fff; box-shadow: 0 4px 10px rgba(4,81,239,.35); }
+@media (max-width: 767px) {
+  .hq-stage { padding: 0; background: #F0F6FF; }
+  .hq-phone { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
 .num { font-variant-numeric: tabular-nums; }
 .listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
 .is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
 @keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.hq-composer { position: relative; z-index: 6; overflow: visible; }
+.hq-tools { position: relative; z-index: 4; }
+.hq-entry-bar { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.hq-entry-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #C8E4F4;
+  background: #fff; color: #006DAD; font-size: 14px; font-weight: 600; line-height: 1;
+  cursor: pointer; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 109, 173, .12);
+}
+.hq-entry-btn:hover { border-color: #2A8DC7; background: #E3F1F9; }
+.hq-entry-btn.is-on {
+  border-color: transparent; color: #fff;
+  background: linear-gradient(90deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .25);
+}
+.hq-entry-badge {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px;
+  background: #E8801A; color: #fff; font-size: 11px; font-weight: 700;
+  line-height: 18px; text-align: center;
+}
+.hq-entry-btn.is-on .hq-entry-badge { background: #fff; color: #006DAD; }
+.hq-panel {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 5;
+  max-height: min(260px, 38vh); overflow: auto;
+  border: 1px solid #C8E4F4; border-radius: 16px; background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 109, 173, .12);
+}
+.hq-phone .hq-panel { max-height: 220px; }
+.hq-panel[hidden] { display: none !important; }
+.hq-panel-hd {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; padding: 12px 14px;
+  background: #fff; border-bottom: 1px solid #E3F1F9;
+}
+.hq-panel-title { margin: 0; font-size: 15px; font-weight: 700; color: #1E323F; }
+.hq-panel-sub { margin: 4px 0 0; font-size: 12px; line-height: 1.5; color: #627079; }
+.hq-panel-x {
+  flex: 0 0 auto; width: 32px; height: 32px; border: 0; border-radius: 999px;
+  background: #E3F1F9; color: #006DAD; cursor: pointer;
+}
+.hq-note, .hq-hist {
+  display: block; width: 100%; margin: 0; text-align: left; border: 0;
+  border-bottom: 1px solid #E3F1F9; background: #fff; padding: 12px 14px; cursor: pointer;
+}
+.hq-note:last-child, .hq-hist:last-child { border-bottom: 0; }
+.hq-note.is-unread { background: #F4FAFD; }
+.hq-note:hover, .hq-hist:hover { background: #F4FAFD; }
+.hq-note-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.hq-note-title, .hq-hist-q { font-size: 14px; font-weight: 600; color: #1E323F; line-height: 1.45; }
+.hq-note.is-unread .hq-note-title { color: #006DAD; }
+.hq-note.is-unread .hq-note-title::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px;
+  border-radius: 99px; background: #E8801A; box-shadow: 0 0 0 3px rgba(232, 128, 26, .18);
+}
+.hq-note-pills { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.hq-pill {
+  display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px;
+  border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 1;
+}
+.hq-pill.amber { background: #FFF8F0; color: #E8801A; }
+.hq-pill.teal, .hq-pill.brand { background: #E3F1F9; color: #006DAD; }
+.hq-pill.muted { background: #F3F7FB; color: #627079; }
+.hq-note-meta, .hq-hist-a, .hq-note-body { display: block; margin-top: 4px; font-size: 13px; line-height: 1.55; }
+.hq-note-meta, .hq-hist-a { color: #627079; }
+.hq-note-body { color: #1E323F; }
+.hq-phone .hq-entry-bar { display: grid; grid-template-columns: 1fr 1fr; }
+.hq-phone .hq-entry-btn { width: 100%; }
+.hq-ask-row { display: flex; align-items: flex-end; gap: 8px; }
+.hq-ask-row textarea { flex: 1 1 auto; min-width: 0; }
+.hq-mic {
+  position: relative; isolation: isolate; z-index: 1; align-self: center;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: 0 0 auto; border: 0; border-radius: 999px; color: #fff;
+  background: linear-gradient(145deg, #2A8DC7, #006DAD);
+  box-shadow: 0 4px 12px rgba(0, 109, 173, .28); cursor: pointer;
+  animation: hq-breathe 2.6s ease-in-out infinite;
+}
+.hq-mic i { position: relative; z-index: 1; font-size: 16px; }
+.hq-mic-ring {
+  position: absolute; inset: -2px; border-radius: 999px; pointer-events: none;
+  border: 2px solid rgba(42, 141, 199, .55); animation: hq-ripple 2.6s ease-out infinite;
+}
+.hq-mic-ring.d2 { animation-delay: 1.3s; }
+.hq-mic.is-on { animation-duration: 1.05s; box-shadow: 0 6px 16px rgba(0, 109, 173, .45); }
+.hq-mic.is-on .hq-mic-ring { animation-duration: 1.15s; border-color: rgba(0, 109, 173, .8); }
+.hq-voice-panel {
+  margin: 0 0 8px; padding: 8px 12px;
+  border: 1px solid #C8E4F4; border-radius: 12px; background: #F4FAFD;
+}
+.hq-voice-status { margin: 0; flex: 1; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #006DAD; }
+.hq-voice-row { display: flex; align-items: center; gap: 8px; }
+.hq-voice-hint { margin: 4px 0 0; font-size: 12px; line-height: 1.4; color: #627079; }
+.hq-voice-stop {
+  margin: 0; min-height: 32px; padding: 0 12px; flex: 0 0 auto; border-radius: 999px;
+  border: 1px solid #2A8DC7; background: #E3F1F9; color: #006DAD; font-size: 13px; cursor: pointer;
+}
+@keyframes hq-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes hq-ripple { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
 .bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
 .bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
-main:has(#thread) { overflow: hidden; }
-main:has(#thread) > div { min-height: 0; flex: 1; }
+main:has(#thread):not(:has(.hq-home)) { overflow: hidden; }
+main:has(#thread):not(:has(.hq-home)) > div { min-height: 0; flex: 1; }
 @media (min-width: 1024px) {
-  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+  main:has(#thread):not(:has(.hq-home)) { display: flex; flex-direction: column; height: 100%; }
+  body.hq-pc main:has(.hq-home) { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+  body.hq-pc main:has(.hq-home) > .hq-home { min-height: 0; flex: 1 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -49,20 +164,20 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
 </style>
 </head>
 
-<body class="min-h-screen bg-mist text-inktext">
+<body class="hq-pc min-h-screen bg-mist text-inktext">
 <a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
-<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5 text-inktext">
+<header class="sticky top-0 z-20 flex h-14 items-center justify-between px-5 text-white" style="background:linear-gradient(90deg,#1A7DBE 0%,#2A8DC7 100%)">
   <a href="../../index.html" class="flex items-center gap-3">
-    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
-    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-xs text-muted">智慧后勤AI助手</span></span>
+    <img src="../../assets/logo.png" alt="" class="h-9 w-9">
+    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-[10px] tracking-wide text-white/80">智慧后勤 AI 助手</span></span>
   </a>
   <div class="flex items-center gap-3 text-sm">
-    <span class="hidden text-muted sm:inline">周宁 · 教职工 · 后勤保障部</span>
-    <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-brand hover:bg-teal-50" href="../../index.html">返回导航</a>
+    <span class="hidden rounded-full border border-white/30 bg-white/15 px-3 py-1 sm:inline">周宁 · 教职工 · 后勤保障部</span>
+    <a class="rounded-full border border-white/40 px-3 py-1.5 hover:bg-white/15" href="../../index.html">返回导航</a>
   </div>
 </header>
 <div class="lg:grid lg:grid-cols-[240px_minmax(0,1fr)_300px] lg:h-[calc(100dvh-4rem)]">
-  <aside class="border-b border-slate-200 bg-white lg:overflow-y-auto lg:border-b-0 lg:border-r">
+  <aside class="border-b border-[#E3F1F9] lg:overflow-y-auto lg:border-b-0" style="background:linear-gradient(180deg,#CFEAFA 0%,#EEF8FE 38%,#FFFFFF 100%)">
     <div class="p-5">
 <div class="text-center">
   <div class="relative mx-auto h-24 w-24 ">
@@ -82,59 +197,473 @@ main:has(#thread) > div { min-height: 0; flex: 1; }
   </div>
   <p class="mt-2 text-xs text-muted">迎宾</p>
 </div></div>
-    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能"><a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm bg-teal-50 font-medium text-teal" href="home.html"><i class="fa-solid fa-house w-4"></i>问答首页</a>
-<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="chat.html"><i class="fa-solid fa-comments w-4"></i>对话</a>
-<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="listening.html"><i class="fa-solid fa-microphone w-4"></i>聆听</a>
-<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="services.html"><i class="fa-solid fa-table-cells-large w-4"></i>办事</a>
-<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="profile.html"><i class="fa-solid fa-user w-4"></i>我的</a></nav>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能"><a class="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 text-sm hq-nav-on" href="home.html"><i class="fa-solid fa-house w-4"></i>问答首页</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 text-sm text-inktext hover:bg-white/70" href="services.html"><i class="fa-solid fa-table-cells-large w-4"></i>办事</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 text-sm text-inktext hover:bg-white/70" href="profile.html"><i class="fa-solid fa-user w-4"></i>我的</a></nav>
   </aside>
-  <main id="main" class="min-h-0 lg:overflow-y-auto">
-<div class="p-5 lg:p-8">
-  
-  <p class="text-xs tracking-widest text-teal">后勤值班台</p>
-  <h1 class="mt-2 font-serif text-3xl text-ink lg:text-4xl">周宁老师，需要查哪一项后勤服务？</h1>
-  <p class="mt-3 max-w-xl text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。回答来自 2026 年 9 月 17 日截止的后勤服务知识库。</p>
-  <div class="mt-5 flex flex-wrap gap-2"><button type="button" data-ask="宿舍水龙头坏了怎么报修？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">报修</button>
+  <main id="main" class="flex min-h-0 flex-col lg:h-full lg:overflow-y-auto">
+<div class="hq-home flex min-h-full flex-1 flex-col">
+  <div class="hq-tools-slot shrink-0 px-5 pt-4 lg:px-6 lg:pt-5">
+<div class="hq-tools" data-role="home">
+  <div class="hq-entry-bar" role="toolbar" aria-label="消息和历史">
+    <button type="button" class="hq-entry-btn" id="hq-open-notice" aria-expanded="false" aria-controls="hq-notice-panel" aria-label="消息通知，未读 1 条">
+      <i class="fa-solid fa-bell" aria-hidden="true"></i><span>消息通知</span>
+      <span class="hq-entry-badge" id="hq-notice-count">1</span>
+    </button>
+    <button type="button" class="hq-entry-btn" id="hq-open-history" aria-expanded="false" aria-controls="hq-history-panel">
+      <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>历史对话</span>
+    </button>
+  </div>
+  <span id="hq-notice-live" class="sr-only" aria-live="polite"></span>
+  <section id="hq-notice-panel" class="hq-panel" hidden aria-labelledby="hq-notice-title">
+    <div class="hq-panel-hd">
+      <div>
+        <p class="hq-panel-title" id="hq-notice-title">消息通知</p>
+        <p class="hq-panel-sub">周宁的会议提醒。已取消的会议不会出现。</p>
+      </div>
+      <button type="button" class="hq-panel-x" data-hq-close="notice" aria-label="关闭消息通知"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div id="hq-notice-list"></div>
+  </section>
+  <section id="hq-history-panel" class="hq-panel" hidden aria-labelledby="hq-history-title">
+    <div class="hq-panel-hd">
+      <div>
+        <p class="hq-panel-title" id="hq-history-title">历史对话</p>
+        <p class="hq-panel-sub">点一条，问题和回答会回到本页对话区。</p>
+      </div>
+      <button type="button" class="hq-panel-x" data-hq-close="history" aria-label="关闭历史对话"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+    <div id="hq-history-list"></div>
+  </section>
+</div>
+</div>
+  <div class="shrink-0 px-5 pb-4 pt-3 lg:px-6 lg:pb-5">
+    <div class="rounded-2xl bg-white p-5 shadow-[0_1px_5px_rgba(45,47,51,.06)]">
+      <p class="text-xs font-medium text-brand">后勤值班台</p>
+      <h1 class="mt-2 text-3xl font-semibold text-ink">周宁老师，需要查哪一项后勤服务？</h1>
+      <p class="mt-3 max-w-xl text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。回答来自 2026 年 9 月 17 日截止的后勤服务知识库。</p>
+      <div class="mt-4 flex flex-wrap gap-2"><button type="button" data-ask="宿舍水龙头坏了怎么报修？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">报修</button>
 <button type="button" data-ask="学生水电费怎么缴纳？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">水电</button>
 <button type="button" data-ask="校区间班车怎么查询时刻？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">班车</button>
 <button type="button" data-ask="潇湘校区游泳馆什么时候开放？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">游泳馆</button></div>
-</div>
-
-<form id="ask-form" class="border-t border-slate-200 bg-white p-3">
+    </div>
+  </div>
+  <div id="thread" class="space-y-3 px-5 pb-4 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-6" aria-live="polite"></div>
+  <div class="mt-auto shrink-0">
+<form id="ask-form" class="hq-composer shrink-0 border-t border-slate-200 bg-white p-3">
   <label for="question" class="mb-2 block text-xs text-muted">你的问题</label>
-  <div class="flex items-end gap-2">
-    <a href="listening.html" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-teal" aria-label="改用语音"><i class="fa-solid fa-microphone"></i></a>
+  <div class="hq-voice-panel" id="hq-voice-panel" role="status" aria-live="polite" hidden>
+    <div class="hq-voice-row">
+      <p class="hq-voice-status" id="hq-voice-status">正在听，请说出你的问题</p>
+      <button type="button" class="hq-voice-stop" id="hq-mic-stop">说完了</button>
+    </div>
+    <p class="hq-voice-hint">文字会填进输入框，也可以手写。</p>
+  </div>
+  <div class="hq-ask-row" id="hq-voice">
+    <button type="button" class="hq-mic" id="hq-mic" aria-pressed="false" aria-expanded="false" aria-controls="hq-voice-panel" aria-label="语音提问" title="语音提问">
+      <span class="hq-mic-ring" aria-hidden="true"></span>
+      <span class="hq-mic-ring d2" aria-hidden="true"></span>
+      <i class="fa-solid fa-microphone" aria-hidden="true"></i>
+    </button>
     <textarea id="question" rows="2" class="min-h-11 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-base focus:border-teal" placeholder="例如：宿舍空调不制冷怎么办"></textarea>
     <button id="send" class="h-11 shrink-0 rounded-xl bg-brand px-4 text-sm font-medium text-white" type="submit">发送</button>
   </div>
   <p id="question-error" class="mt-1 min-h-5 text-sm text-red-800" role="alert"></p>
   <p class="text-xs text-muted">回答只依据已审核的后勤服务知识库。</p>
 </form>
-
-
 <script>
-document.querySelectorAll("[data-ask]").forEach(function (el) {
-  el.addEventListener("click", function () {
-    sessionStorage.setItem("hq-question", el.getAttribute("data-ask"));
-    location.href = "chat.html";
-  });
-});
-var form = document.querySelector("#ask-form");
-if (form) {
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    var input = document.querySelector("#question");
-    var error = document.querySelector("#question-error");
-    var question = input.value.trim();
-    if (!question) {
-      error.textContent = "请先写下你的问题。";
+(function () {
+  var form = document.querySelector("#ask-form");
+  var input = document.querySelector("#question");
+  var root = document.querySelector("#hq-voice");
+  var btn = document.querySelector("#hq-mic");
+  var panel = document.querySelector("#hq-voice-panel");
+  var status = document.querySelector("#hq-voice-status");
+  var stopBtn = document.querySelector("#hq-mic-stop");
+  var icon = btn ? btn.querySelector("i") : null;
+  if (!form || !input || !root || !btn || !panel || !status || !stopBtn) return;
+  var Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var hear = null;
+  var want = false;
+
+  function show(recording, message) {
+    if (message) status.textContent = message;
+    root.classList.add("is-open");
+    btn.classList.toggle("is-on", !!recording);
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-pressed", recording ? "true" : "false");
+    btn.setAttribute("aria-label", recording ? "停止聆听" : "语音提问");
+    if (icon) icon.className = recording ? "fa-solid fa-microphone-lines" : "fa-solid fa-microphone";
+    panel.hidden = false;
+    stopBtn.textContent = recording ? "说完了" : "知道了";
+  }
+  function close() {
+    want = false;
+    if (hear) { try { hear.stop(); } catch (error) {} }
+    root.classList.remove("is-open");
+    btn.classList.remove("is-on");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-pressed", "false");
+    btn.setAttribute("aria-label", "语音提问");
+    if (icon) icon.className = "fa-solid fa-microphone";
+    panel.hidden = true;
+  }
+  function ensure() {
+    if (hear || !Speech) return;
+    hear = new Speech();
+    hear.lang = "zh-CN";
+    hear.continuous = true;
+    hear.interimResults = true;
+    hear.onresult = function (event) {
+      if (!want) return;
+      var text = "";
+      for (var i = 0; i < event.results.length; i++) text += event.results[i][0].transcript;
+      if (text) input.value = text;
+    };
+    hear.onerror = function (event) {
+      var code = event.error || "";
+      if (code === "aborted" || code === "no-speech") {
+        if (code === "no-speech") status.textContent = "没有听到声音，请再说一次或手写。";
+        return;
+      }
+      want = false;
+      if (hear) { try { hear.stop(); } catch (error) {} }
+        if (code === "not-allowed" || code === "service-not-allowed") {
+        show(false, "没有麦克风权限，请在输入框里手写。");
+      } else {
+        show(false, "麦克风暂时不可用，请在输入框里手写。");
+      }
+      input.focus();
+    };
+    hear.onend = function () {
+      if (!want) return;
+      try { hear.start(); } catch (error) {}
+    };
+  }
+  function start() {
+    if (!Speech) {
+      want = false;
+      show(false, "当前浏览器不能使用麦克风，请手写。");
       input.focus();
       return;
     }
-    sessionStorage.setItem("hq-question", question);
-    location.href = "chat.html";
+    want = true;
+    ensure();
+    show(true, "正在听，请说出你的问题");
+    try { hear.start(); }
+    catch (error) {
+      want = false;
+      show(false, "麦克风暂时不可用，请在输入框里手写。");
+      input.focus();
+    }
+  }
+  btn.addEventListener("click", function () {
+    if (!panel.hidden) close();
+    else start();
   });
-}
+  stopBtn.addEventListener("click", close);
+  form.addEventListener("submit", close);
+  document.querySelectorAll("[data-ask]").forEach(function (el) {
+    el.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !panel.hidden) close();
+  });
+})();
+</script></div>
+</div>
+
+<script>
+(function () {
+  var role = "staff";
+  var notices = [{"id": "weekly", "title": "后勤周例会", "meta": "2026-10-22 09:00 · 本部后勤楼 3楼", "body": "提醒接收人周宁（工号 T20190086）。这场会议目前待提醒。", "tag": "待提醒", "tone": "amber", "unread": true}, {"id": "portal", "title": "门户挂载确认会", "meta": "2026-10-18 15:00", "body": "已按设定时点送出提醒。", "tag": "已提醒", "tone": "teal", "unread": false}];
+  var presets = [{"q": "宿舍水龙头坏了怎么报修？", "a": "宿舍水龙头可以报修，也可以拨打后勤服务热线 0731-88836000，全天有人值班。"}, {"q": "潇湘校区游泳馆什么时候开放？", "a": "潇湘校区游泳馆周二至周日开放，周一闭馆。"}];
+  var thread = document.querySelector("#thread");
+  var noticeBtn = document.querySelector("#hq-open-notice");
+  var historyBtn = document.querySelector("#hq-open-history");
+  var noticePanel = document.querySelector("#hq-notice-panel");
+  var historyPanel = document.querySelector("#hq-history-panel");
+  var noticeList = document.querySelector("#hq-notice-list");
+  var historyList = document.querySelector("#hq-history-list");
+  var badge = document.querySelector("#hq-notice-count");
+  var live = document.querySelector("#hq-notice-live");
+  if (!thread || !noticeBtn || !historyBtn || !noticePanel || !historyPanel || !noticeList || !historyList || !badge) return;
+  var readKey = "hq-notice-read-" + role;
+  var histKey = "hq-history-live-" + role;
+  var readIds = loadJson(readKey, []);
+  var saved = loadJson(histKey, []);
+  var liveRows = saved.filter(function (item) {
+    return item && typeof item.q === "string" && typeof item.a === "string" && item.q && item.a;
+  }).map(function (item) { return { q: item.q, a: item.a, live: true }; });
+
+  function loadJson(key, fallback) {
+    try {
+      var parsed = JSON.parse(sessionStorage.getItem(key) || "");
+      return Array.isArray(parsed) ? parsed : fallback;
+    } catch (error) { return fallback; }
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+  function isUnread(item) {
+    return !!item.unread && readIds.indexOf(item.id) === -1;
+  }
+  function unreadCount() {
+    var count = 0;
+    notices.forEach(function (item) { if (isUnread(item)) count += 1; });
+    return count;
+  }
+  function paintBadge(announce) {
+    var count = unreadCount();
+    badge.hidden = count < 1;
+    badge.textContent = String(count);
+    noticeBtn.setAttribute("aria-label", count > 0 ? "消息通知，未读 " + count + " 条" : "消息通知，没有未读");
+    if (announce && live) live.textContent = count > 0 ? "未读 " + count + " 条" : "没有未读通知";
+  }
+  function renderNotices(focusId) {
+    noticeList.innerHTML = notices.map(function (item) {
+      var unread = isUnread(item);
+      return '<button type="button" class="hq-note' + (unread ? " is-unread" : "") + '" data-id="' + escapeHtml(item.id) + '">' +
+        '<span class="hq-note-top"><span class="hq-note-title">' + escapeHtml(item.title) + "</span>" +
+        '<span class="hq-note-pills"><span class="hq-pill ' + escapeHtml(item.tone || "muted") + '">' + escapeHtml(item.tag) + "</span>" +
+        '<span class="hq-pill ' + (unread ? "amber" : "muted") + '">' + (unread ? "未读" : "已读") + "</span></span></span>" +
+        '<span class="hq-note-meta">' + escapeHtml(item.meta) + "</span>" +
+        '<span class="hq-note-body">' + escapeHtml(item.body) + "</span></button>";
+    }).join("");
+    noticeList.querySelectorAll(".hq-note").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        if (id && readIds.indexOf(id) === -1) {
+          readIds.push(id);
+          try { sessionStorage.setItem(readKey, JSON.stringify(readIds)); } catch (error) {}
+        }
+        renderNotices(id);
+        paintBadge(true);
+      });
+    });
+    if (focusId) {
+      var again = noticeList.querySelector('[data-id="' + focusId + '"]');
+      if (again) again.focus();
+    }
+  }
+  function preview(text) {
+    var line = String(text).replace(/\s+/g, " ").trim();
+    return line.length > 46 ? line.slice(0, 46) + "…" : line;
+  }
+  function allHistory() {
+    return liveRows.concat(presets);
+  }
+  function renderHistory() {
+    historyList.innerHTML = allHistory().map(function (item, index) {
+      return '<button type="button" class="hq-hist" data-index="' + index + '">' +
+        '<span class="hq-note-top"><span class="hq-hist-q">' + escapeHtml(item.q) + "</span>" +
+        '<span class="hq-pill ' + (item.live ? "teal" : "muted") + '">' + (item.live ? "本次会话" : "演示") + "</span></span>" +
+        '<span class="hq-hist-a">' + escapeHtml(preview(item.a)) + "</span></button>";
+    }).join("");
+    historyList.querySelectorAll(".hq-hist").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var item = allHistory()[Number(btn.getAttribute("data-index"))];
+        if (item) fillThread(item.q, item.a);
+      });
+    });
+  }
+  function fillThread(question, answer) {
+    thread.innerHTML = "";
+    var user = document.createElement("div");
+    user.className = "flex justify-end";
+    user.innerHTML = '<div class="bubble-user max-w-[86%] px-4 py-3 text-sm leading-6">' + escapeHtml(question) + "</div>";
+    var bot = document.createElement("div");
+    bot.className = "flex justify-start";
+    bot.innerHTML = '<div class="bubble-bot max-w-[92%] px-4 py-3 text-sm leading-6">' +
+      '<p class="mb-2 text-xs font-medium text-teal"><i class="fa-solid fa-clock-rotate-left mr-1" aria-hidden="true"></i>历史对话</p>' +
+      '<div class="whitespace-pre-wrap">' + escapeHtml(answer) + "</div></div>";
+    thread.appendChild(user);
+    thread.appendChild(bot);
+    setOpen("");
+    if (user.scrollIntoView) user.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }
+  function setOpen(which) {
+    noticePanel.hidden = which !== "notice";
+    historyPanel.hidden = which !== "history";
+    noticeBtn.classList.toggle("is-on", which === "notice");
+    historyBtn.classList.toggle("is-on", which === "history");
+    noticeBtn.setAttribute("aria-expanded", which === "notice" ? "true" : "false");
+    historyBtn.setAttribute("aria-expanded", which === "history" ? "true" : "false");
+  }
+  noticeBtn.addEventListener("click", function () {
+    setOpen(noticePanel.hidden ? "notice" : "");
+  });
+  historyBtn.addEventListener("click", function () {
+    setOpen(historyPanel.hidden ? "history" : "");
+  });
+  document.querySelectorAll("[data-hq-close]").forEach(function (el) {
+    el.addEventListener("click", function () { setOpen(""); });
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") setOpen("");
+  });
+  window.hqPushHistory = function (question, answer) {
+    question = String(question || "").trim();
+    answer = String(answer || "").trim();
+    if (!question || !answer) return;
+    liveRows.unshift({ q: question, a: answer, live: true });
+    if (liveRows.length > 20) liveRows.length = 20;
+    try { sessionStorage.setItem(histKey, JSON.stringify(liveRows)); } catch (error) {}
+    renderHistory();
+  };
+  renderNotices();
+  renderHistory();
+  paintBadge(false);
+})();
+</script>
+
+
+<script>
+(function () {
+  var ROLE = "staff";
+  var PORT = "pc";
+  var SERVICES = [{"id": "repair", "name": "网上报修", "summary": "宿舍和公共区域的日常零星维修。", "detail": "可报修家具、门锁、空调，以及建筑物公共部分的泥、木、水、电。也可以拨打后勤服务热线 0731-88836000，全天有人值班。报修单在原系统里填写，助手不保存单据。", "pc": "http://zhhq.csu.edu.cn/stu/repairHome.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/repairHome?app_id=5", "pc_review": false, "student_only": false}, {"id": "supervision", "name": "服务监督", "summary": "咨询、建议、意见和投诉。", "detail": "可在线提交监督，也可以拨打后勤服务热线 0731-88836000。饮食服务投诉电话是 88830704、88660418。", "pc": "http://zhhq.csu.edu.cn/stu/serviceSupGuide.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/supervisionPropose?app_id=6", "pc_review": false, "student_only": false}, {"id": "pool", "name": "游泳馆预定", "summary": "潇湘校区游泳馆，周二至周日开放。", "detail": "周一闭馆检修。下午场 12:00—15:00、15:00—17:00，晚场 19:00—21:00。可预约当日和次日，额满即止。学生单次 25 元，教职工及直系亲属单次 40 元，以现场公示为准。预约成功后凭学生证或工作证到前台缴费进场。服务热线 0731-88877959。", "pc": "https://hqbzb.csu.edu.cn/info/1021/13932.htm", "mobile": "https://zhhq.csu.edu.cn/wx/#/siterHome?app_id=36", "pc_review": true, "student_only": false}, {"id": "utility-info", "name": "水电费服务", "summary": "电脑上的水电说明页，不是缴费入口。", "detail": "岳麓山校区售水售电窗口在能源管理中心办公楼一楼服务大厅，电话 88836337。营业时间上午 8:00—12:00，下午 14:30—18:00。参考电价 0.619 元/度，水价 3.56 元/吨，以缴费平台显示为准。", "pc": "https://hqbzb.csu.edu.cn/hqfw/sdffw.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "shuttle", "name": "班车查询", "summary": "工作日校区通勤班车，时刻以系统当日公布为准。", "detail": "覆盖岳麓山、麓南、潇湘、天心、杏林、开福等校区。上车点包括岳麓山校区图书馆前坪、天心校区办公楼前坪、开福校区大门、杏林校区教学楼后栋停车坪。书面清单只给出电脑地址。", "pc": "https://wxxy.csu.edu.cn/site/shuttleBus/index?bus_id=2", "mobile": "", "pc_review": false, "student_only": false}, {"id": "hotel", "name": "校园宾馆服务", "summary": "来访住宿可联系学术交流中心。", "detail": "云麓学术交流中心电话 88876236，鸿业学术交流中心电话 82252226。电脑清单有说明页，手机清单没有单独地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bgff.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "newspaper", "name": "报刊订阅", "summary": "到所在校区收发室办理，或联系校本部收发室。", "detail": "每年 10 月征订下一年度报刊。校本部收发室 QQ 是 2065926071。手机清单没有单独办理地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bkdy.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "lost", "name": "失物招领", "summary": "失物招领平台。书面清单只提供电脑地址。", "detail": "也可以在中南 e 行里查看。食堂入口服务台可以帮你问一句。", "pc": "https://wxxy.csu.edu.cn/site/lostAndFound/index?tab=1", "mobile": "", "pc_review": false, "student_only": false}, {"id": "utility-pay", "name": "水电缴费", "summary": "只在手机上缴纳，支持 24 小时充值。", "detail": "打开「中南大学后勤保障部」公众号，进入服务中心、服务平台、水电缴费。注册并完成统一身份认证后，按校区、楼栋和房间绑定账户，再输入金额。支付成功后即时到账。本人用量和欠费本期不能查询。", "pc": "", "mobile": "https://znu-hip.csu.edu.cn/saas_wap/", "pc_review": false, "student_only": true}, {"id": "announcement", "name": "校园公告", "summary": "清单里没有单独地址。", "detail": "通知以后勤保障部官网的通知公告和微信公众号「中南大学后勤保障部」信息中心为准。官网地址是 https://hqbzb.csu.edu.cn 。", "pc": "", "mobile": "", "pc_review": false, "student_only": false}];
+  var API_ORIGIN = "";
+  function apiUrl(path) {
+    if (location.hostname === "127.0.0.1" || location.hostname === "localhost") return path;
+    return API_ORIGIN ? API_ORIGIN.replace(/\/$/, "") + path : path;
+  }
+  var thread = document.querySelector("#thread");
+  var form = document.querySelector("#ask-form");
+  var input = document.querySelector("#question");
+  var error = document.querySelector("#question-error");
+  var send = document.querySelector("#send");
+  var currentQuestion = "";
+
+  function findService(id) {
+    for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === id) return SERVICES[i];
+    return null;
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+  function actionFor(id) {
+    var item = findService(id);
+    if (!item || id === "none") return null;
+    if (ROLE === "guest") {
+      if (id === "announcement") return { kind: "note", text: "校园公告没有单独办理地址，请查看后勤保障部官网的通知公告。" };
+      return { kind: "link", href: "login.html", label: "登录后办理" };
+    }
+    if (item.student_only && ROLE !== "student") return { kind: "note", text: "水电缴费面向在校学生。教职工账号不提供缴费和账单。" };
+    var url = PORT === "pc" ? item.pc : item.mobile;
+    if (url) return { kind: "link", href: "jump.html?service=" + encodeURIComponent(id), label: "去办理" };
+    if (PORT === "pc" && id === "utility-pay") return { kind: "link", href: "qrcode.html", label: "查看手机办理二维码" };
+    if (PORT === "mobile" && item.pc) return { kind: "link", href: "guide.html?service=" + encodeURIComponent(id), label: "查看电脑办理说明" };
+    if (id === "announcement") {
+      return { kind: "link", href: PORT === "mobile" ? "guide.html?service=announcement" : "services.html#announcement", label: "查看出处说明" };
+    }
+    return null;
+  }
+  function reveal() {
+    var anchor = thread.lastElementChild || thread;
+    var rows = thread.children;
+    for (var i = rows.length - 1; i >= 0; i--) {
+      if (rows[i].querySelector && rows[i].querySelector(".bubble-user")) { anchor = rows[i]; break; }
+    }
+    if (anchor && anchor.scrollIntoView) anchor.scrollIntoView({ block: "start", inline: "nearest" });
+  }
+  function ask(question) {
+    currentQuestion = question;
+    var empty = document.querySelector("#empty-thread");
+    if (empty) empty.remove();
+    var user = document.createElement("div");
+    user.className = "flex justify-end";
+    user.innerHTML = '<div class="bubble-user max-w-[86%] px-4 py-3 text-sm leading-6">' + escapeHtml(question) + "</div>";
+    thread.appendChild(user);
+    var pending = document.createElement("div");
+    pending.className = "flex justify-start";
+    pending.innerHTML = '<div class="bubble-bot max-w-[86%] px-4 py-3 text-sm text-muted">正在查阅后勤服务知识库…</div>';
+    thread.appendChild(pending);
+    reveal();
+    send.disabled = true;
+    fetch(apiUrl("/api/chat"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: question, role: ROLE, port: PORT })
+    }).then(function (response) { return response.json(); }).then(function (data) {
+      pending.remove();
+      paint(data);
+    }).catch(function () {
+      pending.remove();
+      paint({ ok: false, answer: "暂时无法连接问答服务，请稍后重试。你也可以拨打后勤服务热线 0731-88836000。", covered: false, serviceId: "none" });
+    }).finally(function () { send.disabled = false; input.focus(); });
+  }
+  function paint(data) {
+    var action = actionFor(data.serviceId);
+    var tag = data.ok === false
+      ? '<p class="mb-2 text-xs font-medium text-[#8A5A12]"><i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>暂时无法生成回答</p>'
+      : (data.covered === false
+        ? '<p class="mb-2 text-xs font-medium text-[#8A5A12]"><i class="fa-solid fa-circle-info mr-1" aria-hidden="true"></i>暂未收录</p>'
+        : '<p class="mb-2 text-xs font-medium text-teal"><i class="fa-solid fa-book-open mr-1" aria-hidden="true"></i>来自后勤服务知识库</p>');
+    var extra = "";
+    if (action && action.kind === "link") {
+      extra = '<a class="mt-3 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white" href="' + action.href + '">' + escapeHtml(action.label) + "</a>";
+    } else if (action && action.kind === "note") {
+      extra = '<p class="mt-3 text-sm leading-6 text-muted">' + escapeHtml(action.text) + "</p>";
+    }
+    var node = document.createElement("div");
+    node.className = "flex justify-start";
+    node.innerHTML = '<div class="bubble-bot max-w-[92%] px-4 py-3 text-sm leading-6">' + tag +
+      '<div class="whitespace-pre-wrap">' + escapeHtml(data.answer || "") + "</div>" + extra +
+      '<div class="mt-3"><button type="button" class="speak min-h-11 text-sm text-teal"><i class="fa-solid fa-volume-high mr-1" aria-hidden="true"></i>朗读这段回答</button></div></div>';
+    node.querySelector(".speak").addEventListener("click", function () { speak(data.answer || ""); });
+    thread.appendChild(node);
+    if (data.ok !== false && typeof window.hqPushHistory === "function") {
+      window.hqPushHistory(currentQuestion, data.answer || "");
+    }
+    var rail = document.querySelector("#action-rail");
+    var item = findService(data.serviceId);
+    if (rail) {
+      if (!item || data.serviceId === "none") {
+        rail.innerHTML = "<p class=\"text-sm leading-6 text-muted\">这条回答没有单独的办理入口。需要人工时，请拨打 " + escapeHtml(data.hotline || "0731-88836000") + "。</p>";
+      } else {
+        rail.innerHTML = '<p class="text-xs text-muted">这一答对应的入口</p><h2 class="mt-1 text-lg font-medium">' + escapeHtml(item.name) + "</h2><p class=\"mt-2 text-sm leading-6 text-muted\">" + escapeHtml(item.summary) + "</p>" + extra;
+      }
+    }
+    reveal();
+  }
+  function speak(text) {
+    if (!window.speechSynthesis) {
+      error.textContent = "当前浏览器不能朗读，请直接阅读文字。";
+      return;
+    }
+    window.speechSynthesis.cancel();
+    var utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "zh-CN";
+    window.speechSynthesis.speak(utterance);
+  }
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var question = input.value.trim();
+    if (!question) { error.textContent = "请先写下你的问题。"; input.focus(); return; }
+    error.textContent = "";
+    input.value = "";
+    ask(question);
+  });
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); form.requestSubmit(); }
+  });
+  document.querySelectorAll("[data-ask]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var question = (el.getAttribute("data-ask") || "").trim();
+      if (!question) return;
+      error.textContent = "";
+      input.value = "";
+      ask(question);
+    });
+  });
+  var preset = sessionStorage.getItem("hq-question");
+  if (preset) { sessionStorage.removeItem("hq-question"); ask(preset); }
+})();
 </script>
 </main>
   <aside class="hidden h-full flex-col overflow-y-auto border-slate-200 bg-white p-5 lg:flex lg:border-l">
