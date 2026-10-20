@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提醒列表 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<header class="flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5">
+  <a href="../../index.html" class="font-semibold text-ink">中南大学 · 会议提醒</a>
+  <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-sm text-brand" href="../../index.html">返回导航</a>
+</header>
+<main id="main" class="mx-auto max-w-3xl">
+<div class="p-5 lg:p-8">
+  <p class="text-xs tracking-widest text-teal">学校 ITS 已按工号推送</p>
+  <h1 class="mt-2 font-serif text-3xl text-ink">会议提醒</h1>
+  <p class="mt-2 text-sm leading-6 text-muted">正式通道是学校消息。这一页展示接收人看到的内容，方便演示。同一会议只提醒一次。</p>
+  <div class="mt-5 space-y-3">
+    <a class="block rounded-2xl bg-white p-4 shadow-sm" href="detail.html">
+      <div class="flex items-center justify-between gap-3"><h2 class="font-medium">后勤周例会</h2><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">待提醒</span></div>
+      <p class="mt-2 text-sm text-muted num">2026-10-22 09:00 · 本部后勤楼 3 楼会议室</p>
+      <p class="mt-1 text-sm">会前 1 小时提醒周宁、赵衡、陈茉</p>
+    </a>
+    <article class="rounded-2xl bg-white p-4">
+      <div class="flex items-center justify-between"><h2 class="font-medium">门户挂载确认会</h2><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">已提醒</span></div>
+      <p class="mt-2 text-sm text-muted num">2026-10-18 15:00 · 已按设定时点送出</p>
+    </article>
+    <article class="rounded-2xl bg-white p-4 opacity-70">
+      <div class="flex items-center justify-between"><h2 class="font-medium">水电接口协调会</h2><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-mist text-inktext">已取消</span></div>
+      <p class="mt-2 text-sm text-muted">取消后不再提醒。</p>
+    </article>
+  </div>
+</div>
+</main>
+</body>
+</html>

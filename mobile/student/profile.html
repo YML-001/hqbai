@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学生身份 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="bg-mist text-inktext">
+<div class="mx-auto flex h-dvh w-full flex-col bg-mist md:my-6 md:h-[min(844px,calc(100dvh-3rem))] md:w-[420px] md:overflow-hidden md:rounded-2xl md:border md:border-[#C8CAD1] md:bg-white md:shadow-[0_8px_24px_rgba(48,135,204,.12)]">
+  <header class="flex h-14 shrink-0 items-center justify-between border-b border-[#C8CAD1] bg-white px-4">
+    <div><p class="text-sm font-semibold leading-none text-ink">中南大学</p><p class="mt-1 text-xs text-muted">林夏 · 学生 · 计算机学院</p></div>
+    <a class="rounded-lg bg-teal-50 px-3 py-2 text-xs text-brand" href="../../index.html">导航</a>
+  </header>
+  <main id="main" class="flex min-h-0 flex-1 flex-col overflow-y-auto">
+<div class="mx-auto max-w-xl p-5 lg:p-8">
+  <h1 class="font-serif text-3xl text-ink">我的身份</h1>
+  <p class="mt-2 text-sm leading-6 text-muted">住宿信息来自学校共享的学生住宿数据，只能查看。水电账户的绑定在水电系统里，这里不重复建一份。</p>
+  <dl class="mt-4 rounded-2xl bg-white px-4"><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">姓名</dt><dd class="text-right text-sm font-medium">林夏</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">学号</dt><dd class="text-right text-sm font-medium">820240118</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">身份</dt><dd class="text-right text-sm font-medium">学生</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">院系</dt><dd class="text-right text-sm font-medium">计算机学院</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">年级</dt><dd class="text-right text-sm font-medium">2024 级</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">校区 / 宿舍</dt><dd class="text-right text-sm font-medium">麓南校区升华学生公寓 7 栋 314</dd></div></dl>
+  
+  <a class="mt-4 block text-sm text-muted" href="../guest/home.html">退出演示身份</a>
+</div>
+</main>
+  
+  <nav class="grid shrink-0 border-t border-slate-200 bg-white" style="grid-template-columns:repeat(4,minmax(0,1fr))" aria-label="主导航"><a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="home.html"><i class="fa-solid fa-comments"></i><span>问答</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="services.html"><i class="fa-solid fa-table-cells-large"></i><span>办事</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="utility.html"><i class="fa-solid fa-bolt"></i><span>水电</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-teal" href="profile.html"><i class="fa-solid fa-user"></i><span>我的</span></a></nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>办事说明 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5 text-inktext">
+  <a href="../../index.html" class="flex items-center gap-3">
+    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-xs text-muted">智慧后勤AI助手</span></span>
+  </a>
+  <div class="flex items-center gap-3 text-sm">
+    <span class="hidden text-muted sm:inline">游客 · 未登录</span>
+    <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-brand hover:bg-teal-50" href="../../index.html">返回导航</a>
+  </div>
+</header>
+<div class="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:h-[calc(100dvh-4rem)]">
+  <aside class="border-b border-slate-200 bg-white lg:overflow-y-auto lg:border-b-0 lg:border-r">
+    <div class="p-5">
+<div class="text-center">
+  <div class="relative mx-auto h-24 w-24 ">
+    <span class="listen-ring"></span>
+    <svg viewBox="0 0 160 200" class="h-full w-full" role="img" aria-label="后勤值班人员迎宾形象">
+      <circle cx="80" cy="86" r="74" fill="#E7F4F5"/>
+      <path d="M18 200c8-42 28-62 62-62s54 20 62 62" fill="#10243A"/>
+      <path d="M62 132l18 22 18-22" fill="none" stroke="#146C74" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="80" cy="78" rx="30" ry="34" fill="#F4D7C8"/>
+      <path d="M50 76c2-36 22-48 30-48 10 0 30 12 30 48-8-16-18-22-30-22S58 60 50 76z" fill="#1C2834"/>
+      <circle cx="69" cy="80" r="2.2" fill="#1C2834"/>
+      <circle cx="91" cy="80" r="2.2" fill="#1C2834"/>
+      <path d="M70 96c4 5 16 5 20 0" fill="none" stroke="#9A5A48" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="98" y="158" width="26" height="16" rx="2" fill="#B86E2A"/>
+      <text x="111" y="169" text-anchor="middle" font-size="8" fill="#10243A">值班</text>
+    </svg>
+  </div>
+  <p class="mt-2 text-xs text-muted">迎宾</p>
+</div></div>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能"><a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="home.html"><i class="fa-solid fa-house w-4"></i>问答首页</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="chat.html"><i class="fa-solid fa-comments w-4"></i>对话</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm bg-teal-50 font-medium text-teal" href="category.html"><i class="fa-solid fa-map w-4"></i>办事说明</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="listening.html"><i class="fa-solid fa-microphone w-4"></i>聆听</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="login.html"><i class="fa-solid fa-right-to-bracket w-4"></i>登录</a></nav>
+  </aside>
+  <main id="main" class="min-h-0 lg:overflow-y-auto">
+<div class="p-5 lg:p-8">
+  <h1 class="font-serif text-3xl text-ink">公开办事说明</h1>
+  <p class="mt-2 max-w-2xl text-sm leading-6 text-muted">游客只能看已公开的说明。办理前需要通过中南大学统一身份认证，原型里用演示身份进入。</p>
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+<article class="rounded-2xl border border-slate-200 bg-white p-5">
+  <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+  <h2 class="mt-4 text-lg font-medium">报修</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">宿舍家具、门锁、空调，以及公共区域的泥木水电，都属于日常零星维修。可拨打 0731-88836000，登录后也能进入网上报修。</p>
+  <button type="button" data-ask="宿舍水龙头坏了怎么报修？" class="mt-4 min-h-11 rounded-lg border border-slate-300 px-4 text-sm">就此提问</button>
+</article>
+<article class="rounded-2xl border border-slate-200 bg-white p-5">
+  <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bolt"></i></span>
+  <h2 class="mt-4 text-lg font-medium">水电缴纳</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">学生在手机上缴费，路径是后勤公众号的服务中心。电脑不能直接缴，登录后会看到二维码。本人用量和欠费本期不能查。参考电价 0.619 元/度，水价 3.56 元/吨，以平台显示为准。</p>
+  <button type="button" data-ask="学生水电费怎么缴纳？" class="mt-4 min-h-11 rounded-lg border border-slate-300 px-4 text-sm">就此提问</button>
+</article>
+<article class="rounded-2xl border border-slate-200 bg-white p-5">
+  <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bus"></i></span>
+  <h2 class="mt-4 text-lg font-medium">班车</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">工作日有校区通勤班车。时刻以班车查询系统当日公布为准。书面清单只提供电脑地址，手机上会提示改用电脑。</p>
+  <button type="button" data-ask="校区间班车怎么查询时刻？" class="mt-4 min-h-11 rounded-lg border border-slate-300 px-4 text-sm">就此提问</button>
+</article>
+<article class="rounded-2xl border border-slate-200 bg-white p-5">
+  <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-ellipsis"></i></span>
+  <h2 class="mt-4 text-lg font-medium">其他办事</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">游泳馆、服务监督两端都能办。宾馆、报刊、失物招领目前按电脑地址提供。校园公告没有单独链接，请看后勤保障部官网通知。</p>
+  <button type="button" data-ask="潇湘校区游泳馆什么时候开放？" class="mt-4 min-h-11 rounded-lg border border-slate-300 px-4 text-sm">就此提问</button>
+</article></div>
+</div>
+<script>
+document.querySelectorAll("[data-ask]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    sessionStorage.setItem("hq-question", el.getAttribute("data-ask"));
+    location.href = "chat.html";
+  });
+});
+</script>
+</main>
+  
+</div>
+</body>
+</html>

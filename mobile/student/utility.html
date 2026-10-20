@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>去缴纳 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="bg-mist text-inktext">
+<div class="mx-auto flex h-dvh w-full flex-col bg-mist md:my-6 md:h-[min(844px,calc(100dvh-3rem))] md:w-[420px] md:overflow-hidden md:rounded-2xl md:border md:border-[#C8CAD1] md:bg-white md:shadow-[0_8px_24px_rgba(48,135,204,.12)]">
+  <header class="flex h-14 shrink-0 items-center justify-between border-b border-[#C8CAD1] bg-white px-4">
+    <div><p class="text-sm font-semibold leading-none text-ink">中南大学</p><p class="mt-1 text-xs text-muted">林夏 · 学生 · 计算机学院</p></div>
+    <a class="rounded-lg bg-teal-50 px-3 py-2 text-xs text-brand" href="../../index.html">导航</a>
+  </header>
+  <main id="main" class="flex min-h-0 flex-1 flex-col overflow-y-auto">
+<div class="p-5 lg:p-8">
+  <h1 class="font-serif text-3xl text-ink">水电怎么缴</h1>
+  <p class="mt-2 max-w-2xl text-sm leading-6 text-muted">本期只引导去哪里缴。本人用量、欠费和房间账单等水电接口确认后再做。</p>
+  <ol class="mt-6 space-y-3 text-sm leading-6">
+    <li class="rounded-2xl bg-white p-4"><span class="num text-teal">01</span> 打开「中南大学后勤保障部」公众号，进入服务中心、服务平台、水电缴费。</li>
+    <li class="rounded-2xl bg-white p-4"><span class="num text-teal">02</span> 注册手机号，再用统一身份认证关联学工信息。</li>
+    <li class="rounded-2xl bg-white p-4"><span class="num text-teal">03</span> 按校区、区域、楼栋、楼层、房间绑定账户，输入金额。成功后即时到账。</li>
+  </ol>
+  <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-6">
+    <p>参考单价：电 0.619 元/度，水 3.56 元/吨。这是平台示例，以缴费页面为准。</p>
+    <p class="mt-2">岳麓山校区窗口：能源管理中心办公楼一楼，电话 88836337。上午 8:00—12:00，下午 14:30—18:00。</p>
+  </div>
+  <div class="mt-4 flex flex-wrap gap-3"><a class="inline-flex min-h-11 items-center rounded-xl bg-brand px-5 text-sm text-white" href="jump.html?service=utility-pay">去缴纳</a><a class="inline-flex min-h-11 items-center rounded-xl border border-slate-300 bg-white px-5 text-sm" href="guide.html?service=utility-info">电脑上的说明页</a></div>
+  <button type="button" disabled class="mt-4 flex min-h-11 cursor-not-allowed items-center gap-2 rounded-xl bg-slate-200 px-4 text-sm text-slate-600" aria-disabled="true">
+    <i class="fa-solid fa-lock"></i> 查询本人用量和欠费 · 待接口确认
+  </button>
+</div>
+</main>
+  
+  <nav class="grid shrink-0 border-t border-slate-200 bg-white" style="grid-template-columns:repeat(4,minmax(0,1fr))" aria-label="主导航"><a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="home.html"><i class="fa-solid fa-comments"></i><span>问答</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="services.html"><i class="fa-solid fa-table-cells-large"></i><span>办事</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-teal" href="utility.html"><i class="fa-solid fa-bolt"></i><span>水电</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="profile.html"><i class="fa-solid fa-user"></i><span>我的</span></a></nav>
+</div>
+</body>
+</html>

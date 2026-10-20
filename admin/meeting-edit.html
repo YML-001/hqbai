@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>录入会议 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<div class="min-h-screen md:grid md:grid-cols-[220px_minmax(0,1fr)]">
+  <aside class="border-r border-[#C8CAD1] bg-white text-inktext md:min-h-screen">
+    <a href="../index.html" class="block px-5 py-5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+      <span class="mt-3 block font-semibold">中南大学</span>
+      <span class="mt-1 block text-xs text-muted">后勤业务管理</span>
+    </a>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 md:block md:space-y-1" aria-label="后台"><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="dashboard.html"><i class="fa-solid fa-gauge w-4"></i>总览</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="knowledge-list.html"><i class="fa-solid fa-book w-4"></i>知识库</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="knowledge-review.html"><i class="fa-solid fa-clipboard-check w-4"></i>审核</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="categories.html"><i class="fa-solid fa-grip w-4"></i>快捷分类</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="catalog-list.html"><i class="fa-solid fa-list w-4"></i>功能清单</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm bg-teal-50 font-medium text-brand" href="meeting-list.html"><i class="fa-solid fa-calendar w-4"></i>会议</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="recipients.html"><i class="fa-solid fa-users w-4"></i>提醒名单</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="avatar.html"><i class="fa-solid fa-user w-4"></i>形象与语音</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="logs.html"><i class="fa-solid fa-clock-rotate-left w-4"></i>操作日志</a></nav>
+  </aside>
+  <div class="min-w-0">
+    <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-5">
+      <h1 class="text-lg font-medium">录入会议</h1>
+      <div class="flex items-center gap-3 text-sm text-muted"><span>审核人 周宁</span><a class="text-teal" href="../index.html">返回导航</a></div>
+    </header>
+    <main id="main" class="p-5">
+<form id="meeting-form" class="max-w-2xl space-y-4 rounded-2xl bg-white p-5">
+  <div><label for="topic" class="text-sm">会议主题 <span class="text-red-800">*</span></label><input id="topic" class="mt-1 h-11 w-full rounded-lg border border-slate-300 px-3" placeholder="例如：节能工作布置会"><p id="topic-error" class="mt-1 text-sm text-red-800"></p></div>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div><label for="when" class="text-sm">开始时间 <span class="text-red-800">*</span></label><input id="when" type="datetime-local" class="mt-1 h-11 w-full rounded-lg border border-slate-300 px-3"><p id="when-error" class="mt-1 text-sm text-red-800"></p></div>
+    <div><label for="place" class="text-sm">地点 <span class="text-red-800">*</span></label><input id="place" class="mt-1 h-11 w-full rounded-lg border border-slate-300 px-3" placeholder="本部后勤楼"><p id="place-error" class="mt-1 text-sm text-red-800"></p></div>
+  </div>
+  <div><label for="ahead" class="text-sm">提前提醒（分钟）</label><input id="ahead" type="number" min="5" value="60" class="num mt-1 h-11 w-40 rounded-lg border border-slate-300 px-3"><p class="mt-1 text-xs text-muted">默认会前 1 小时，可按这一场改短。</p></div>
+  <div>
+    <label for="dept" class="text-sm">按部门筛选名单</label>
+    <select id="dept" class="mt-1 h-11 rounded-lg border border-slate-300 px-3"><option value="all">全部</option><option value="后勤保障部">后勤保障部</option><option value="能源管理中心">能源管理中心</option><option value="生活服务中心">生活服务中心</option></select>
+  </div>
+  <fieldset>
+    <legend class="text-sm">参会人（须有工号）</legend>
+    <label class="mt-2 flex min-h-11 items-center gap-2 text-sm" data-dept="后勤保障部"><input type="checkbox" name="person" value="周宁" checked> 周宁 · T20190086 · 后勤保障部</label>
+    <label class="flex min-h-11 items-center gap-2 text-sm" data-dept="能源管理中心"><input type="checkbox" name="person" value="赵衡"> 赵衡 · T20180021 · 能源管理中心</label>
+    <label class="flex min-h-11 items-center gap-2 text-sm" data-dept="生活服务中心"><input type="checkbox" name="person" value="陈茉"> 陈茉 · T20210044 · 生活服务中心</label>
+    <p id="person-error" class="mt-1 text-sm text-red-800"></p>
+  </fieldset>
+  <button class="min-h-11 rounded-xl bg-brand px-5 text-sm text-white" type="submit">保存并生效</button>
+</form>
+<script>
+document.querySelector("#dept").addEventListener("change", function () {
+  var value = this.value;
+  document.querySelectorAll("[data-dept]").forEach(function (row) {
+    row.hidden = value !== "all" && row.getAttribute("data-dept") !== value;
+  });
+});
+document.querySelector("#meeting-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  var ok = true;
+  [["#topic", "#topic-error", "请填写会议主题。"], ["#when", "#when-error", "请选择开始时间。"], ["#place", "#place-error", "请填写地点。"]].forEach(function (pair) {
+    var field = document.querySelector(pair[0]);
+    var error = document.querySelector(pair[1]);
+    if (!field.value.trim()) { error.textContent = pair[2]; ok = false; } else error.textContent = "";
+  });
+  var chosen = document.querySelectorAll('input[name="person"]:checked');
+  var personError = document.querySelector("#person-error");
+  if (!chosen.length) { personError.textContent = "请至少选择一位有工号的参会人。"; ok = false; } else personError.textContent = "";
+  if (!ok) return;
+  location.href = "meeting-list.html?done=saved&title=" + encodeURIComponent(document.querySelector("#topic").value.trim());
+});
+</script>
+</main>
+  </div>
+</div>
+
+</body>
+</html>

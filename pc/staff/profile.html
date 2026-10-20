@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教职工身份 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5 text-inktext">
+  <a href="../../index.html" class="flex items-center gap-3">
+    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-xs text-muted">智慧后勤AI助手</span></span>
+  </a>
+  <div class="flex items-center gap-3 text-sm">
+    <span class="hidden text-muted sm:inline">周宁 · 教职工 · 后勤保障部</span>
+    <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-brand hover:bg-teal-50" href="../../index.html">返回导航</a>
+  </div>
+</header>
+<div class="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:h-[calc(100dvh-4rem)]">
+  <aside class="border-b border-slate-200 bg-white lg:overflow-y-auto lg:border-b-0 lg:border-r">
+    <div class="p-5">
+<div class="text-center">
+  <div class="relative mx-auto h-24 w-24 ">
+    <span class="listen-ring"></span>
+    <svg viewBox="0 0 160 200" class="h-full w-full" role="img" aria-label="后勤值班人员迎宾形象">
+      <circle cx="80" cy="86" r="74" fill="#E7F4F5"/>
+      <path d="M18 200c8-42 28-62 62-62s54 20 62 62" fill="#10243A"/>
+      <path d="M62 132l18 22 18-22" fill="none" stroke="#146C74" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="80" cy="78" rx="30" ry="34" fill="#F4D7C8"/>
+      <path d="M50 76c2-36 22-48 30-48 10 0 30 12 30 48-8-16-18-22-30-22S58 60 50 76z" fill="#1C2834"/>
+      <circle cx="69" cy="80" r="2.2" fill="#1C2834"/>
+      <circle cx="91" cy="80" r="2.2" fill="#1C2834"/>
+      <path d="M70 96c4 5 16 5 20 0" fill="none" stroke="#9A5A48" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="98" y="158" width="26" height="16" rx="2" fill="#B86E2A"/>
+      <text x="111" y="169" text-anchor="middle" font-size="8" fill="#10243A">值班</text>
+    </svg>
+  </div>
+  <p class="mt-2 text-xs text-muted">迎宾</p>
+</div></div>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能"><a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="home.html"><i class="fa-solid fa-house w-4"></i>问答首页</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="chat.html"><i class="fa-solid fa-comments w-4"></i>对话</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="listening.html"><i class="fa-solid fa-microphone w-4"></i>聆听</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="services.html"><i class="fa-solid fa-table-cells-large w-4"></i>办事</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm bg-teal-50 font-medium text-teal" href="profile.html"><i class="fa-solid fa-user w-4"></i>我的</a></nav>
+  </aside>
+  <main id="main" class="min-h-0 lg:overflow-y-auto">
+<div class="mx-auto max-w-xl p-5 lg:p-8">
+  <h1 class="font-serif text-3xl text-ink">我的身份</h1>
+  <p class="mt-2 text-sm leading-6 text-muted">部门、工号和在岗情况来自人事共享数据，只能查看。会议提醒按工号投递，不使用手机号作为默认通道。</p>
+  <dl class="mt-4 rounded-2xl bg-white px-4"><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">姓名</dt><dd class="text-right text-sm font-medium">周宁</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">工号</dt><dd class="text-right text-sm font-medium">T20190086</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">身份</dt><dd class="text-right text-sm font-medium">教职工</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">部门</dt><dd class="text-right text-sm font-medium">后勤保障部</dd></div><div class="flex items-baseline justify-between gap-4 border-t border-slate-100 py-3"><dt class="text-sm text-muted">在岗情况</dt><dd class="text-right text-sm font-medium">在岗</dd></div></dl>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-xl border border-slate-300 bg-white px-4 text-sm" href="../recipient/inbox.html">查看我的会议提醒</a>
+  <a class="mt-4 block text-sm text-muted" href="../guest/home.html">退出演示身份</a>
+</div>
+</main>
+  
+</div>
+</body>
+</html>

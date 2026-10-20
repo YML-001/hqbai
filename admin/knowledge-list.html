@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>知识列表 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<div class="min-h-screen md:grid md:grid-cols-[220px_minmax(0,1fr)]">
+  <aside class="border-r border-[#C8CAD1] bg-white text-inktext md:min-h-screen">
+    <a href="../index.html" class="block px-5 py-5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+      <span class="mt-3 block font-semibold">中南大学</span>
+      <span class="mt-1 block text-xs text-muted">后勤业务管理</span>
+    </a>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 md:block md:space-y-1" aria-label="后台"><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="dashboard.html"><i class="fa-solid fa-gauge w-4"></i>总览</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm bg-teal-50 font-medium text-brand" href="knowledge-list.html"><i class="fa-solid fa-book w-4"></i>知识库</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="knowledge-review.html"><i class="fa-solid fa-clipboard-check w-4"></i>审核</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="categories.html"><i class="fa-solid fa-grip w-4"></i>快捷分类</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="catalog-list.html"><i class="fa-solid fa-list w-4"></i>功能清单</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="meeting-list.html"><i class="fa-solid fa-calendar w-4"></i>会议</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="recipients.html"><i class="fa-solid fa-users w-4"></i>提醒名单</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="avatar.html"><i class="fa-solid fa-user w-4"></i>形象与语音</a><a class="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-muted hover:bg-mist" href="logs.html"><i class="fa-solid fa-clock-rotate-left w-4"></i>操作日志</a></nav>
+  </aside>
+  <div class="min-w-0">
+    <header class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-5">
+      <h1 class="text-lg font-medium">知识列表</h1>
+      <div class="flex items-center gap-3 text-sm text-muted"><span>审核人 周宁</span><a class="text-teal" href="../index.html">返回导航</a></div>
+    </header>
+    <main id="main" class="p-5">
+<div id="banner" hidden class="mb-4 rounded-xl bg-teal-50 px-4 py-3 text-sm text-teal-700"></div>
+<div class="mb-4 flex flex-wrap gap-3">
+  <a class="inline-flex min-h-11 items-center rounded-xl bg-brand px-4 text-sm text-white" href="knowledge-edit.html">起草知识</a>
+  <a class="inline-flex min-h-11 items-center rounded-xl border border-slate-300 bg-white px-4 text-sm" href="knowledge-review.html">处理待审核</a>
+</div>
+<div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+  <table class="w-full min-w-[640px] text-left text-sm">
+    <thead class="bg-mist text-muted"><tr><th class="px-4 py-3 font-medium">标题</th><th class="px-4 py-3 font-medium">状态</th><th class="px-4 py-3 font-medium">可见性</th><th class="px-4 py-3 text-right font-medium">日期</th></tr></thead>
+    <tbody class="divide-y divide-slate-100"><tr data-id="kb">
+          <td class="px-4 py-3">中南大学后勤服务知识库（公文版）</td>
+          <td class="status px-4 py-3"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">已发布</span></td>
+          <td class="px-4 py-3">公开</td>
+          <td class="num px-4 py-3 text-right">2026-09-17</td>
+        </tr><tr data-id="repair-note">
+          <td class="px-4 py-3">宿舍报修范围补充</td>
+          <td class="status px-4 py-3"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">待审核</span></td>
+          <td class="px-4 py-3">公开</td>
+          <td class="num px-4 py-3 text-right">2026-10-19</td>
+        </tr><tr data-id="draft">
+          <td class="px-4 py-3">假期服务时间口径</td>
+          <td class="status px-4 py-3"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-mist text-inktext">草稿</span></td>
+          <td class="px-4 py-3">内部</td>
+          <td class="num px-4 py-3 text-right">2026-10-18</td>
+        </tr><tr data-id="old">
+          <td class="px-4 py-3">2025 年班车临时通知</td>
+          <td class="status px-4 py-3"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-red-50 text-red-800">已下线</span></td>
+          <td class="px-4 py-3">公开</td>
+          <td class="num px-4 py-3 text-right">2026-10-01</td>
+        </tr></tbody>
+  </table>
+</div>
+<script>
+var done = new URLSearchParams(location.search).get("done");
+var banner = document.querySelector("#banner");
+var status = document.querySelector('[data-id="repair-note"] .status');
+if (done === "pass") { banner.hidden = false; banner.textContent = "审核已通过。宿舍报修范围补充改为已发布，前台可以引用。"; status.innerHTML = '<span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">已发布</span>'; }
+if (done === "back") { banner.hidden = false; banner.textContent = "已退回给维护人修改。前台暂时不会引用这条知识。"; status.innerHTML = '<span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-red-50 text-red-800">退回修改</span>'; }
+if (done === "draft") { banner.hidden = false; banner.textContent = "草稿已保存。提交审核之后才会进入待审。"; }
+</script>
+</main>
+  </div>
+</div>
+
+</body>
+</html>

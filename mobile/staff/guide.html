@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>电脑办理说明 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="bg-mist text-inktext">
+<div class="mx-auto flex h-dvh w-full flex-col bg-mist md:my-6 md:h-[min(844px,calc(100dvh-3rem))] md:w-[420px] md:overflow-hidden md:rounded-2xl md:border md:border-[#C8CAD1] md:bg-white md:shadow-[0_8px_24px_rgba(48,135,204,.12)]">
+  <header class="flex h-14 shrink-0 items-center justify-between border-b border-[#C8CAD1] bg-white px-4">
+    <div><p class="text-sm font-semibold leading-none text-ink">中南大学</p><p class="mt-1 text-xs text-muted">周宁 · 教职工 · 后勤保障部</p></div>
+    <a class="rounded-lg bg-teal-50 px-3 py-2 text-xs text-brand" href="../../index.html">导航</a>
+  </header>
+  <main id="main" class="flex min-h-0 flex-1 flex-col overflow-y-auto">
+<div class="p-5">
+  <p class="text-xs tracking-widest text-teal">请改用电脑</p>
+  <h1 id="guide-name" class="mt-2 font-serif text-3xl text-ink">班车查询</h1>
+  <p id="guide-detail" class="mt-3 text-sm leading-7 text-muted">书面清单只提供了电脑地址，手机上不直接打开。</p>
+  <div id="guide-address" class="mt-4">
+    <label for="pc-url" class="text-xs text-muted">电脑地址</label>
+    <input id="pc-url" readonly class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm" value="https://wxxy.csu.edu.cn/site/shuttleBus/index?bus_id=2">
+  </div>
+  <button id="copy-address" type="button" class="mt-3 min-h-11 rounded-xl bg-brand px-4 text-sm text-white">复制电脑地址</button>
+  <p id="copy-done" class="mt-2 min-h-5 text-sm text-teal" role="status"></p>
+  <a class="mt-4 inline-flex min-h-11 items-center text-sm text-teal" href="services.html">返回办事</a>
+  <section class="mt-8">
+    <h2 class="text-sm font-medium">同样只在电脑办理的事项</h2>
+    <ul class="mt-3 space-y-2 text-sm leading-6 text-muted">
+      <li><a class="text-teal" href="guide.html?service=utility-info">水电费服务</a></li>
+      <li><a class="text-teal" href="guide.html?service=shuttle">班车查询</a></li>
+      <li><a class="text-teal" href="guide.html?service=hotel">校园宾馆</a></li>
+      <li><a class="text-teal" href="guide.html?service=newspaper">报刊订阅</a></li>
+      <li><a class="text-teal" href="guide.html?service=lost">失物招领</a></li>
+      <li><a class="text-teal" href="guide.html?service=announcement">校园公告（两端都没有单独地址）</a></li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  var SERVICES = [{"id": "repair", "name": "网上报修", "summary": "宿舍和公共区域的日常零星维修。", "detail": "可报修家具、门锁、空调，以及建筑物公共部分的泥、木、水、电。也可以拨打后勤服务热线 0731-88836000，全天有人值班。报修单在原系统里填写，助手不保存单据。", "pc": "http://zhhq.csu.edu.cn/stu/repairHome.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/repairHome?app_id=5", "pc_review": false, "student_only": false}, {"id": "supervision", "name": "服务监督", "summary": "咨询、建议、意见和投诉。", "detail": "可在线提交监督，也可以拨打后勤服务热线 0731-88836000。饮食服务投诉电话是 88830704、88660418。", "pc": "http://zhhq.csu.edu.cn/stu/serviceSupGuide.html", "mobile": "https://zhhq.csu.edu.cn/wx/#/supervisionPropose?app_id=6", "pc_review": false, "student_only": false}, {"id": "pool", "name": "游泳馆预定", "summary": "潇湘校区游泳馆，周二至周日开放。", "detail": "周一闭馆检修。下午场 12:00—15:00、15:00—17:00，晚场 19:00—21:00。可预约当日和次日，额满即止。学生单次 25 元，教职工及直系亲属单次 40 元，以现场公示为准。预约成功后凭学生证或工作证到前台缴费进场。服务热线 0731-88877959。", "pc": "https://hqbzb.csu.edu.cn/info/1021/13932.htm", "mobile": "https://zhhq.csu.edu.cn/wx/#/siterHome?app_id=36", "pc_review": true, "student_only": false}, {"id": "utility-info", "name": "水电费服务", "summary": "电脑上的水电说明页，不是缴费入口。", "detail": "岳麓山校区售水售电窗口在能源管理中心办公楼一楼服务大厅，电话 88836337。营业时间上午 8:00—12:00，下午 14:30—18:00。参考电价 0.619 元/度，水价 3.56 元/吨，以缴费平台显示为准。", "pc": "https://hqbzb.csu.edu.cn/hqfw/sdffw.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "shuttle", "name": "班车查询", "summary": "工作日校区通勤班车，时刻以系统当日公布为准。", "detail": "覆盖岳麓山、麓南、潇湘、天心、杏林、开福等校区。上车点包括岳麓山校区图书馆前坪、天心校区办公楼前坪、开福校区大门、杏林校区教学楼后栋停车坪。书面清单只给出电脑地址。", "pc": "https://wxxy.csu.edu.cn/site/shuttleBus/index?bus_id=2", "mobile": "", "pc_review": false, "student_only": false}, {"id": "hotel", "name": "校园宾馆服务", "summary": "来访住宿可联系学术交流中心。", "detail": "云麓学术交流中心电话 88876236，鸿业学术交流中心电话 82252226。电脑清单有说明页，手机清单没有单独地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bgff.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "newspaper", "name": "报刊订阅", "summary": "到所在校区收发室办理，或联系校本部收发室。", "detail": "每年 10 月征订下一年度报刊。校本部收发室 QQ 是 2065926071。手机清单没有单独办理地址。", "pc": "https://hqbzb.csu.edu.cn/hqfw/bkdy.htm", "mobile": "", "pc_review": true, "student_only": false}, {"id": "lost", "name": "失物招领", "summary": "失物招领平台。书面清单只提供电脑地址。", "detail": "也可以在中南 e 行里查看。食堂入口服务台可以帮你问一句。", "pc": "https://wxxy.csu.edu.cn/site/lostAndFound/index?tab=1", "mobile": "", "pc_review": false, "student_only": false}, {"id": "utility-pay", "name": "水电缴费", "summary": "只在手机上缴纳，支持 24 小时充值。", "detail": "打开「中南大学后勤保障部」公众号，进入服务中心、服务平台、水电缴费。注册并完成统一身份认证后，按校区、楼栋和房间绑定账户，再输入金额。支付成功后即时到账。本人用量和欠费本期不能查询。", "pc": "", "mobile": "https://znu-hip.csu.edu.cn/saas_wap/", "pc_review": false, "student_only": true}, {"id": "announcement", "name": "校园公告", "summary": "清单里没有单独地址。", "detail": "通知以后勤保障部官网的通知公告和微信公众号「中南大学后勤保障部」信息中心为准。官网地址是 https://hqbzb.csu.edu.cn 。", "pc": "", "mobile": "", "pc_review": false, "student_only": false}];
+  var params = new URLSearchParams(location.search);
+  var id = params.get("service") || "shuttle";
+  var item = null;
+  for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === id) item = SERVICES[i];
+  if (!item) return;
+  document.querySelector("#guide-name").textContent = item.name;
+  document.querySelector("#guide-detail").textContent = item.detail;
+  var address = document.querySelector("#guide-address");
+  var copy = document.querySelector("#copy-address");
+  if (item.pc) {
+    address.hidden = false;
+    address.querySelector("input").value = item.pc;
+    copy.hidden = false;
+    copy.addEventListener("click", function () {
+      var done = document.querySelector("#copy-done");
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(item.pc).then(function () { done.textContent = "已复制，请到电脑上打开。"; });
+      } else {
+        address.querySelector("input").select();
+        done.textContent = "请长按地址并复制。";
+      }
+    });
+  }
+})();
+</script>
+</main>
+  
+  <nav class="grid shrink-0 border-t border-slate-200 bg-white" style="grid-template-columns:repeat(3,minmax(0,1fr))" aria-label="主导航"><a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="home.html"><i class="fa-solid fa-comments"></i><span>问答</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-teal" href="services.html"><i class="fa-solid fa-table-cells-large"></i><span>办事</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="profile.html"><i class="fa-solid fa-user"></i><span>我的</span></a></nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教职工办事 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="bg-mist text-inktext">
+<div class="mx-auto flex h-dvh w-full flex-col bg-mist md:my-6 md:h-[min(844px,calc(100dvh-3rem))] md:w-[420px] md:overflow-hidden md:rounded-2xl md:border md:border-[#C8CAD1] md:bg-white md:shadow-[0_8px_24px_rgba(48,135,204,.12)]">
+  <header class="flex h-14 shrink-0 items-center justify-between border-b border-[#C8CAD1] bg-white px-4">
+    <div><p class="text-sm font-semibold leading-none text-ink">中南大学</p><p class="mt-1 text-xs text-muted">周宁 · 教职工 · 后勤保障部</p></div>
+    <a class="rounded-lg bg-teal-50 px-3 py-2 text-xs text-brand" href="../../index.html">导航</a>
+  </header>
+  <main id="main" class="flex min-h-0 flex-1 flex-col overflow-y-auto">
+<div class="p-5 lg:p-8">
+  <h1 class="font-serif text-3xl text-ink">可办的事</h1>
+  <p class="mt-2 max-w-2xl text-sm leading-6 text-muted">手机清单只有报修、服务监督、游泳馆。其余有电脑地址的事项，在这里只给出说明。 标成「地址待复核」的电脑链接，按书面清单保留，打开时可能暂时找不到页面。</p>
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">两端可办</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">网上报修</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">宿舍和公共区域的日常零星维修。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="jump.html?service=repair">去办理</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-comments"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">两端可办</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">服务监督</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">咨询、建议、意见和投诉。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="jump.html?service=supervision">去办理</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-person-swimming"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-teal-50 text-teal-700">两端可办</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">游泳馆预定</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">潇湘校区游泳馆，周二至周日开放。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="jump.html?service=pool">去办理</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-file-lines"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">仅电脑</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">水电费服务</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">电脑上的水电说明页，不是缴费入口。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=utility-info">电脑办理说明</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bus"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">仅电脑</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">班车查询</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">工作日校区通勤班车，时刻以系统当日公布为准。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=shuttle">电脑办理说明</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-hotel"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">仅电脑</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">校园宾馆服务</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">来访住宿可联系学术交流中心。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=hotel">电脑办理说明</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-newspaper"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">仅电脑</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">报刊订阅</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">到所在校区收发室办理，或联系校本部收发室。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=newspaper">电脑办理说明</a>
+</article>
+
+<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-amber-50 text-amber">仅电脑</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">失物招领</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">失物招领平台。书面清单只提供电脑地址。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=lost">电脑办理说明</a>
+</article>
+
+<article id="announcement" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal"><i class="fa-solid fa-bullhorn"></i></span>
+    <div class="flex flex-wrap justify-end gap-1"><span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs bg-mist text-inktext">仅说明</span></div>
+  </div>
+  <h2 class="mt-4 text-lg font-medium">校园公告</h2>
+  <p class="mt-2 text-sm leading-6 text-muted">清单里没有单独地址。</p>
+  <a class="mt-4 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 text-sm text-white hover:bg-brand-dark" href="guide.html?service=announcement">查看出处</a>
+</article></div>
+</div>
+</main>
+  
+  <nav class="grid shrink-0 border-t border-slate-200 bg-white" style="grid-template-columns:repeat(3,minmax(0,1fr))" aria-label="主导航"><a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="home.html"><i class="fa-solid fa-comments"></i><span>问答</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-teal" href="services.html"><i class="fa-solid fa-table-cells-large"></i><span>办事</span></a>
+<a class="flex min-h-14 flex-col items-center justify-center gap-1 text-xs text-muted" href="profile.html"><i class="fa-solid fa-user"></i><span>我的</span></a></nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>问答首页 · 智慧后勤AI助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233087CC'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-family='PingFang SC'%3E后%3C/text%3E%3C/svg%3E">
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { DEFAULT: "#3087CC", dark: "#006DAD", light: "#E3F1F9" },
+      ink: "#3C444F",
+      teal: { DEFAULT: "#3087CC", 50: "#E3F1F9", 700: "#006DAD" },
+      amber: { DEFAULT: "#F29100", 50: "#FFF5E5" },
+      mist: "#E3F1F9",
+      card: "#FFFFFF",
+      inktext: "#3C444F",
+      muted: "#696F7D"
+    },
+    fontFamily: {
+      sans: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"],
+      serif: ["OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "sans-serif"]
+    },
+    borderRadius: { lg: "8px", xl: "8px", "2xl": "8px" }
+  } }
+}
+</script>
+<style>
+:focus-visible { outline: 2px solid #146C74; outline-offset: 2px; }
+body { background: #E3F1F9; color: #3C444F; font-family: "OPPOSans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+thead.bg-mist { background: #D6EAF9; color: #3087CC; }
+.num { font-variant-numeric: tabular-nums; }
+.listen-ring { position: absolute; inset: -6px; border-radius: 999px; border: 2px solid transparent; pointer-events: none; }
+.is-listening .listen-ring { border-color: #3087CC; animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { transform: scale(.94); opacity: .9; } to { transform: scale(1.14); opacity: 0; } }
+.bubble-user { background: #3087CC; color: #fff; border-radius: 8px 8px 2px 8px; }
+.bubble-bot { background: #fff; color: #3C444F; border: 1px solid #C8CAD1; border-radius: 8px 8px 8px 2px; }
+main:has(#thread) { overflow: hidden; }
+main:has(#thread) > div { min-height: 0; flex: 1; }
+@media (min-width: 1024px) {
+  main:has(#thread) { display: flex; flex-direction: column; height: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+
+<body class="min-h-screen bg-mist text-inktext">
+<a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2" href="#main">跳到主要内容</a>
+<header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#C8CAD1] bg-white px-5 text-inktext">
+  <a href="../../index.html" class="flex items-center gap-3">
+    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-sm font-semibold text-white">后</span>
+    <span><span class="block font-semibold leading-none">中南大学</span><span class="mt-1 block text-xs text-muted">智慧后勤AI助手</span></span>
+  </a>
+  <div class="flex items-center gap-3 text-sm">
+    <span class="hidden text-muted sm:inline">游客 · 未登录</span>
+    <a class="rounded-lg border border-[#C8CAD1] px-3 py-2 text-brand hover:bg-teal-50" href="../../index.html">返回导航</a>
+  </div>
+</header>
+<div class="lg:grid lg:grid-cols-[240px_minmax(0,1fr)_300px] lg:h-[calc(100dvh-4rem)]">
+  <aside class="border-b border-slate-200 bg-white lg:overflow-y-auto lg:border-b-0 lg:border-r">
+    <div class="p-5">
+<div class="text-center">
+  <div class="relative mx-auto h-24 w-24 ">
+    <span class="listen-ring"></span>
+    <svg viewBox="0 0 160 200" class="h-full w-full" role="img" aria-label="后勤值班人员迎宾形象">
+      <circle cx="80" cy="86" r="74" fill="#E7F4F5"/>
+      <path d="M18 200c8-42 28-62 62-62s54 20 62 62" fill="#10243A"/>
+      <path d="M62 132l18 22 18-22" fill="none" stroke="#146C74" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="80" cy="78" rx="30" ry="34" fill="#F4D7C8"/>
+      <path d="M50 76c2-36 22-48 30-48 10 0 30 12 30 48-8-16-18-22-30-22S58 60 50 76z" fill="#1C2834"/>
+      <circle cx="69" cy="80" r="2.2" fill="#1C2834"/>
+      <circle cx="91" cy="80" r="2.2" fill="#1C2834"/>
+      <path d="M70 96c4 5 16 5 20 0" fill="none" stroke="#9A5A48" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="98" y="158" width="26" height="16" rx="2" fill="#B86E2A"/>
+      <text x="111" y="169" text-anchor="middle" font-size="8" fill="#10243A">值班</text>
+    </svg>
+  </div>
+  <p class="mt-2 text-xs text-muted">迎宾</p>
+</div></div>
+    <nav class="flex gap-2 overflow-x-auto px-3 pb-4 lg:block lg:space-y-1" aria-label="功能"><a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm bg-teal-50 font-medium text-teal" href="home.html"><i class="fa-solid fa-house w-4"></i>问答首页</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="chat.html"><i class="fa-solid fa-comments w-4"></i>对话</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="category.html"><i class="fa-solid fa-map w-4"></i>办事说明</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="listening.html"><i class="fa-solid fa-microphone w-4"></i>聆听</a>
+<a class="flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-3 text-sm text-inktext hover:bg-mist" href="login.html"><i class="fa-solid fa-right-to-bracket w-4"></i>登录</a></nav>
+  </aside>
+  <main id="main" class="min-h-0 lg:overflow-y-auto">
+<div class="p-5 lg:p-8">
+  
+  <p class="text-xs tracking-widest text-teal">后勤值班台</p>
+  <h1 class="mt-2 font-serif text-3xl text-ink lg:text-4xl">你好，我是后勤值班助手。</h1>
+  <p class="mt-3 max-w-xl text-sm leading-6 text-muted">可以问报修、水电、班车、食堂、宿舍和场馆。回答来自 2026 年 9 月 17 日截止的后勤服务知识库。</p>
+  <div class="mt-5 flex flex-wrap gap-2"><button type="button" data-ask="宿舍水龙头坏了怎么报修？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">报修</button>
+<button type="button" data-ask="学生水电费怎么缴纳？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">水电</button>
+<button type="button" data-ask="校区间班车怎么查询时刻？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">班车</button>
+<button type="button" data-ask="潇湘校区游泳馆什么时候开放？" class="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-left text-sm hover:border-teal">游泳馆</button></div>
+</div>
+
+<form id="ask-form" class="border-t border-slate-200 bg-white p-3">
+  <label for="question" class="mb-2 block text-xs text-muted">你的问题</label>
+  <div class="flex items-end gap-2">
+    <a href="listening.html" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-teal" aria-label="改用语音"><i class="fa-solid fa-microphone"></i></a>
+    <textarea id="question" rows="2" class="min-h-11 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-base focus:border-teal" placeholder="例如：宿舍空调不制冷怎么办"></textarea>
+    <button id="send" class="h-11 shrink-0 rounded-xl bg-brand px-4 text-sm font-medium text-white" type="submit">发送</button>
+  </div>
+  <p id="question-error" class="mt-1 min-h-5 text-sm text-red-800" role="alert"></p>
+  <p class="text-xs text-muted">回答只依据已审核的后勤服务知识库。</p>
+</form>
+
+
+<script>
+document.querySelectorAll("[data-ask]").forEach(function (el) {
+  el.addEventListener("click", function () {
+    sessionStorage.setItem("hq-question", el.getAttribute("data-ask"));
+    location.href = "chat.html";
+  });
+});
+var form = document.querySelector("#ask-form");
+if (form) {
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var input = document.querySelector("#question");
+    var error = document.querySelector("#question-error");
+    var question = input.value.trim();
+    if (!question) {
+      error.textContent = "请先写下你的问题。";
+      input.focus();
+      return;
+    }
+    sessionStorage.setItem("hq-question", question);
+    location.href = "chat.html";
+  });
+}
+</script>
+</main>
+  <aside class="hidden h-full flex-col overflow-y-auto border-slate-200 bg-white p-5 lg:flex lg:border-l">
+<div>
+<p class="text-xs font-medium text-brand">值班说明</p>
+<h2 class="mt-2 text-xl font-semibold text-ink">先问清楚，再决定要不要跳走</h2>
+<p class="mt-3 text-sm leading-6 text-muted">能在知识库里回答的，直接告诉你。要办理的，按你现在用的电脑或手机，打开对应的原系统。</p>
+<img class="mt-5 h-28 w-full rounded-lg object-cover" src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=80" width="600" height="220" alt="大学校园里的教学楼">
+<p class="mt-3 text-sm leading-6">后勤服务热线 <span class="num font-medium">0731-88836000</span><br>全天值班。综合服务大厅在岳麓山校区甘棠村 1 栋。</p>
+</div>
+
+<div class="mt-auto pt-4">
+  <p class="text-sm font-semibold text-ink">办事入口</p>
+  <p class="mt-1 text-xs leading-5 text-muted">登录后才能办理。</p>
+  <div class="mt-3 grid grid-cols-2 gap-2"><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-screwdriver-wrench w-4 text-brand"></i><span class="min-w-0 truncate">网上报修</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-comments w-4 text-brand"></i><span class="min-w-0 truncate">服务监督</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-person-swimming w-4 text-brand"></i><span class="min-w-0 truncate">游泳馆预定</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-file-lines w-4 text-brand"></i><span class="min-w-0 truncate">水电费服务</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-bus w-4 text-brand"></i><span class="min-w-0 truncate">班车查询</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-hotel w-4 text-brand"></i><span class="min-w-0 truncate">校园宾馆服务</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-newspaper w-4 text-brand"></i><span class="min-w-0 truncate">报刊订阅</span></a><a class="flex min-h-11 items-center gap-2 rounded-lg border border-[#C8CAD1] bg-[#F5F7FA] px-3 text-sm text-ink hover:border-brand hover:bg-teal-50" href="login.html"><i class="fa-solid fa-magnifying-glass w-4 text-brand"></i><span class="min-w-0 truncate">失物招领</span></a></div>
+</div>
+
+</aside>
+</div>
+</body>
+</html>
